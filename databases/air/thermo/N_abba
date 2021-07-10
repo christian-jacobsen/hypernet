@@ -1,0 +1,103 @@
+#-------------------------------------
+#Species file for N_abba
+#-------------------------------------
+NAME = N
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 14.0067d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = N
+ELEM_QUANT = 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 470818.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Nuclear charge (or atomic number)
+NUCLEAR_CHARGE = 7
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 14.53413d0
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.298d0
+LJ_EPS  = 71.4d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 1.1d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = NONE
+
+#--------------------------------------
+#Energy levels [eV] (for State-to-State approach)
+NB_ENERGY_LEVELS = 46
+0.400000d1  0.d0
+0.100000d2  0.238395d1
+0.600000d1  0.357592d1
+0.120000d2  0.103319d2
+0.600000d1  0.106870d2
+0.120000d2  0.109269d2
+0.200000d1  0.116030d2
+0.200000d2  0.117589d2
+0.120000d2  0.118420d2
+0.400000d1  0.119960d2
+0.100000d2  0.120059d2
+0.600000d1  0.121249d2
+0.100000d2  0.123569d2
+0.120000d2  0.128559d2
+0.600000d1  0.129189d2
+0.600000d1  0.129720d2
+0.280000d2  0.129839d2
+0.260000d2  0.129999d2
+0.200000d2  0.130200d2
+0.100000d2  0.130350d2
+0.200000d1  0.132020d2
+0.200000d2  0.132450d2
+0.120000d2  0.132679d2
+0.100000d2  0.132940d2
+0.400000d1  0.133220d2
+0.600000d1  0.133429d2
+0.120000d2  0.136239d2
+0.600000d1  0.136479d2
+0.900000d2  0.136789d2
+0.126000d3  0.136930d2
+0.240000d2  0.137170d2
+0.200000d1  0.137699d2
+0.380000d2  0.137919d2
+0.400000d1  0.138240d2
+0.100000d2  0.138720d2
+0.600000d1  0.139249d2
+0.180000d2  0.139689d2
+0.600000d2  0.139879d2
+0.126000d3  0.139989d2
+0.320000d2  0.140540d2
+0.180000d2  0.141490d2
+0.900000d2  0.141600d2
+0.180000d3  0.141640d2
+0.200000d2  0.142019d2
+0.108000d3  0.142599d2
+0.180000d2  0.143160d2

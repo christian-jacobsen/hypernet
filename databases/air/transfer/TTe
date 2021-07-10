@@ -1,0 +1,6 @@
+#----------------------------
+#This file provides the number of rotational, vibrational and free-electron temperature
+#----------------------------
+
+#Number of free-electron electronic temperatures
+NB_TE = 1

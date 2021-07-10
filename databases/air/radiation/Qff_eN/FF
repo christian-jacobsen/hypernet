@@ -1,0 +1,16 @@
+#--------------------------------------
+#This file provides the "a" and "b" parameters for free-free radiation in electron-neutral interactions according to the 
+#model of Taylor and Caledonia
+#--------------------------------------
+
+#em-N2 free-free interaction
+INTER = N em 
+FFAB = 180. 0.0262
+
+#em-N2 free-free interaction
+INTER = N2 em 
+FFAB = 180. 0.0262
+
+#em-N2 free-free interaction
+INTER = O em 
+FFAB = 180. 0.0262

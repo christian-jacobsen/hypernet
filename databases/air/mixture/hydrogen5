@@ -1,0 +1,16 @@
+#----------------------------
+#Mixture file for hydrogen5
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em H
+ELEM_FRAC = 0.d0 1.d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em H H2 H2p Hp
+
+#READ_TRANSP_TABLE = F

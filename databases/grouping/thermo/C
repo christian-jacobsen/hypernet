@@ -1,0 +1,39 @@
+#-------------------------------------
+#Species file for C
+#-------------------------------------
+NAME = C
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 12.011e-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C
+ELEM_QUANT = 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 711194.0e+00
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = NONE
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ENERGY_LEVELS = 1
+0.100000E+01  0.000000E+00
+

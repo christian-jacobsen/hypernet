@@ -1,0 +1,12 @@
+#---------------------------
+#Relative path 
+#---------------------------
+REL_PATH = nasa_arc
+
+#---------------------------
+#Files for kinetic processes
+#N2+N excitation
+EXH_FILE = N2_N_EXh_vc
+
+#N2+N dissociation
+DH_FILE  = N2_N_Dh_vc

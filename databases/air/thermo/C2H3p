@@ -1,0 +1,69 @@
+#-------------------------------------
+#Species file for C2H3p 
+#-------------------------------------
+NAME = C2H3p
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 26.038d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 5
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em H C
+ELEM_QUANT = -1 3 2
+
+#--------------------------------------
+#Formation energy [J/mol]
+# 1119200 - from AcT database (ANL)
+EF = 1119200.d0 
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Linearity
+LIN = 0
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational and vibrational temperatures and electronic levels - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Characteristic rotational temperature (NO experimental value available on NIST website)
+# - semi-empirical PM3 method (with predefined basis set)
+#Vibrational rotational temperature (NO experimental value available on NIST website)
+# - semi-empirical G2 method (with predefined basis set) 
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+#The three rotational constants are [K]: 
+#A = 15.28692 [K] 
+#B = 1.54092  [K] 
+#C = 1.39992  [K]
+#Due to implementation details THETA_ROT must be set to (A*B*C)^(1/3)#
+THETA_ROT = 10.99215d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 5169.49536d0 3657.34962d0 3093.35236d0 1451.71745d0 1109.29054d0 1240.21848d0 4992.52683d0 1953.84767d0 483.42623d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 1
+1.d0  0.d0
+

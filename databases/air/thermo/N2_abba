@@ -1,0 +1,69 @@
+#-------------------------------------
+#Species file for N2_abba
+#-------------------------------------
+NAME = N2
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 28.0134d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = N
+ELEM_QUANT = 2
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 0.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.621d0
+LJ_EPS  = 97.53d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 1.71d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.88d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 3392.7d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ENERGY_LEVELS = 4
+0.100000e+01  0.000000e+00
+0.300000e+01  0.622439e+01
+0.600000e+01  0.739178e+01
+0.600000e+01  0.110515e+02

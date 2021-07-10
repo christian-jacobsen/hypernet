@@ -1,0 +1,12 @@
+#---------------------------
+#Relative path 
+#---------------------------
+REL_PATH = abba
+
+#---------------------------
+#Files for kinetic processes
+#N+e excitation
+EXE_FILE = N_EXe
+
+#N+e ionization
+IE_FILE  = N_Ie

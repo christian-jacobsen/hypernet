@@ -1,0 +1,48 @@
+#------------------------------------------
+#Species file for NO
+#------------------------------------------
+NAME = NO
+                                           
+#------------------------------------------
+#Molecular mass [kg/mol]                   
+MOLAR_MASS = 3.00061000e-02
+                                           
+#------------------------------------------
+#Number of atoms                           
+NB_ATOMS = 2                               
+                                           
+#------------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = N O
+ELEM_QUANT = 1 1
+                                           
+#------------------------------------------
+#Formation energy [J/mol]                  
+EF = 9.07730000e+04
+                                           
+#------------------------------------------
+#Electric charge                           
+CHARGE = 0                                 
+                                           
+#------------------------------------------
+#Linearity                                 
+LIN = 1
+                                           
+#------------------------------------------
+#Symmetry factor                           
+SYM = 1.00e+00
+                                           
+#------------------------------------------
+#Thermal model for internal energy         
+MODEL = NONE                               
+                                           
+#------------------------------------------
+#Characteristic rotational temperature [K] 
+THETA_ROT = 2.45000000e+00
+                                           
+#------------------------------------------
+#Characteristic vibrational temperature [K]
+THETA_VIB = 2.74000000e+03
+                                           
+#------------------------------------------
+#Levels degeneracies and energies [eV]     

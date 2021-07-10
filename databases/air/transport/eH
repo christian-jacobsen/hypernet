@@ -1,0 +1,208 @@
+#-----------------------------------
+# This file provides fit coefficients to compute electron-neutral collision integrals (and some useful ratios). 
+# Note that the data provided  are used to compute the following quantities (based on the notation of
+# Devoto, "Transport Properties of Monatonic Gases", Phys. Fluids Vol. 9, No. 6, pp. 1230--1240, 1966; Eqs. (10)-(11)):
+#  
+# Q(l,s) = PI*sigma^2*Omega(l,s)*
+# 
+# In the literature (such as "Mathematical Theory of Transport Processes in Gases" by Ferziger and Kaper) 
+# quantities Omega(l,s)* = Omega(l,s)/Omega(l,s)_HS are referred to as reduced collision integrals and are 
+# the ratios between the actual Omega(l,s) integrals and the corresponding quantities for hard-sphere (HS) interactions
+#--------------------------------------
+
+#The present file provides fit coefficient to compute: 
+#
+# Q(l,s) = PI*sigma^2*Omega(l,s)*  [A^2]
+#
+# B* = (5*Omega(1,3)*2 - 4*Omega(1,2)*)/Omega(1,1)*
+#    = (5*Q(1,3) - 4*Q(1,2))/Q(1,1)  
+
+#-------------------------------------
+#References:
+#
+# 1) Bruno, D., Catalfamo, C., Capitelli, M., Colonna, G., De Pascale, O., Diomede, P., Gorse, C., Laricchiuta, A. 
+#   Longo, S., Giordano, D., and Pirani, F., "Transport properties of high-temperature Jupiter atmosphere components", 
+#   Phys. Plasmas, Vol. 17, No. , 112315, 2010 
+#
+# 2) Laricchiuta, A., Colonna, G., Bruno, D., Celiberto, R., Gorse, C., Pirani, F. and Capitelli, M.
+#   "Classical transport collision integrals for a Lennard-Jones like phenomenological model potential", 
+#    Chem. Phys. Lett., 445, 133-139, 2007
+#
+# 3) Capitelli, M., Bruno, D., Laricchiuta, A., "Fundamental Aspects of Plasma Physics: Transport", Spinger, 2013
+#
+# 4) van den Abeele, D, "", PhD Thesis, von Karman Institute for Fluid Dynamics, 2000 
+#
+# 5) Andre, P., Brunet, L., Bussiere, W., Caillard, J., Lombard, J.M., Picard, J.P., "Transport coefficients of
+#    plasmas consisting of insulator vapors", Eur. Phys. J. Appl. Phys. 25, 169--182, 2004
+#
+# 6) Shirai, T., Tabata, T., Hiroyuki, T. and Itikawa, Y., 'Analytical Cross-Sections for Electron
+#    Collisions with Hydrocarbons: CH4, C2H6, C2H4, C2H2, C3H8 and C3H6', Atomic Data and Nuclear Data Tables, 
+#    80, 147--204, (2001) 
+#-------------------------------------
+
+
+#em-He interaction (Ref. 1)
+INTER = em He
+INTER_MODEL = BRUNO_FIT_8_PAR
+OMEGA11 = 10.59136372e+0 -1.52697125e+0  2.18892432e-2 -17.3791485e+0 1.99019765e+0 19.13183426e+0  -3.87345716e+0   52.39042000e+0
+OMEGA12 = 10.38275022e+0 -1.47464657e+0  6.90741396e-2 -3.37723956e+0 1.54430366e+0 36.06175647e+0  -115.629356e+0   82.85050640e+0
+OMEGA13 = 10.21366567e+0 -1.44621765e+0  0.15768321e+0  -0.40718547e+0 1.22119154e+0 36.06175647e+0  -41.6895622e+0   24.95446099e+0
+OMEGA14 = 10.06183007e+0 -1.41920632e+00 0.26516138e+0  -0.15710196e+0 1.01178482e+0 36.06175647e+0  -27.9895600e+0   16.41208651e+0
+OMEGA15 = 9.92613479e+0 -1.39377540e+0   0.37258117e+0  -8.83214413e-2 0.87073597e+0 36.06175647e+0  -21.8337945e+0   12.72530780e+0
+
+#em-H interaction (Ref. 1)
+INTER = em H
+INTER_MODEL = BRUNO_FIT_8_PAR 
+OMEGA11 = 10.35291134e+0 -1.58301162e+0 12.45844036e+0 -0.23285190e+0  5.36628573e-2  -5.34372929e+0 9.35561752e+0  -2.15463427e+0
+OMEGA12 = 10.09959930e+0 -1.50068352e+0 12.54524872e+0 -7.29529868e-2 4.37301268e-2  -5.73166847e+0 9.09798179e+0  -2.13265127e+0
+OMEGA13 = 9.84443341e+0  -1.42568830e+0 12.97194554e+0 -9.24067489e-2 2.32754987e-2  -5.71948057e+0 8.83259870e+0  -2.05797013e+0
+OMEGA14 = 9.65959253e+0  -1.38293428e+0 13.18865311e+0 -6.34310879e-2 1.11968653e-2  -5.77977010e+0 8.64525855e+0  -2.02715634e+0
+OMEGA15 = 9.50113220e+0  -1.36043711e+0 13.23885240e+0 -4.44172748e-2 7.88864536e-3  -5.83593794e+0 8.49000000e+0  -2.01418763e+0
+
+#em-H2 interaction (Ref 1.)
+INTER = em H2
+INTER_MODEL = BRUNO_FIT_8_PAR
+OMEGA11 = 7.61552567e+0 -1.31152238e+0 1.08767030e+0 -8.58478684e-2 0.60307406e+0 5.01125522e+0  9.07403916e+0  1.92416429e+0
+OMEGA12 = 7.82045948e+0 -1.28509145e+0 0.84661899e+0  7.30252753e-3 0.77338688e+0 4.59038620e+0  8.92912750e+0  1.72315372e+0
+OMEGA13 = 7.91713411e+0 -1.18533267e+0 0.77902584e+0  4.56053378e-2 0.84160605e+0 4.29393447e+0  8.81056581e+0  1.59949292e+0
+OMEGA14 = 7.86089850e+0 -1.10926763e+0 0.77235681e+0  5.98096935e-2 0.86441504e+0 4.18795370e+0  8.67601998e+0  1.53347205e+0
+OMEGA15 = 7.76607601e+0 -1.06076517e+0 0.78630351e+0  6.51985996e-2 0.86956793e+0 4.14851371e+0  8.54553153e+0  1.49396365e+0
+
+#em-C interaction (Ref. 3) 
+INTER = em C
+INTER_MODEL = BRUNO_FIT_10_PAR
+OMEGA11 = 8.6639477e+0 2.2504916e+0 9.1785843e+2 -7.0109479e-3 2.7782979e+0 -1.8982237e+0 4.6188070e+0 7.7388422e+0 1.0205910e+0 -7.0109479e-3  
+OMEGA12 = 8.2658158e+0 2.2895873e+0 3.6106073e+2 -4.2809613e-3 3.0370217e+0 -1.5182681e+0 5.1592160e+0 7.4373319e+0 9.3784288e-1 -4.2809613e-3
+OMEGA13 = 7.9285892e+0 2.7157052e+0 4.5517545e+2 -2.4068061e-1 1.5918309e+0 -1.4394052e+0 5.4562628e+0 7.2005312e+0 8.3224778e-1 -2.4068061e-1
+OMEGA14 = 7.9205710e+0 2.8337855e+0 1.6537720e+3 -1.2297969e+0 9.1430191e-1 -1.9549443e+0 5.6696597e+0 7.0116924e+0 7.7329930e-1 -1.2297969e+0 
+OMEGA15 = 7.9405463e+0 2.5511666e+0 4.8770342e+3 -1.4703291e+0 7.0332825e-1 -2.5255855e+0 5.8687095e+0 6.8407794e+0 7.4954768e-1 -1.4703291e+0 
+
+#em-CO interaction
+INTER = em CO
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-2.08550E-02    1.40270E-01    2.32912E+00   -1.39709E+01
+BSTAR =-3.45436E-01    8.15873E+00   -6.26790E+01    1.55520E+02
+
+#em-CO2 interaction
+INTER = em CO2
+INTER_MODEL = GUPTA_FIT
+OMEGA11 = 9.63345E-02   -2.04500E+00    1.35077E+01   -2.41443E+01
+BSTAR = 1.42882E-01   -3.31880E+00    2.49120E+01   -6.02338E+01
+
+#em-Ar interaction (Ref. 3)
+INTER = em Ar
+INTER_MODEL = BRUNO_FIT_10_PAR
+OMEGA11 = 8.8972699e+0 1.5224377e+0 2.4749525e+0 -2.0999602e+0 -1.0e+0 0.0e+0 2.2908023e+0 1.0598130d1 -9.5311431d-1 1.4563107d1 
+OMEGA12 = 8.3023850e+0 1.4606183e+0 2.3444186e+0 -2.4467102e+0 -1.0e+0 0.0e+0 2.7946739e+0 1.0332759d1 -9.2951788d-1 1.5600366d1
+OMEGA13 = 7.9620769e+0 1.3082040e+0 2.1990363e+0 -2.3822774e+0 -1.0e+0 0.0e+0 3.0721535e+0 1.0113820d1 -8.9258310d-1 1.4639558d1
+OMEGA14 = 7.7277052e+0 1.1680935e+0 2.0557289e+0 -2.2105696e+0 -1.0e+0 0.0e+0 3.2696470e+0 9.9309667e+0 -8.6123322d-1 1.3284529d1 
+OMEGA15 = 7.5366571e+0 1.0787061e+0 1.9828179e+0 -2.1278210e+0 -1.0e+0 0.0e+0 3.4224305e+0 9.7747672e+0 -8.3694730d-1 1.2496435d1
+
+#em-N interaction
+INTER = em N
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.30267E-02    3.80256E-01   -3.18211E+00    8.28205E+00
+BSTAR = 9.38697E-02   -2.02504E+00    1.42007E+01   -3.25990E+01
+
+#em-O interaction
+INTER = em O
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.35930E-02    3.07349E-01   -2.08350E+00    5.00309E+00
+BSTAR =-1.97516E-02    4.68985E-01   -3.64200E+00    9.09002E+00
+
+#em-OH interaction [SAME as O for the time being] 
+INTER = em OH
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.35930E-02    3.07349E-01   -2.08350E+00    5.00309E+00
+BSTAR =-1.97516E-02    4.68985E-01   -3.64200E+00    9.09002E+00
+
+#em-H2O interaction [SAME as O for the time being] 
+INTER = em H2O
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.35930E-02    3.07349E-01   -2.08350E+00    5.00309E+00
+BSTAR =-1.97516E-02    4.68985E-01   -3.64200E+00    9.09002E+00
+
+#em-HO2 interaction [SAME as O for the time being] 
+INTER = em HO2
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.35930E-02    3.07349E-01   -2.08350E+00    5.00309E+00
+BSTAR =-1.97516E-02    4.68985E-01   -3.64200E+00    9.09002E+00
+
+#em-H2O2 interaction [SAME as O for the time being] 
+INTER = em H2O2
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.35930E-02    3.07349E-01   -2.08350E+00    5.00309E+00
+BSTAR =-1.97516E-02    4.68985E-01   -3.64200E+00    9.09002E+00
+
+#em-N2 interaction
+INTER = em N2
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-1.36521E-02    3.16306E-01   -2.07422E+00    5.75868E+00
+BSTAR = 1.86618E-01   -4.04367E+00    2.87491E+01   -6.73293E+01
+
+#em-NO interaction
+INTER = em NO
+INTER_MODEL = GUPTA_FIT
+OMEGA11 =-8.06295E-02    1.82855E+00   -1.32538E+01    3.23868E+01
+BSTAR =-1.02026E-02    4.28209E-01   -4.67145E+00    1.49722E+01
+
+#em-O2 interaction
+INTER = em O2    
+INTER_MODEL = GUPTA_FIT 
+OMEGA11 =-1.81305E-02    2.97310E-01   -1.02455E+00    2.44548E-01
+BSTAR =-6.49913E-02    1.44562E+00   -1.03270E+01    2.33098E+01
+
+#em-CH4 interaction (Ref. 6)
+INTER =em CH4     
+INTER_MODEL = TABLE
+
+#em-CH3 interaction (Ref. 6) [SAME as CH4 for the time being]
+INTER = em CH3     
+INTER_MODEL = TABLE
+
+#em-CH2 interaction [SAME as CH4 for the time being]
+INTER = em CH2     
+INTER_MODEL = TABLE
+
+#em-CH interaction (Ref. 5)
+INTER = em C2     
+INTER_MODEL = ANDRE_FIT
+OMEGA11 = 7.06587e+0 -44.9204e+0 -0.000311386e+0 -7855.26e+0 1.44303e+7  -7.38417e+9   1.26572e+12
+OMEGA12 = 7.06583e+0 -42.5647e+0 -0.000415518e+0 -5237.06e+0 4.81032e+6  -103061.0e+0 -4.21889e+11
+OMEGA13 = 7.06583e+0 -40.7983e+0 -0.000518975e+0 -3927.85e+0 2.40524e+6  -69514.3e+0  7.9603e+6  
+OMEGA14 = 7.06577e+0 -39.3845e+0 -0.000622769e+0 -3142.83e+0 1.44383e+0  -390555.0e+0  6.7342e+7 
+OMEGA15 = 7.06581e+0 -38.2073e+0 -0.000726565e+0 -2618.79e+0 962332.0e+0 -91762.7e+0  4.78223e+6
+
+#em-C2 interaction (Ref. 5)
+INTER = em C3     
+INTER_MODEL = ANDRE_FIT
+OMEGA11 = 9.25897e+0 -58.8629e+0 -0.000408034e+0 -10929.9e+0 1.89086e+7 -9.67575e+9   1.65851e+12  
+OMEGA12 = 9.25899e+0 -55.7768e+0 -0.000544046e+0 -6861.78e+0 6.30274e+6  51909.1e+0  -5.52847e+11
+OMEGA13 = 9.25895e+0 -53.4617e+0 -0.000680056e+0 -5146.61e+0 3.15168e+6 -144147.0e+0  2.75511e+7
+OMEGA14 = 9.259e+0   -51.6104e+0 -0.000816068e+0 -4116.9e+0  1.89058e+6  152818.0e+0 -3.03767e+7
+OMEGA15 = 9.25903e+0 -50.0675e+0 -0.00095208e+0  -3430.63e+0 1.26033e+6  85102.1e+0  -9.78076e+6   
+
+#em-CH interaction (Ref. 5)
+INTER = em CH 
+INTER_MODEL = ANDRE_FIT
+OMEGA11 = 7.84639e+0 -76.4691e+0 -0.000123425e+0  113373.0e+0  4.12729e+6  -9.02949e+8   8.53369e+10
+OMEGA12 = 7.84634e+0 -73.8531e+0 -0.000164566e+0  75581.4e+0   1.37657e+6  -622437.0e+0 -2.83021e+10
+OMEGA13 = 7.84633e+0 -71.8914e+0 -0.000205707e+0  56696.0e+0   688477.0e+0 -324817.0e+0  4.73036e+7
+OMEGA14 = 7.84634e+0 -70.3223e+0 -0.000246848e+0  45348.8e+0   413081.0e+0 -147911.0e+0  1.4898e+7
+OMEGA15 = 7.84633e+0 -69.0145e+0 -0.000287989e+0  37790.6e+0   275541.0e+0 -190893.0e+0  3.19442e+7
+
+#em-C2H2 interaction (Ref. 6) 
+INTER = em C2H2    
+INTER_MODEL = TABLE 
+
+#em-C2H4 interaction (Ref. 6) 
+INTER = em C2H4    
+INTER_MODEL = TABLE 
+
+#em-C2H interaction (Ref. 6) [SAME as C2H2 for the time being]
+INTER = em C2H     
+INTER_MODEL = TABLE
+
+#em-C2H3 interaction (Ref. 6) [SAME as C2H4 for the time being]
+INTER = em C2H3    
+INTER_MODEL = TABLE 

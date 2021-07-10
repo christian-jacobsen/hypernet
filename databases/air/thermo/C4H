@@ -1,0 +1,54 @@
+#-------------------------------------
+#Species file for C4H
+#-------------------------------------
+NAME = C4H
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 49.0519d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 5
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = H C
+ELEM_QUANT = 1 4
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 795028.28d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Linearity
+LIN = 0
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 0.22d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 313.43d0 565.15d0 619.14d0 754.38d0 1037.96d0 1332.61d0 2674.90d0 3079.50d0 5019.07d0
+ 
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 1
+2.d0 0.d0

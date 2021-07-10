@@ -1,0 +1,14 @@
+#----------------------------
+#Mixture file for helium
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em He
+ELEM_FRAC = 0.d0 1.d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em HeI HeII HeIII

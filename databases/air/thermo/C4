@@ -1,0 +1,61 @@
+#-------------------------------------
+#Species file for C4
+#-------------------------------------
+NAME = C4
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 48.044d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 4
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C 
+ELEM_QUANT = 4
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1025000.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 23.45d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 3697.6d0 1582.6d0 3122.1d0 633.1d0 633.1d0 287.8d0 287.8d0 
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 8
+0.300000E+01  0.000000E+00
+0.200000E+01  0.495933E+00
+0.600000E+01  0.743899E+00
+0.100000E+01  0.991866E+00
+0.200000E+01  0.173576E+01
+0.600000E+01  0.242561E+01
+0.800000E+01  0.297560E+01
+0.200000E+01  0.347153E+01

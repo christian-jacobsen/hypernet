@@ -1,0 +1,48 @@
+#------------------------------------------
+#Species file for O2
+#------------------------------------------
+NAME = O2
+                                           
+#------------------------------------------
+#Molecular mass [kg/mol]                   
+MOLAR_MASS = 3.19988000e-02
+                                           
+#------------------------------------------
+#Number of atoms                           
+NB_ATOMS = 2                               
+                                           
+#------------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = O
+ELEM_QUANT = 2
+                                           
+#------------------------------------------
+#Formation energy [J/mol]                  
+EF = 0.00000000e+00
+                                           
+#------------------------------------------
+#Electric charge                           
+CHARGE = 0                                 
+                                           
+#------------------------------------------
+#Linearity                                 
+LIN = 1
+                                           
+#------------------------------------------
+#Symmetry factor                           
+SYM = 2.00e+00
+                                           
+#------------------------------------------
+#Thermal model for internal energy         
+MODEL = NONE                               
+                                           
+#------------------------------------------
+#Characteristic rotational temperature [K] 
+THETA_ROT = 2.08000000e+00
+                                           
+#------------------------------------------
+#Characteristic vibrational temperature [K]
+THETA_VIB = 2.27360000e+03
+                                           
+#------------------------------------------
+#Levels degeneracies and energies [eV]     

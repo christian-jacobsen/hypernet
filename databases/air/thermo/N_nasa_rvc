@@ -1,0 +1,54 @@
+#-------------------------------------
+#Species file for N_nasa_vc
+#-------------------------------------
+NAME = N
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 14.0067d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = N
+ELEM_QUANT = 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 470551.77090782323d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 14.53413d0
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.298d0
+LJ_EPS  = 71.4d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 1.1d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = NONE
+
+#--------------------------------------
+#Energy levels [eV] (for State-to-State approach)
+NB_ENERGY_LEVELS = 1
+12.d0 0.d0

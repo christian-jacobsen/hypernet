@@ -1,0 +1,72 @@
+#-------------------------------------
+#Species file for H2
+#-------------------------------------
+NAME = H2
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 2.0158e-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = H
+ELEM_QUANT = 2
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 0.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 15.426d0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 2.92d0
+LJ_EPS  = 38.d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 0.787d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 87.57d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 6331.2d0 
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 3
+0.100000e+01  0.000000e+00
+0.100000e+01  0.113679e+02
+0.200000e+01  0.124037e+02

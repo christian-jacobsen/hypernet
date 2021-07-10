@@ -1,0 +1,17 @@
+#File descriptor for 'N2+N' excitation processes
+ENDIAN = BIG
+
+#Units
+UNITS = m^3/s
+
+#Number of processes
+NB_PROC = 1748
+
+#Reactant and product chemical components
+#
+#Process is:
+#
+# A(i) + M <=> A(j) + M
+#
+COMP_A = N2
+COMP_M = N

@@ -1,0 +1,16 @@
+#File descriptor for 'O+em' excitation processes
+ENDIAN = BIG
+
+#Units
+UNITS = m^3/s
+
+#Number of processes
+NB_PROC = 780
+
+#Reactant and product chemical components
+#
+#Process is:
+#
+# A(i) + em <=> A(j) + em
+#
+COMP_A  = O

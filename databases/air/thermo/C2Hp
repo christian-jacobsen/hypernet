@@ -1,0 +1,61 @@
+#-------------------------------------
+#Species file for C2Hp
+#-------------------------------------
+NAME = C2Hp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 25.030d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 3
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em H C
+ELEM_QUANT = -1 1 2
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1685203.9950172761d0 
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational and vibrational temperatures and electronic levels - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Refs.:
+# - Saykally, R.; Veseth, L. "Laser magnetic resonance rotational spectroscopy of 2Sigma radicals: Ethynyl (CCH)." Journal of Chemical Physics. 80, 2247-2255 (1984)
+# - M.E. Jacox, Vibrational and Electronic Energy Levels of Polyatomic Transient Molecules, J. Phys. Chem.Ref. Data, Monograph 3 (1994)
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.0960411688776572d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 4746.4974060991271d0 1785.5117553710265d0 535.22189604997732d0
+ 
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 1
+1.d0  0.d0

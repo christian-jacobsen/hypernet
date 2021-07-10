@@ -1,0 +1,81 @@
+#-------------------------------------
+#Species file for C2
+#-------------------------------------
+NAME = C2
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 24.022d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C 
+ELEM_QUANT = 2
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+# 822388 - from Gurvich tables
+# 820210 - from AcT database (ANL)
+EF = 820210.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+# Ionization potential 
+IP = 11.4d0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.621d0 
+LJ_EPS  = 97.53d0
+
+#--------------------------------------
+#Polarizability [A^3] 
+#From R. L. Jaffe (NASA Ames)
+POLAR = 5.5720708619599995d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.62d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 2668.6d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 10 
+0.100000E+01  0.000000E+00
+0.600000E+01  0.887968E-01
+0.300000E+01  0.797745E+00
+0.200000E+01  0.104038E+01
+0.300000E+01  0.114404E+01
+0.200000E+01  0.188206E+01
+0.100000E+01  0.232344E+01
+0.600000E+01  0.248245E+01
+0.100000E+02  0.278962E+01
+0.500000E+01  0.377839E+01

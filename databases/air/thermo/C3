@@ -1,0 +1,78 @@
+#-------------------------------------
+#Species file for C3
+#-------------------------------------
+NAME = C3
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 36.033d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 3
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C 
+ELEM_QUANT = 3
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+# 831000 - from Gurvich tables
+# 814520 - from AcT database (ANL)
+EF = 814520.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Lennard-Jones parameters (taken from Park, C., Jaffe, R., Partridge, H., "Chemical-kinetic parameters of hyperbolic earth entry", 
+# J. Thermophys. Heat Transfer, 15(1), 2001). 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.245d0 
+LJ_EPS  = 535.30d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#From R. L. Jaffe (NASA Ames)
+POLAR = 2.5195708307799993d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 0.61d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 1761.8d0 90.8d0 90.8d0 2935.1d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 10
+0.100000E+01  0.000000E+00
+0.600000E+01  0.173576E+01
+0.600000E+01  0.266564E+01
+0.300000E+01  0.295080E+01
+0.200000E+01  0.305935E+01
+0.600000E+01  0.360791E+01
+0.300000E+01  0.406665E+01
+0.100000E+01  0.407905E+01
+0.200000E+01  0.417823E+01
+0.200000E+01  0.502132E+01 

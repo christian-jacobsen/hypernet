@@ -1,0 +1,57 @@
+#-------------------------------------
+#Species file for COp
+#-------------------------------------
+NAME = COp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 28.00944e-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em C O
+ELEM_QUANT = -1 1 1
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1238316.0e+00
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.e+00
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.84e+00
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 3185.7e+00
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 4
+0.200000E+01  0.000000E+00
+0.400000E+01  0.257057E+01
+0.200000E+01  0.568794E+01
+0.400000E+01  0.781245E+01

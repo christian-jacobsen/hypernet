@@ -1,0 +1,13 @@
+#----------------------------
+#This file provides the number of rotational, vibrational and free-electron temperature
+#----------------------------
+
+#Number of vibrational temperatures
+NB_TVIB = 1
+
+#Cross-section for VT energy transfer
+SIGMA = 3.d-22
+
+#Generalized parameter for activation temperature in TTv model. Ta = (Tv**alpha)*(T**(1 - alpha))
+#Default value is 0.5
+ALPHA = 0.3d0

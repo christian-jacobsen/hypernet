@@ -1,0 +1,66 @@
+#-------------------------------------
+#Species file for CHp
+#-------------------------------------
+NAME = CHp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 13.0189d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em H C
+ELEM_QUANT = -1 1 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+# - from AcT database (ANL)
+EF = 1619758d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 24.07d0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#Characteristic rotational and vibrational temperatures - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Characteristic rotational temperature (NO experimental value available on NIST website)
+# - semi-empirical AM1 method (with predefined basis set)
+#Vibrational rotational temperature (NO experimental value available on NIST website)
+# - semi-empirical AM1 method (with predefined basis set) 
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 20.95998d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 4224.22443d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 1
+1.d0  0.d0

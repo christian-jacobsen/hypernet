@@ -1,0 +1,54 @@
+#-------------------------------------
+#Species file for C5
+#-------------------------------------
+NAME = C5
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 60.055d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 5
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C 
+ELEM_QUANT = 5
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1040000.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 47.04d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 2302.d0 575.5d0 2805.6d0 2215.7d0 474.8d0 474.8d0 748.2d0 748.2d0 187.d0 187.d0
+ 
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+#NB_ELEC_LEVELS = 

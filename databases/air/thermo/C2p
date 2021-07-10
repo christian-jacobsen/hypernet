@@ -1,0 +1,61 @@
+#-------------------------------------
+#Species file for C2p
+#-------------------------------------
+NAME = C2p
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 24.022d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em C 
+ELEM_QUANT = -1 2
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1920151.9072521057d0 
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational and vibrational temperatures and electronic levels - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Characteristic rotational temperature (NO experimental value available on NIST website)
+# - semi-empirical AM1 method (with predefined basis set)
+#Vibrational rotational temperature (NO experimental value available on NIST website)
+# - semi-empirical G2 method (with predefined basis set) 
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.1077959078312278d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 2132.2549729732968d0 
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 1 
+0.200000E+01  0.000000E+00

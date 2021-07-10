@@ -1,0 +1,21 @@
+#----------------------------
+#Mixture file for oxygen5_lib_NIST
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em O
+ELEM_FRAC = 0.d0 1.d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em OI O2 O2p OII
+
+#Look-up-table limits
+DT_LOOK_UP = 20.d0
+TMAX_LOOK_UP = 2.d6
+
+#Flag not to include the 'Omega_CEL' energy transfer term
+TRANSFER_OMEGA_CEL = F

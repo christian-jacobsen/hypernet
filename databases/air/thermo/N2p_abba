@@ -1,0 +1,57 @@
+#-------------------------------------
+#Species file for N2p_abba
+#-------------------------------------
+NAME = N2p
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 28.01285d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em N
+ELEM_QUANT = -1 2
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1503310.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+ 
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.8d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 3175.7d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ENERGY_LEVELS = 4
+0.200000e+01  0.000000e+00
+0.400000e+01  0.113655e+01
+0.200000e+01  0.315674e+01
+0.400000e+01  0.801031e+01

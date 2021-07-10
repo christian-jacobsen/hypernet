@@ -1,0 +1,36 @@
+#----------------------------
+#Mixture file for mars14
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em N O C
+ELEM_FRAC = 0.d0 0.027d0 0.649d0 0.324d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em N O C CO CO2 N2 NO O2 NOp COp Cp O2p Op
+
+#-------------------------
+#Minimum temperature at which to evaluate rate coefficients
+#-------------------------
+
+TMIN_RATE = 350.d0
+
+#-------------------------
+#Look-up-tables data for thermodynamic properties
+#------------------------
+TMIN_LOOK_UP = 200.d0
+TMAX_LOOK_UP = 40000.d0
+DT_LOOK_UP   = 10.d0
+
+#-------------------------
+#Look-up-tables data for collision integrals
+#------------------------
+DT_COLL_INT   = 50.d0
+TMIN_COLL_INT = 200.d0
+TMAX_COLL_INT = 40000.d0
+DT_COLL_INT   = 50.d0
+

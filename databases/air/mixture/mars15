@@ -1,0 +1,14 @@
+#----------------------------
+#Mixture file for mars15
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em Ar C N O
+ELEM_FRAC = 0.d0 0.00498864d0 0.32756946d0 0.01180668d0 0.65563522d0 
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em Ar C N O CO CO2 N2 NO O2 Arp Cp Np NOp Op

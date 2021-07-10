@@ -1,0 +1,19 @@
+#----------------------------
+#Mixture file for air11_abba_at
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em N O
+ELEM_FRAC = 0.d0 0.79d0 0.21d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em N_abba O_abba N2 NO O2 N2p NOp Np O2p Op
+
+#-------------------------
+#Minimum temperature for rate coefficient evaluation
+#------------------------
+TMIN_RATE = 500.d0

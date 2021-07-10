@@ -1,0 +1,4684 @@
+#-----------------------------------
+# This file provides fit coefficients to compute heavy-heavy collision integrals (and some useful ratios). 
+# Note that the data provided are used to compute the following quantities (based on the notation of
+# Devoto, "Transport Properties of Monatonic Gases", Phys. Fluids Vol. 9, No. 6, pp. 1230--1240, 1966; Eqs. (10)-(11)):
+#  
+# Q(l,s) = PI*sigma^2*Omega(l,s)*
+# 
+# In the literature (such as "Mathematical Theory of Transport Processes in Gases" by Ferziger and Kaper) 
+# quantities Omega(l,s)* = Omega(l,s)/Omega(l,s)_HS are referred to as reduced collision integrals and are 
+# the ratios between the actual Omega(i,j) integrals and the corresponding quantities for hard-sphere (HS) interactions
+#--------------------------------------
+
+#The present file provides fit coefficient to compute: 
+#
+# Q(l,s) = PI*sigma^2*Omega(l,s)*  [A^2]
+#
+# B* = (5*Omega(1,3)* - 4*Omea(1,2)*)/Omega(1,1)*
+#    = (5*Q(1,3) - 4*Q(1,2))/Q(1,1) 
+#
+# C* = Omega*(1,2)/Omega(1,1)* =
+#    = Q(1,2)/Q(1,1)
+
+#In some other case, fit coefficients are NOT provided. Instead the interaction model is specified
+#(e.g., Lennard-Jones, polarization model,...). This information is then used during the initialization of the library 
+#for setting up look-up-tables
+
+#-------------------------------------
+#References:
+#
+#Data for Jupiter atmospheres heavy species (i.e. H, H2, Hp, Hm, He, Hep and Hepp) have been taken from
+#the work of Bruno et al., "Transport properties of high-temperature Jupiter atmosphere components", 
+#Phys. Plasmas, 17, 112315 (2010)). Values given there (through fits) have been re-fitted in the form
+#used in PLATO in the temperature range 300 K-100000 K. NOTE: the 'Bstar' collision integral for 
+#H2 Hep interactions has been obtained by using 1000 K as minimum temperatures due to numerical issues
+#(the collision integral was becoming negative and not 'fittable'). In the future the original fits provided in the above reference will be used 
+
+#Data for Earth and Mars atmosphere (i.e. N2-O2-CO2-Ar mixtures and their dissociation and ionization products) 
+#have been taken from the Mutation 2.0 library (Magin and Panesi)
+#-------------------------------------
+
+#TO BE CHANGED 
+# N-COp,N2-COp,NO-NOp
+
+#H-H interaction
+INTER = H H
+OMEGA11 =  -0.241684E-01  0.511678E+00 -0.390326E+01  0.134628E+02
+OMEGA22 =  -0.286149E-01  0.640350E+00 -0.504289E+01  0.166867E+02
+BSTAR =  -0.551345E-02  0.124990E+00 -0.854787E+00  0.191053E+01
+CSTAR =   0.799488E-02 -0.221942E+00  0.192163E+01 -0.538215E+01
+
+#H-He interaction
+INTER = H He
+OMEGA11 =  -0.947203E-02  0.188096E+00 -0.157876E+01  0.743630E+01
+OMEGA22 =  -0.104142E-01  0.211670E+00 -0.174325E+01  0.796278E+01
+BSTAR =  -0.182094E-03  0.683642E-02 -0.376005E-01  0.174811E+00
+CSTAR =  -0.959810E-03  0.156175E-01 -0.100724E+00  0.156234E+00
+
+#H-H2 interaction
+INTER = H H2
+OMEGA11 =  -0.185149E-01  0.396025E+00 -0.324751E+01  0.120718E+02
+OMEGA22 =  -0.212705E-01  0.458024E+00 -0.366852E+01  0.131491E+02
+BSTAR =  -0.934737E-03  0.208912E-01 -0.111246E+00  0.285961E+00
+CSTAR =  -0.110496E-01  0.275703E+00 -0.232236E+01  0.638527E+01
+
+#H-H2p interaction
+INTER = H H2p
+OMEGA11 =  -0.147681E-01  0.429711E+00 -0.435551E+01  0.176519E+02
+OMEGA22 =  -0.174279E-01  0.501578E+00 -0.497356E+01  0.194652E+02
+BSTAR =   0.278645E-01 -0.800952E+00  0.752852E+01 -0.228536E+02
+CSTAR =   0.989607E-02 -0.294497E+00  0.287809E+01 -0.927933E+01
+
+#H-Hp interaction
+INTER = H Hp
+OMEGA11 =   0.270179E-03 -0.531576E-02 -0.119290E+00  0.575553E+01
+OMEGA22 =   0.293988E-02 -0.202268E+00  0.223636E+01 -0.280689E+01
+BSTAR =   0.713711E-03 -0.186577E-01  0.158038E+00 -0.345807E+00
+CSTAR =  -0.532297E-03  0.144071E-01 -0.126380E+00  0.307767E+00
+
+#H-Hm interaction
+INTER = H Hm
+OMEGA11 =  -0.909827E-03  0.125858E-01 -0.221256E+00  0.732056E+01
+OMEGA22 =   0.255843E-02 -0.820483E-01  0.591849E+00  0.288008E+01
+BSTAR =   0.852364E-04 -0.892890E-03  0.702011E-02  0.749456E-01
+CSTAR =  -0.109963E-03  0.198659E-02 -0.173868E-01  0.109619E-02
+
+#H-Hep interaction
+INTER = H Hep
+OMEGA11 =   0.389160E-01 -0.113864E+01  0.100210E+02 -0.245668E+02
+OMEGA22 =   0.433916E-01 -0.126375E+01  0.112622E+02 -0.287859E+02
+BSTAR =   0.118139E-01 -0.339571E+00  0.318383E+01 -0.942907E+01
+CSTAR =   0.297214E-02 -0.485203E-01  0.682299E-01  0.758719E+00
+
+#He-He interaction
+INTER = He He
+OMEGA11 =  -0.374356E-02  0.599257E-01 -0.534246E+00  0.433305E+01
+OMEGA22 =  -0.425819E-02  0.756616E-01 -0.661569E+00  0.480351E+01
+BSTAR =   0.871241E-03 -0.184572E-01  0.152871E+00 -0.315925E+00
+CSTAR =  -0.344672E-02  0.852242E-01 -0.714512E+00  0.191377E+01
+
+#He-H2 interaction
+INTER = He H2
+OMEGA11 =   0.286409E-02 -0.640333E-01  0.268799E+00  0.291622E+01
+OMEGA22 =   0.334082E-02 -0.752016E-01  0.360385E+00  0.279679E+01
+BSTAR =  -0.247709E-03  0.101997E-01 -0.106487E+00  0.435302E+00
+CSTAR =  -0.277914E-03  0.656730E-02 -0.546591E-01  0.925668E-01
+
+#He-H2p interaction
+INTER = He H2p
+OMEGA11 =  -0.563461E-02  0.156784E+00 -0.163901E+01  0.843796E+01
+OMEGA22 =  -0.643329E-02  0.174221E+00 -0.174408E+01  0.869085E+01
+BSTAR =   0.534083E-02 -0.136048E+00  0.106293E+01 -0.222194E+01
+CSTAR =   0.523234E-02 -0.147942E+00  0.136171E+01 -0.411542E+01
+
+#He-H2p interaction
+INTER = He Hp
+OMEGA11 =   0.339769E-01 -0.976557E+00  0.833586E+01 -0.190696E+02
+OMEGA22 =   0.308785E-01 -0.920246E+00  0.816399E+01 -0.196762E+02
+BSTAR =   0.847429E-02 -0.235208E+00  0.215500E+01 -0.619889E+01
+CSTAR =   0.152597E-02 -0.171222E-01 -0.122929E+00  0.999130E+00
+
+#He-H2m interaction
+INTER = He Hm
+OMEGA11 =  -0.280491E-01  0.648299E+00 -0.540226E+01  0.185351E+02
+OMEGA22 =  -0.322442E-01  0.754881E+00 -0.626278E+01  0.209953E+02
+BSTAR =  -0.112207E-01  0.297266E+00 -0.253021E+01  0.717164E+01
+CSTAR =  -0.956475E-02  0.227817E+00 -0.183683E+01  0.482923E+01
+
+#He-Hep interaction
+INTER = He Hep
+OMEGA11 =   0.277180E-03 -0.694927E-02 -0.942247E-01  0.512874E+01
+OMEGA22 =   0.163304E-01 -0.504026E+00  0.448832E+01 -0.892005E+01
+BSTAR =   0.654275E-03 -0.171469E-01  0.146708E+00 -0.320221E+00
+CSTAR =  -0.456983E-03  0.125768E-01 -0.113422E+00  0.283558E+00
+
+#He-Hepp interaction
+INTER = He Hepp
+INTER_MODEL = POL
+
+#H-Hepp interaction
+INTER = H Hepp
+INTER_MODEL = POL
+
+#H2-Hepp interaction
+INTER = H2 Hepp
+INTER_MODEL = POL
+
+#H2-H2 interaction
+INTER = H2 H2
+OMEGA11 =   0.233315E-02 -0.876912E-01  0.629445E+00  0.178713E+01
+OMEGA22 =  -0.126791E-02  0.700340E-02 -0.153574E+00  0.403055E+01
+BSTAR =  -0.680727E-02  0.182783E+00 -0.156631E+01  0.447645E+01
+CSTAR =  -0.550749E-02  0.141888E+00 -0.121770E+01  0.335606E+01
+
+#H2-H2p interaction
+INTER = H2 H2p
+OMEGA11 =  -0.403908E-02  0.110220E+00 -0.119003E+01  0.836183E+01
+OMEGA22 =  -0.177549E-01  0.516526E+00 -0.515337E+01  0.202017E+02
+BSTAR =   0.672879E-02 -0.194007E+00  0.184398E+01 -0.563350E+01
+CSTAR =   0.268561E-02 -0.806202E-01  0.791260E+00 -0.260242E+01
+
+#H2-Hp interaction
+INTER = H2 Hp
+OMEGA11 =   0.493204E-02 -0.322781E+00  0.368026E+01 -0.786029E+01
+OMEGA22 =  -0.995994E-02  0.938269E-02  0.138033E+01 -0.318197E+01
+BSTAR =   0.312710E-03 -0.476782E-01  0.790964E+00 -0.310203E+01
+CSTAR =   0.216875E-01 -0.606672E+00  0.536629E+01 -0.153145E+02
+
+#H2-Hm interaction
+INTER = H2 Hm
+OMEGA11 =  -0.919043E-03  0.181326E-01 -0.354844E+00  0.571537E+01
+OMEGA22 =  -0.319142E-03 -0.269600E-02 -0.116906E+00  0.499492E+01
+BSTAR =  -0.574374E-03  0.314445E-01 -0.472642E+00  0.230781E+01
+CSTAR =   0.235703E-02 -0.638203E-01  0.552419E+00 -0.158845E+01
+
+#H2-Hep interaction
+INTER = H2 Hep
+OMEGA11 =  -0.121360E-01  0.389510E+00 -0.433587E+01  0.186404E+02
+OMEGA22 =  -0.122815E-01  0.395777E+00 -0.439467E+01  0.188713E+02
+BSTAR =   0.423401E-01 -0.127054E+01  0.125336E+02 -0.403216E+02
+CSTAR =   0.966882E-02 -0.312684E+00  0.332797E+01 -0.116898E+02
+
+#H-C2p interaction
+INTER = H C2p 
+INTER_MODEL = POL
+
+#H2-C2p interaction
+INTER = H2 C2p 
+INTER_MODEL = POL
+
+#C-C2p interaction
+INTER = C C2p 
+INTER_MODEL = POL
+
+#C2-C2p interaction
+INTER = C2 C2p 
+INTER_MODEL = POL
+
+#C2-O2p interaction
+INTER = C2 O2p 
+INTER_MODEL = POL
+
+#C2-N interaction
+INTER = C2 N 
+INTER_MODEL = LJ
+
+#C-O2p interaction
+INTER = C O2p 
+INTER_MODEL = POL
+
+#C-N2p interaction
+INTER = C N2p 
+INTER_MODEL = POL
+
+#C2-NOp interaction
+INTER = C2 NOp 
+INTER_MODEL = POL
+
+#C2-Op interaction
+INTER = C2 Op 
+INTER_MODEL = POL
+
+#C2-Opp interaction
+INTER = C2 Opp 
+INTER_MODEL = POL
+
+#C2-Oppp interaction
+INTER = C2 Oppp 
+INTER_MODEL = POL
+
+#C2-Opppp interaction
+INTER = C2 Opppp 
+INTER_MODEL = POL
+
+#C2-Oppppp interaction
+INTER = C2 Oppppp 
+INTER_MODEL = POL
+
+#C2-Oppppp interaction
+INTER = C2 Opppppp 
+INTER_MODEL = POL
+
+#C2-Np interaction
+INTER = C2 Np 
+INTER_MODEL = POL
+
+#C2-Npp interaction
+INTER = C2 Npp 
+INTER_MODEL = POL
+
+#C2-Nppp interaction
+INTER = C2 Nppp
+INTER_MODEL = POL
+
+#C2-Npppp interaction
+INTER = C2 Npppp
+INTER_MODEL = POL
+
+#C2-Nppppp interaction
+INTER = C2 Nppppp
+INTER_MODEL = POL
+
+#C2-Npppppp interaction
+INTER = C2 Npppppp
+INTER_MODEL = POL
+
+#C2-N2p interaction
+INTER = C2 N2p
+INTER_MODEL = POL
+
+#C-Cpp interaction
+INTER = C Cpp 
+INTER_MODEL = POL
+
+#C-Cppp interaction
+INTER = C Cppp 
+INTER_MODEL = POL
+
+#C-Cpppp interaction
+INTER = C Cpppp 
+INTER_MODEL = POL
+
+#C-Cppppp interaction
+INTER = C Cppppp 
+INTER_MODEL = POL
+
+#C-H interaction
+INTER = C H 
+INTER_MODEL = LJ
+
+#C-Hp interaction
+INTER = C Hp 
+INTER_MODEL = POL
+
+#C-CHp interaction
+INTER = C CHp 
+INTER_MODEL = POL
+
+#C-C2Hp interaction
+INTER = C C2Hp 
+INTER_MODEL = POL
+
+#C-H2p interaction
+INTER = C H2p 
+INTER_MODEL = POL
+
+#CH-Np interaction
+INTER = CH Np 
+INTER_MODEL = POL
+
+#CH-Npp interaction
+INTER = CH Npp
+INTER_MODEL = POL
+
+#CH-Nppp interaction
+INTER = CH Nppp
+INTER_MODEL = POL
+
+#CH-Npppp interaction
+INTER = CH Npppp
+INTER_MODEL = POL
+
+#CH-Nppppp interaction
+INTER = CH Nppppp
+INTER_MODEL = POL
+
+#CH-Npppppp interaction
+INTER = CH Npppppp
+INTER_MODEL = POL
+
+#CH-N2p interaction
+INTER = CH N2p
+INTER_MODEL = POL
+
+#CH2-NOp interaction
+INTER = CH2 NOp
+INTER_MODEL = POL
+
+#CH2-Np interaction
+INTER = CH2 Np
+INTER_MODEL = POL
+
+#CH2-Npp interaction
+INTER = CH2 Npp
+INTER_MODEL = POL
+
+#CH2-Nppp interaction
+INTER = CH2 Nppp
+INTER_MODEL = POL
+
+#CH2-Npppp interaction
+INTER = CH2 Npppp
+INTER_MODEL = POL
+
+#CH2-Nppppp interaction
+INTER = CH2 Nppppp
+INTER_MODEL = POL
+
+#CH2-Npppppp interaction
+INTER = CH2 Npppppp
+INTER_MODEL = POL
+
+#CH2-N2p interaction
+INTER = CH2 N2p
+INTER_MODEL = POL
+
+#CH3-NOp interaction
+INTER = CH3 NOp
+INTER_MODEL = POL
+
+#CH3-Np interaction
+INTER = CH3 Np
+INTER_MODEL = POL
+
+#CH3-Npp interaction
+INTER = CH3 Npp
+INTER_MODEL = POL
+
+#CH3-Nppp interaction
+INTER = CH3 Nppp
+INTER_MODEL = POL
+
+#CH3-Npppp interaction
+INTER = CH3 Npppp
+INTER_MODEL = POL
+
+#CH3-Nppppp interaction
+INTER = CH3 Nppppp
+INTER_MODEL = POL
+
+#CH3-Npppppp interaction
+INTER = CH3 Npppppp
+INTER_MODEL = POL
+
+#CH3-N2p interaction
+INTER = CH3 N2p
+INTER_MODEL = POL
+
+#CH4-NOp interaction
+INTER = CH4 NOp
+INTER_MODEL = POL
+
+#CH4-Np interaction
+INTER = CH4 Np
+INTER_MODEL = POL
+
+#CH4-Npp interaction
+INTER = CH4 Npp
+INTER_MODEL = POL
+
+#CH4-Nppp interaction
+INTER = CH4 Nppp
+INTER_MODEL = POL
+
+#CH4-Npppp interaction
+INTER = CH4 Npppp
+INTER_MODEL = POL
+
+#CH4-Nppppp interaction
+INTER = CH4 Nppppp
+INTER_MODEL = POL
+
+#CH4-Npppppp interaction
+INTER = CH4 Npppppp
+INTER_MODEL = POL
+
+#CH4-N2p interaction
+INTER = CH4 N2p
+INTER_MODEL = POL
+
+#C2H-NOp interaction
+INTER = C2H NOp
+INTER_MODEL = POL
+
+#C2H-Np interaction
+INTER = C2H Np
+INTER_MODEL = POL
+
+#C2H-Npp interaction
+INTER = C2H Npp
+INTER_MODEL = POL
+
+#C2H-Nppp interaction
+INTER = C2H Nppp
+INTER_MODEL = POL
+
+#C2H-Npppp interaction
+INTER = C2H Npppp
+INTER_MODEL = POL
+
+#C2H-Nppppp interaction
+INTER = C2H Nppppp
+INTER_MODEL = POL
+
+#C2H-Npppppp interaction
+INTER = C2H Npppppp
+INTER_MODEL = POL
+
+#C2H-N2p interaction
+INTER = C2H N2p
+INTER_MODEL = POL
+
+#C2H2-NOp interaction
+INTER = C2H2 NOp
+INTER_MODEL = POL
+
+#C2H2-Np interaction
+INTER = C2H2 Np
+INTER_MODEL = POL
+
+#C2H2-Npp interaction
+INTER = C2H2 Npp
+INTER_MODEL = POL
+
+#C2H2-Nppp interaction
+INTER = C2H2 Nppp
+INTER_MODEL = POL
+
+#C2H2-Npppp interaction
+INTER = C2H2 Npppp
+INTER_MODEL = POL
+
+#C2H2-Nppppp interaction
+INTER = C2H2 Nppppp
+INTER_MODEL = POL
+
+#C2H2-Npppppp interaction
+INTER = C2H2 Npppppp
+INTER_MODEL = POL
+
+#C2H2-N2p interaction
+INTER = C2H2 N2p
+INTER_MODEL = POL
+
+#C2H3-NOp interaction
+INTER = C2H3 NOp
+INTER_MODEL = POL
+
+#C2H3-Np interaction
+INTER = C2H3 Np
+INTER_MODEL = POL
+
+#C2H3-Npp interaction
+INTER = C2H3 Npp
+INTER_MODEL = POL
+
+#C2H3-Nppp interaction
+INTER = C2H3 Nppp
+INTER_MODEL = POL
+
+#C2H3-Npppp interaction
+INTER = C2H3 Npppp
+INTER_MODEL = POL
+
+#C2H3-Nppppp interaction
+INTER = C2H3 Nppppp
+INTER_MODEL = POL
+
+#C2H3-Npppppp interaction
+INTER = C2H3 Npppppp
+INTER_MODEL = POL
+
+#C2H3-N2p interaction
+INTER = C2H3 N2p
+INTER_MODEL = POL
+
+#C2H4-NOp interaction
+INTER = C2H4 NOp
+INTER_MODEL = POL
+
+#C2H4-Np interaction
+INTER = C2H4 Np
+INTER_MODEL = POL
+
+#C2H4-Npp interaction
+INTER = C2H4 Npp
+INTER_MODEL = POL
+
+#C2H4-Nppp interaction
+INTER = C2H4 Nppp
+INTER_MODEL = POL
+
+#C2H4-Npppp interaction
+INTER = C2H4 Npppp
+INTER_MODEL = POL
+
+#C2H4-Nppppp interaction
+INTER = C2H4 Nppppp
+INTER_MODEL = POL
+
+#C2H4-Npppppp interaction
+INTER = C2H4 Npppppp
+INTER_MODEL = POL
+
+#C2H4-N2p interaction
+INTER = C2H4 N2p
+INTER_MODEL = POL
+
+#CH-NOp interaction
+INTER = CH NOp 
+INTER_MODEL = POL
+
+#CH2-H2p interaction
+INTER = CH2 H2p 
+INTER_MODEL = POL
+
+#CH3-H2p interaction
+INTER = CH3 H2p 
+INTER_MODEL = POL
+
+#CH3-C2H3p interaction
+INTER = CH3 C2H3p 
+INTER_MODEL = POL
+
+#CH4-H2p interaction
+INTER = CH4 H2p 
+INTER_MODEL = POL
+
+#C2H2-H2p interaction
+INTER = C2H2 CH2p 
+INTER_MODEL = POL
+
+#C2H2-H2p interaction
+INTER = C2H2 CH3p 
+INTER_MODEL = POL
+
+#C2H2-H2p interaction
+INTER = C2H2 CH4p 
+INTER_MODEL = POL
+
+#C2H3-H2p interaction
+INTER = C2H3 CH2p 
+INTER_MODEL = POL
+
+#C2H3-H2p interaction
+INTER = C2H3 CH3p 
+INTER_MODEL = POL
+
+#C2H3-H2p interaction
+INTER = C2H3 CH4p 
+INTER_MODEL = POL
+
+#C-C2H2p interaction
+INTER = C C2H2p 
+INTER_MODEL = POL
+
+#C-C2H3p interaction
+INTER = C C2H3p 
+INTER_MODEL = POL
+
+#C-C2H4p interaction
+INTER = C C2H4p 
+INTER_MODEL = POL
+
+#C-C2 interaction
+INTER = C C2 
+INTER_MODEL = LJ
+
+#C-C3 interaction
+INTER = C C3 
+INTER_MODEL = LJ
+
+#C-H2 interaction
+INTER = C H2 
+INTER_MODEL = LJ
+
+#C-CH interaction
+INTER = C CH 
+INTER_MODEL = LJ 
+
+#C-CH2 interaction
+INTER = C CH2 
+INTER_MODEL = LJ 
+
+#C-CH3 interaction
+INTER = C CH3 
+INTER_MODEL = LJ 
+
+#C-CH4 interaction
+INTER = C CH4 
+INTER_MODEL = LJ 
+
+#C-C2H interaction
+INTER = C C2H 
+INTER_MODEL = LJ 
+
+#C-C2H2 interaction
+INTER = C C2H2 
+INTER_MODEL = LJ 
+
+#C-C2H3 interaction
+INTER = C C2H3 
+INTER_MODEL = LJ 
+
+#C-C2H4 interaction
+INTER = C C2H4 
+INTER_MODEL = LJ 
+
+#H-Cp interaction
+INTER = H Cp 
+INTER_MODEL = POL
+
+#H-Cpp interaction
+INTER = H Cpp 
+INTER_MODEL = POL
+
+#H-Cppp interaction
+INTER = H Cppp 
+INTER_MODEL = POL
+
+#H-Cpppp interaction
+INTER = H Cpppp
+INTER_MODEL = POL
+
+#H-Cppppp interaction
+INTER = H Cppppp
+INTER_MODEL = POL
+
+#H-C2Hp interaction
+INTER = H C2Hp 
+INTER_MODEL = POL
+
+#H-C2 interaction
+INTER = H C2 
+INTER_MODEL = LJ
+
+#H-C3 interaction
+INTER = H C3 
+INTER_MODEL = LJ
+
+#H-CH interaction
+INTER = H CH 
+INTER_MODEL = LJ
+
+#H-CH interaction
+INTER = N CH 
+INTER_MODEL = LJ
+
+#H-CH2 interaction
+INTER = N CH2 
+INTER_MODEL = LJ
+
+#H-CH3 interaction
+INTER = N CH3 
+INTER_MODEL = LJ
+
+#H-CH4 interaction
+INTER = N CH4
+INTER_MODEL = LJ
+
+#H-C2H interaction
+INTER = N C2H 
+INTER_MODEL = LJ
+
+#H-C2H2 interaction
+INTER = N C2H2 
+INTER_MODEL = LJ
+
+#H-C2H3 interaction
+INTER = N C2H3 
+INTER_MODEL = LJ
+
+#H-C2H4 interaction
+INTER = N C2H4 
+INTER_MODEL = LJ
+
+#H-CHp interaction
+INTER = H CHp 
+INTER_MODEL = POL
+
+#H-C2H interaction
+INTER = H C2H 
+INTER_MODEL = LJ
+
+#H-C2H2 interaction
+INTER = H C2H2 
+INTER_MODEL = LJ
+
+#H-C2H2p interaction
+INTER = H C2H2p 
+INTER_MODEL = POL
+
+#H-C2H3 interaction
+INTER = H C2H3 
+INTER_MODEL = LJ
+
+#H-C2H3p interaction
+INTER = H C2H3p 
+INTER_MODEL = POL
+
+#H-C2H4 interaction
+INTER = H C2H4 
+INTER_MODEL = LJ
+
+#H-C2H4p interaction
+INTER = H C2H4p 
+INTER_MODEL = POL
+
+#C2-C2 interaction
+INTER = C2 C2 
+INTER_MODEL = LJ
+
+#C2-C3 interaction
+INTER = C2 C3 
+INTER_MODEL = LJ
+
+#C2-Hp interaction
+INTER = C2 Hp 
+INTER_MODEL = POL
+
+#C2-Cp interaction
+INTER = C2 Cp 
+INTER_MODEL = POL
+
+#C2-Cpp interaction
+INTER = C2 Cpp
+INTER_MODEL = POL
+
+#C2-Cppp interaction
+INTER = C2 Cppp 
+INTER_MODEL = POL
+
+#C2-Cpppp interaction
+INTER = C2 Cpppp 
+INTER_MODEL = POL
+
+#C2-Cppppp interaction
+INTER = C2 Cppppp 
+INTER_MODEL = POL
+
+#C-Npp interaction
+INTER = C Npp
+INTER_MODEL = POL
+
+#C-Nppp interaction
+INTER = C Nppp 
+INTER_MODEL = POL
+
+#C-Npppp interaction
+INTER = C Npppp 
+INTER_MODEL = POL
+
+#C-Nppppp interaction
+INTER = C Nppppp 
+INTER_MODEL = POL
+
+#C-Npppppp interaction
+INTER = C Npppppp 
+INTER_MODEL = POL
+
+#H2-Nppp interaction
+INTER = H2 Nppp 
+INTER_MODEL = POL
+
+#H2-Npppp interaction
+INTER = H2 Npppp 
+INTER_MODEL = POL
+
+#H2-Nppppp interaction
+INTER = H2 Nppppp 
+INTER_MODEL = POL
+
+#H2-Npppppp interaction
+INTER = H2 Npppppp 
+INTER_MODEL = POL
+
+#N-C2p interaction
+INTER = N C2p
+INTER_MODEL = POL
+
+#N-CHp interaction
+INTER = N CHp
+INTER_MODEL = POL
+
+#N-CH2p interaction
+INTER = N CH2p
+INTER_MODEL = POL
+
+#N-CH3p interaction
+INTER = N CH3p
+INTER_MODEL = POL
+
+#N-CH4p interaction
+INTER = N CH4p
+INTER_MODEL = POL
+
+#N-C2Hp interaction
+INTER = N C2Hp
+INTER_MODEL = POL
+
+#N-C2H2p interaction
+INTER = N C2H2p
+INTER_MODEL = POL
+
+#N-C2H3p interaction
+INTER = N C2H3p
+INTER_MODEL = POL
+
+#N-C2H4p interaction
+INTER = N C2H4p
+INTER_MODEL = POL
+
+#N-Cpp interaction
+INTER = N Cpp
+INTER_MODEL = POL
+
+#N-Cppp interaction
+INTER = N Cppp 
+INTER_MODEL = POL
+
+#N-Cpppp interaction
+INTER = N Cpppp 
+INTER_MODEL = POL
+
+#C-Cppppp interaction
+INTER = N Cppppp 
+INTER_MODEL = POL
+
+#C2-CHp interaction
+INTER = C2 CHp
+INTER_MODEL = POL
+
+#C2-H2 interaction
+INTER = C2 H2 
+INTER_MODEL = LJ
+
+#C2-H2p interaction
+INTER = C2 H2p 
+INTER_MODEL = POL
+
+#C2-CH interaction
+INTER = C2 CH 
+INTER_MODEL = LJ
+
+#C2p-CH interaction
+INTER = C2p CH 
+INTER_MODEL = POL
+
+#O2p-CH interaction
+INTER = O2p CH 
+INTER_MODEL = POL
+
+#O2p-CH2 interaction
+INTER = O2p CH2 
+INTER_MODEL = POL
+
+#O2p-CH3 interaction
+INTER = O2p CH3 
+INTER_MODEL = POL
+
+#O2p-CH4 interaction
+INTER = O2p CH4 
+INTER_MODEL = POL
+
+#O2p-C2H interaction
+INTER = O2p C2H 
+INTER_MODEL = POL
+
+#O2p-C2H2 interaction
+INTER = O2p C2H2 
+INTER_MODEL = POL
+
+#O2p-C2H3 interaction
+INTER = O2p C2H3 
+INTER_MODEL = POL
+
+#O2p-C2H4 interaction
+INTER = O2p C2H4 
+INTER_MODEL = POL
+
+#Op-CH interaction
+INTER = Op CH 
+INTER_MODEL = POL
+
+#Opp-CH interaction
+INTER = Opp CH 
+INTER_MODEL = POL
+
+#Oppp-CH interaction
+INTER = Oppp CH 
+INTER_MODEL = POL
+
+#Opppp-CH interaction
+INTER = Opppp CH 
+INTER_MODEL = POL
+
+#Oppppp-CH interaction
+INTER = Oppppp CH 
+INTER_MODEL = POL
+
+#Opppppp-CH interaction
+INTER = Opppppp CH 
+INTER_MODEL = POL
+
+#Op-CH2 interaction
+INTER = Op CH2 
+INTER_MODEL = POL
+
+#Opp-CH2 interaction
+INTER = Opp CH2 
+INTER_MODEL = POL
+
+#Oppp-CH2 interaction
+INTER = Oppp CH2 
+INTER_MODEL = POL
+
+#Opppp-CH2 interaction
+INTER = Opppp CH2 
+INTER_MODEL = POL
+
+#Oppppp-CH2 interaction
+INTER = Oppppp CH2 
+INTER_MODEL = POL
+
+#Opppppp-CH2 interaction
+INTER = Opppppp CH2 
+INTER_MODEL = POL
+
+#Op-CH3 interaction
+INTER = Op CH3 
+INTER_MODEL = POL
+
+#Opp-CH3 interaction
+INTER = Opp CH3 
+INTER_MODEL = POL
+
+#Oppp-CH3 interaction
+INTER = Oppp CH3 
+INTER_MODEL = POL
+
+#Opppp-CH3 interaction
+INTER = Opppp CH3 
+INTER_MODEL = POL
+
+#Oppppp-CH3 interaction
+INTER = Oppppp CH3 
+INTER_MODEL = POL
+
+#Opppppp-CH2 interaction
+INTER = Opppppp CH3 
+INTER_MODEL = POL
+
+#Op-CH4 interaction
+INTER = Op CH4 
+INTER_MODEL = POL
+
+#Opp-CH4 interaction
+INTER = Opp CH4 
+INTER_MODEL = POL
+
+#Oppp-CH4 interaction
+INTER = Oppp CH4 
+INTER_MODEL = POL
+
+#Opppp-CH4 interaction
+INTER = Opppp CH4 
+INTER_MODEL = POL
+
+#Oppppp-CH4 interaction
+INTER = Oppppp CH4 
+INTER_MODEL = POL
+
+#Opppppp-CH4 interaction
+INTER = Opppppp CH4 
+INTER_MODEL = POL
+
+#Op-C2H interaction
+INTER = Op C2H 
+INTER_MODEL = POL
+
+#Opp-C2H interaction
+INTER = Opp C2H 
+INTER_MODEL = POL
+
+#Oppp-C2H interaction
+INTER = Oppp C2H 
+INTER_MODEL = POL
+
+#Opppp-C2H interaction
+INTER = Opppp C2H 
+INTER_MODEL = POL
+
+#Oppppp-C2H interaction
+INTER = Oppppp C2H 
+INTER_MODEL = POL
+
+#Opp-C interaction
+INTER = Opp C 
+INTER_MODEL = POL
+
+#Oppp-C interaction
+INTER = Oppp C 
+INTER_MODEL = POL
+
+#Opppp-C interaction
+INTER = Opppp C 
+INTER_MODEL = POL
+
+#Oppppp-C interaction
+INTER = Oppppp C 
+INTER_MODEL = POL
+
+#Opppppp-C interaction
+INTER = Opppppp C 
+INTER_MODEL = POL
+
+#Opppppp-C2H interaction
+INTER = Opppppp C2H 
+INTER_MODEL = POL
+
+#Op-C2H2 interaction
+INTER = Op C2H2 
+INTER_MODEL = POL
+
+#Opp-C2H2 interaction
+INTER = Opp C2H2 
+INTER_MODEL = POL
+
+#Oppp-C2H2 interaction
+INTER = Oppp C2H2 
+INTER_MODEL = POL
+
+#Opppp-C2H2 interaction
+INTER = Opppp C2H2 
+INTER_MODEL = POL
+
+#Oppppp-C2H2 interaction
+INTER = Oppppp C2H2 
+INTER_MODEL = POL
+
+#Opppppp-C2H2 interaction
+INTER = Opppppp C2H2 
+INTER_MODEL = POL
+
+#Op-C2H3 interaction
+INTER = Op C2H3 
+INTER_MODEL = POL
+
+#Opp-C2H3 interaction
+INTER = Opp C2H3 
+INTER_MODEL = POL
+
+#Oppp-C2H3 interaction
+INTER = Oppp C2H3 
+INTER_MODEL = POL
+
+#Opppp-C2H3 interaction
+INTER = Opppp C2H3 
+INTER_MODEL = POL
+
+#Oppppp-C2H3 interaction
+INTER = Oppppp C2H3 
+INTER_MODEL = POL
+
+#Opppppp-C2H3 interaction
+INTER = Opppppp C2H3 
+INTER_MODEL = POL
+
+#Op-C2H4 interaction
+INTER = Op C2H4 
+INTER_MODEL = POL
+
+#Opp-C2H4 interaction
+INTER = Opp C2H4 
+INTER_MODEL = POL
+
+#Oppp-C2H4 interaction
+INTER = Oppp C2H4 
+INTER_MODEL = POL
+
+#Opppp-C2H4 interaction
+INTER = Opppp C2H4 
+INTER_MODEL = POL
+
+#Oppppp-C2H4 interaction
+INTER = Oppppp C2H4 
+INTER_MODEL = POL
+
+#Opppppp-C2H4 interaction
+INTER = Opppppp C2H4 
+INTER_MODEL = POL
+
+#C2p-CH2 interaction
+INTER = C2p CH2 
+INTER_MODEL = POL
+
+#C2p-CH3 interaction
+INTER = C2p CH3 
+INTER_MODEL = POL
+
+#C2p-CH4 interaction
+INTER = C2p CH4 
+INTER_MODEL = POL
+
+#C2p-C2H interaction
+INTER = C2p C2H 
+INTER_MODEL = POL
+
+#C2p-C2H2 interaction
+INTER = C2p C2H2 
+INTER_MODEL = POL
+
+#C2p-C2H3 interaction
+INTER = C2p C2H3 
+INTER_MODEL = POL
+
+#C2p-C2H4 interaction
+INTER = C2p C2H4 
+INTER_MODEL = POL
+
+#C2-C2H interaction
+INTER = C2 C2H 
+INTER_MODEL = LJ
+
+#C2-C2Hp interaction
+INTER = C2 C2Hp 
+INTER_MODEL = POL
+
+#C2-CH2 interaction
+INTER = C2 CH2 
+INTER_MODEL = LJ
+
+#C2-CH3 interaction
+INTER = C2 CH3 
+INTER_MODEL = LJ
+
+#C2-CH4 interaction
+INTER = C2 CH4 
+INTER_MODEL = LJ
+
+#C2-CH2p interaction
+INTER = C2 CH2p 
+INTER_MODEL = POL
+
+#C2-CH3p interaction
+INTER = C2 CH3p 
+INTER_MODEL = POL
+
+#C2-CH4p interaction
+INTER = C2 CH4p 
+INTER_MODEL = POL
+
+#C2-C2H2 interaction
+INTER = C2 C2H2 
+INTER_MODEL = LJ
+
+#C2-C2H2p interaction
+INTER = C2 C2H2p
+INTER_MODEL = POL
+
+#C2-C2H3 interaction
+INTER = C2 C2H3 
+INTER_MODEL = LJ
+
+#C2-C2H3p interaction
+INTER = C2 C2H3p 
+INTER_MODEL = POL
+
+#C2-C2H4 interaction
+INTER = C2 C2H4 
+INTER_MODEL = LJ
+
+#C2-C2H4p interaction
+INTER = C2 C2H4p 
+INTER_MODEL = POL
+
+#C3-C3 interaction
+INTER = C3 C3 
+INTER_MODEL = LJ
+
+#C3-H2 interaction
+INTER = C3 H2 
+INTER_MODEL = LJ
+
+#C3-Cp interaction
+INTER = C3 Cp 
+INTER_MODEL = POL
+
+#C3-Cpp interaction
+INTER = C3 Cpp 
+INTER_MODEL = POL
+
+#C3-Cppp interaction
+INTER = C3 Cppp 
+INTER_MODEL = POL
+
+#C3-Cpppp interaction
+INTER = C3 Cpppp 
+INTER_MODEL = POL
+
+#C3-Cppppp interaction
+INTER = C3 Cppppp 
+INTER_MODEL = POL
+
+#C3-CHp interaction
+INTER = C3 CHp 
+INTER_MODEL = POL
+
+#C3-Hp interaction
+INTER = C3 Hp 
+INTER_MODEL = POL
+
+#C3-H2p interaction
+INTER = C3 H2p 
+INTER_MODEL = POL
+
+#C3-CH interaction
+INTER = C3 CH 
+INTER_MODEL = LJ
+
+#C3-C2H interaction
+INTER = C3 C2H 
+INTER_MODEL = LJ
+
+#C3-C2H2 interaction
+INTER = C3 C2H2 
+INTER_MODEL = LJ
+
+#C3-C2H2p interaction
+INTER = C3 C2H2p 
+INTER_MODEL = POL
+
+#C3-C2H3 interaction
+INTER = C3 C2H3 
+INTER_MODEL = LJ
+
+#C3-C2H3p interaction
+INTER = C3 C2H3p 
+INTER_MODEL = POL
+
+#C3-C2H4 interaction
+INTER = C3 C2H4 
+INTER_MODEL = LJ
+
+#C3-C2H4p interaction
+INTER = C3 C2H4p 
+INTER_MODEL = POL
+
+#H2-CH interaction
+INTER = H2 CH 
+INTER_MODEL = LJ
+
+#H2-CH2 interaction
+INTER = H2 CH2 
+INTER_MODEL = LJ
+
+#H2-CH3 interaction
+INTER = H2 CH3 
+INTER_MODEL = LJ
+
+#H2-CH4 interaction
+INTER = H2 CH4 
+INTER_MODEL = LJ
+
+#H2-Cp interaction
+INTER = H2 Cp 
+INTER_MODEL = POL
+
+#H2-Cpp interaction
+INTER = H2 Cpp 
+INTER_MODEL = POL
+
+#H2-Cppp interaction
+INTER = H2 Cppp 
+INTER_MODEL = POL
+
+#H2-Cpppp interaction
+INTER = H2 Cpppp 
+INTER_MODEL = POL
+
+#H2-Cppppp interaction
+INTER = H2 Cppppp 
+INTER_MODEL = POL
+
+#H2-CHp interaction
+INTER = H2 CHp 
+INTER_MODEL = POL
+
+#H2-C2Hp interaction
+INTER = H2 C2Hp 
+INTER_MODEL = POL
+
+#H2-CH2p interaction
+INTER = H2 CH2p 
+INTER_MODEL = POL
+
+#H2-CH3p interaction
+INTER = H2 CH3p 
+INTER_MODEL = POL
+
+#H2-CH4p interaction
+INTER = H2 CH4p 
+INTER_MODEL = POL
+
+#H2-C2H interaction
+INTER = H2 C2H 
+INTER_MODEL = LJ
+
+#H2-C2H2 interaction
+INTER = H2 C2H2 
+INTER_MODEL = LJ
+
+#H2-C2H2p interaction
+INTER = H2 C2H2p 
+INTER_MODEL = POL
+
+#H2-C2H3 interaction
+INTER = H2 C2H3 
+INTER_MODEL = LJ
+
+#H2-C2H3p interaction
+INTER = H2 C2H3p 
+INTER_MODEL = POL
+
+#H2-C2H4 interaction
+INTER = H2 C2H4 
+INTER_MODEL = LJ
+
+#H2-C2H4p interaction
+INTER = H2 C2H4p 
+INTER_MODEL = POL
+
+#CH-CH interaction
+INTER = CH CH 
+INTER_MODEL = LJ
+
+#CH-CH2 interaction
+INTER = CH CH2 
+INTER_MODEL = LJ
+
+#CH-CH3 interaction
+INTER = CH CH3 
+INTER_MODEL = LJ
+
+#CH-CH4 interaction
+INTER = CH CH4 
+INTER_MODEL = LJ
+
+#CH2-CH2 interaction
+INTER = CH2 CH2 
+INTER_MODEL = LJ
+
+#CH2-CH2 interaction
+INTER = CH2 C2H 
+INTER_MODEL = LJ
+
+#CH2-CH3 interaction
+INTER = CH2 CH3 
+INTER_MODEL = LJ
+
+#CH3-CH3 interaction
+INTER = CH3 CH3 
+INTER_MODEL = LJ
+
+#CH3-C2H interaction
+INTER = CH3 C2H 
+INTER_MODEL = LJ
+
+#CH4-CH4 interaction
+INTER = CH4 CH4 
+INTER_MODEL = LJ
+
+#CH4-C2H interaction
+INTER = CH4 C2H 
+INTER_MODEL = LJ
+
+#CH4-C2H2 interaction
+INTER = CH4 C2H2 
+INTER_MODEL = LJ
+
+#CH4-C2H3 interaction
+INTER = CH4 C2H3 
+INTER_MODEL = LJ
+
+#CH4-C2H4 interaction
+INTER = CH4 C2H4 
+INTER_MODEL = LJ
+
+#CH3-CH4p interaction
+INTER = CH3 CH4p 
+INTER_MODEL = POL
+
+#CH3-CH4 interaction
+INTER = CH3 CH4 
+INTER_MODEL = LJ
+
+#CH3-C2H2 interaction
+INTER = CH3 C2H2 
+INTER_MODEL = LJ
+
+#CH3-C2H3 interaction
+INTER = CH3 C2H3 
+INTER_MODEL = LJ
+
+#CH3-C2H4 interaction
+INTER = CH3 C2H4 
+INTER_MODEL = LJ
+
+#CH2-CH4 interaction
+INTER = CH2 CH4 
+INTER_MODEL = LJ
+
+#CH2-C2H2 interaction
+INTER = CH2 C2H2 
+INTER_MODEL = LJ
+
+#CH2-C2H3 interaction
+INTER = CH2 C2H3 
+INTER_MODEL = LJ
+
+#CH2-C2H4 interaction
+INTER = CH2 C2H4 
+INTER_MODEL = LJ
+
+#C-CH2p interaction
+INTER = C CH2p 
+INTER_MODEL = POL
+
+#C-CH3p interaction
+INTER = C CH3p 
+INTER_MODEL = POL
+
+#C-CH4p interaction
+INTER = C CH4p 
+INTER_MODEL = POL
+
+#CH4-CH2p interaction
+INTER = CH4 CH2p 
+INTER_MODEL = POL
+
+#CH4-CH3p interaction
+INTER = CH4 CH3p 
+INTER_MODEL = POL
+
+#CH4-CH4p interaction
+INTER = CH4 CH4p 
+INTER_MODEL = POL
+
+#CH4-C2H4p interaction
+INTER = CH4 C2H4p 
+INTER_MODEL = POL
+
+#H-CH2 interaction
+INTER = H CH2 
+INTER_MODEL = LJ
+
+#H-CH3 interaction
+INTER = H CH3 
+INTER_MODEL = LJ
+
+#H-CH4 interaction
+INTER = H CH4 
+INTER_MODEL = LJ
+
+#H-CH2p interaction
+INTER = H CH2p 
+INTER_MODEL = POL
+
+#H-CH3p interaction
+INTER = H CH3p 
+INTER_MODEL = POL
+
+#H-CH4p interaction
+INTER = H CH4p 
+INTER_MODEL = POL
+
+#CH-H2p interaction
+INTER = CH H2p 
+INTER_MODEL = POL
+
+#CH-Hp interaction
+INTER = CH Hp 
+INTER_MODEL = POL
+
+#CH-CHp interaction
+INTER = CH CHp 
+INTER_MODEL = POL
+
+#CH-C2Hp interaction
+INTER = CH C2Hp 
+INTER_MODEL = POL
+
+#CH-CH2p interaction
+INTER = CH CH2p 
+INTER_MODEL = POL
+
+#CH-CH3p interaction
+INTER = CH CH3p 
+INTER_MODEL = POL
+
+#CH-CH4p interaction
+INTER = CH CH4p 
+INTER_MODEL = POL
+
+#CH-Cp interaction
+INTER = CH Cp 
+INTER_MODEL = POL
+
+#CH2-Cp interaction
+INTER = CH2 Cp 
+INTER_MODEL = POL
+
+#CH2-Cpp interaction
+INTER = CH2 Cpp 
+INTER_MODEL = POL
+
+#CH2-Cppp interaction
+INTER = CH2 Cppp 
+INTER_MODEL = POL
+
+#CH2-Cpppp interaction
+INTER = CH2 Cpppp 
+INTER_MODEL = POL
+
+#CH2-Cppppp interaction
+INTER = CH2 Cppppp 
+INTER_MODEL = POL
+
+#CH3-Cp interaction
+INTER = CH3 Cp 
+INTER_MODEL = POL
+
+#CH3-Cpp interaction
+INTER = CH3 Cpp 
+INTER_MODEL = POL
+
+#CH2-Cppp interaction
+INTER = CH3 Cppp 
+INTER_MODEL = POL
+
+#CH3-Cpppp interaction
+INTER = CH3 Cpppp 
+INTER_MODEL = POL
+
+#CH3-Cppppp interaction
+INTER = CH3 Cppppp 
+INTER_MODEL = POL
+
+#CH3-Hp interaction
+INTER = CH3 Hp 
+INTER_MODEL = POL
+
+#CH3-Hp interaction
+INTER = CH3 CHp 
+INTER_MODEL = POL
+
+#CH4-Cp interaction
+INTER = CH4 Cp 
+INTER_MODEL = POL
+
+#CH4-Cpp interaction
+INTER = CH4 Cpp 
+INTER_MODEL = POL
+
+#CH4-Cppp interaction
+INTER = CH4 Cppp 
+INTER_MODEL = POL
+
+#CH4-Cpppp interaction
+INTER = CH4 Cpppp 
+INTER_MODEL = POL
+
+#CH4-Cppppp interaction
+INTER = CH4 Cppppp 
+INTER_MODEL = POL
+
+#CH4-Hp interaction
+INTER = CH4 Hp 
+INTER_MODEL = POL
+
+#CH4-CHp interaction
+INTER = CH4 CHp 
+INTER_MODEL = POL
+
+#CH4-C2Hp interaction
+INTER = CH4 C2Hp 
+INTER_MODEL = POL
+
+#CH2-CHp interaction
+INTER = CH2 CHp 
+INTER_MODEL = POL
+
+#CH2-C2Hp interaction
+INTER = CH2 C2Hp 
+INTER_MODEL = POL
+
+#CH2-CH3p interaction
+INTER = CH2 CH3p 
+INTER_MODEL = POL
+
+#CH3-CH3p interaction
+INTER = CH3 CH3p 
+INTER_MODEL = POL
+
+#CH3-C2H2p interaction
+INTER = CH3 C2H2p 
+INTER_MODEL = POL
+
+#CH4-C2H2p interaction
+INTER = CH4 C2H2p 
+INTER_MODEL = POL
+
+#CH4-C2H3p interaction
+INTER = CH4 C2H3p 
+INTER_MODEL = POL
+
+#CH3-C2H4p interaction
+INTER = CH3 C2H4p 
+INTER_MODEL = POL
+
+#CH2-CH2p interaction
+INTER = CH2 CH2p 
+INTER_MODEL = POL
+
+#CH2-CH4p interaction
+INTER = CH2 CH4p 
+INTER_MODEL = POL
+
+#CH2-C2H2p interaction
+INTER = CH2 C2H2p 
+INTER_MODEL = POL
+
+#CH2-C2H3p interaction
+INTER = CH2 C2H3p 
+INTER_MODEL = POL
+
+#CH2-C2H4p interaction
+INTER = CH2 C2H4p 
+INTER_MODEL = POL
+
+#CH2-Hp interaction
+INTER = CH2 Hp 
+INTER_MODEL = POL
+
+#CH3-CH2p interaction
+INTER = CH3 CH2p 
+INTER_MODEL = POL
+
+#CH3-C2Hp interaction
+INTER = CH3 C2Hp 
+INTER_MODEL = POL
+
+#CH-Cpp interaction
+INTER = CH Cpp 
+INTER_MODEL = POL
+
+#CH-Cppp interaction
+INTER = CH Cppp 
+INTER_MODEL = POL
+
+#CH-Cpppp interaction
+INTER = CH Cpppp 
+INTER_MODEL = POL
+
+#CH-Cppppp interaction
+INTER = CH Cppppp 
+INTER_MODEL = POL
+
+#CH-C2H interaction
+INTER = CH C2H 
+INTER_MODEL = LJ
+
+#CH-C2H2 interaction
+INTER = CH C2H2 
+INTER_MODEL = LJ
+
+#CH-C2H2p interaction
+INTER = CH C2H2p 
+INTER_MODEL = POL
+
+#CH-C2H3 interaction
+INTER = CH C2H3 
+INTER_MODEL = LJ
+
+#CH-C2H3p interaction
+INTER = CH C2H3p 
+INTER_MODEL = POL
+
+#CH-C2H4 interaction
+INTER = CH C2H4 
+INTER_MODEL = LJ
+
+#CH-C2H4p interaction
+INTER = CH C2H4p 
+INTER_MODEL = POL
+
+#C2H-Hp interaction
+INTER = C2H Hp 
+INTER_MODEL = POL
+
+#C2H-H2p interaction
+INTER = C2H H2p 
+INTER_MODEL = POL
+
+#C2H-CHp interaction
+INTER = C2H CHp 
+INTER_MODEL = POL
+
+#C2H-Cp interaction
+INTER = C2H Cp 
+INTER_MODEL = POL
+
+#C2H-Cpp interaction
+INTER = C2H Cpp 
+INTER_MODEL = POL
+
+#C2H-Cppp interaction
+INTER = C2H Cppp 
+INTER_MODEL = POL
+
+#C2H-Cpppp interaction
+INTER = C2H Cpppp 
+INTER_MODEL = POL
+
+#C2H-Cppppp interaction
+INTER = C2H Cppppp 
+INTER_MODEL = POL
+
+#C2H-C2H interaction
+INTER = C2H C2H 
+INTER_MODEL = LJ
+
+#C2H-C2H2 interaction
+INTER = C2H C2H2 
+INTER_MODEL = LJ
+
+#C2H-C2Hp interaction
+INTER = C2H C2Hp 
+INTER_MODEL = POL
+
+#C2H-CH2p interaction
+INTER = C2H CH2p 
+INTER_MODEL = POL
+
+#C2H-CH3p interaction
+INTER = C2H CH3p 
+INTER_MODEL = POL
+
+#C2H-CH4p interaction
+INTER = C2H CH4p 
+INTER_MODEL = POL
+
+#C2H-C2H2p interaction
+INTER = C2H C2H2p 
+INTER_MODEL = POL
+
+#C2H-C2H3 interaction
+INTER = C2H C2H3 
+INTER_MODEL = LJ
+
+#C2H-C2H3p interaction
+INTER = C2H C2H3p 
+INTER_MODEL = POL
+
+#C2H-C2H4 interaction
+INTER = C2H C2H4 
+INTER_MODEL = LJ
+
+#C2H-C2H4p interaction
+INTER = C2H C2H4p 
+INTER_MODEL = POL
+
+#C2H2-H2p interaction
+INTER = C2H2 H2p 
+INTER_MODEL = POL
+
+#C2H2-Hp interaction
+INTER = C2H2 Hp 
+INTER_MODEL = POL
+
+#C2H2-CHp interaction
+INTER = C2H2 CHp 
+INTER_MODEL = POL
+
+#C2H2-C2Hp interaction
+INTER = C2H2 C2Hp 
+INTER_MODEL = POL
+
+#C2H2-Cp interaction
+INTER = C2H2 Cp 
+INTER_MODEL = POL
+
+#C2H2-Cpp interaction
+INTER = C2H2 Cpp 
+INTER_MODEL = POL
+
+#C2H2-Cppp interaction
+INTER = C2H2 Cppp 
+INTER_MODEL = POL
+
+#C2H2-Cpppp interaction
+INTER = C2H2 Cpppp 
+INTER_MODEL = POL
+
+#C2H2-Cppppp interaction
+INTER = C2H2 Cppppp 
+INTER_MODEL = POL
+
+#C2H2-C2H2 interaction
+INTER = C2H2 C2H2 
+INTER_MODEL = LJ
+
+#C2H2-C2H2p interaction (resonant charge transfer should be added here)
+INTER = C2H2 C2H2p 
+INTER_MODEL = POL
+
+#C2H2-C2H3 interaction
+INTER = C2H2 C2H3 
+INTER_MODEL = LJ
+
+#C2H2-C2H3p interaction
+INTER = C2H2 C2H3p 
+INTER_MODEL = POL
+
+#C2H2-C2H4 interaction
+INTER = C2H2 C2H4 
+INTER_MODEL = LJ
+
+#C2H2-C2H4p interaction
+INTER = C2H2 C2H4p 
+INTER_MODEL = POL
+
+#C2H3-H2p interaction
+INTER = C2H3 H2p 
+INTER_MODEL = POL
+
+#C2H3-Hp interaction
+INTER = C2H3 Hp 
+INTER_MODEL = POL
+
+#C2H3-Cp interaction
+INTER = C2H3 Cp 
+INTER_MODEL = POL
+
+#C2H3-CHp interaction
+INTER = C2H3 CHp 
+INTER_MODEL = POL
+
+#C2H3-C2Hp interaction
+INTER = C2H3 C2Hp 
+INTER_MODEL = POL
+
+#C2H3-Cpp interaction
+INTER = C2H3 Cpp 
+INTER_MODEL = POL
+
+#C2H3-Cppp interaction
+INTER = C2H3 Cppp 
+INTER_MODEL = POL
+
+#C2H3-Cpppp interaction
+INTER = C2H3 Cpppp 
+INTER_MODEL = POL
+
+#C2H3-Cppppp interaction
+INTER = C2H3 Cppppp
+INTER_MODEL = POL
+
+#C2H3-C2H2p interaction
+INTER = C2H3 C2H2p 
+INTER_MODEL = POL
+
+#C2H3-C2H3 interaction
+INTER = C2H3 C2H3 
+INTER_MODEL = LJ
+
+#C2H3-C2H3p interaction
+INTER = C2H3 C2H3p
+INTER_MODEL = POL
+
+#C2H3-C2H4 interaction
+INTER = C2H3 C2H4 
+INTER_MODEL = LJ
+
+#C2H3-C2H4p interaction
+INTER = C2H3 C2H4p
+INTER_MODEL = POL
+
+#C2H4-H2p interaction
+INTER = C2H4 H2p 
+INTER_MODEL = POL
+
+#C2H4-Hp interaction
+INTER = C2H4 Hp 
+INTER_MODEL = POL
+
+#C2H4-Cp interaction
+INTER = C2H4 Cp 
+INTER_MODEL = POL
+
+#C2H4-Cpp interaction
+INTER = C2H4 Cpp 
+INTER_MODEL = POL
+
+#C2H4-Cppp interaction
+INTER = C2H4 Cppp 
+INTER_MODEL = POL
+
+#C2H4-Cpppp interaction
+INTER = C2H4 Cpppp 
+INTER_MODEL = POL
+
+#C2H4-Cppppp interaction
+INTER = C2H4 Cppppp 
+INTER_MODEL = POL
+
+#C2H4-CHp interaction
+INTER = C2H4 CHp 
+INTER_MODEL = POL
+
+#C2H4-C2Hp interaction
+INTER = C2H4 C2Hp 
+INTER_MODEL = POL
+
+#C2H4-CH2p interaction
+INTER = C2H4 CH2p 
+INTER_MODEL = POL
+
+#C2H4-CH3p interaction
+INTER = C2H4 CH3p 
+INTER_MODEL = POL
+
+#C2H4-CH4p interaction
+INTER = C2H4 CH4p 
+INTER_MODEL = POL
+
+#C2H4-C2H2p interaction
+INTER = C2H4 C2H2p 
+INTER_MODEL = POL
+
+#C2H4-C2H3p interaction
+INTER = C2H4 C2H3p 
+INTER_MODEL = POL
+
+#C2H4-C2H4p interaction
+INTER = C2H4 C2H4p 
+INTER_MODEL = POL
+
+#C2H4-C2H4 interaction
+INTER = C2H4 C2H4 
+INTER_MODEL = LJ
+
+#Opp-N2 interaction
+INTER = Opp N2
+INTER_MODEL = POL
+
+#Oppp-N2 interaction
+INTER = Oppp N2
+INTER_MODEL = POL
+
+#Opppp-N2 interaction
+INTER = Opppp N2
+INTER_MODEL = POL
+
+#Oppppp-N2 interaction
+INTER = Oppppp N2
+INTER_MODEL = POL
+
+#Opppppp-N2 interaction
+INTER = Opppppp N2
+INTER_MODEL = POL
+
+#Opp-N interaction
+INTER = Opp N
+INTER_MODEL = POL 
+
+#Oppp-N interaction
+INTER = Oppp N
+INTER_MODEL = POL
+
+#Opppp-N interaction
+INTER = Opppp N
+INTER_MODEL = POL
+
+#Oppppp-N interaction
+INTER = Oppppp N
+INTER_MODEL = POL
+
+#Opppppp-N interaction
+INTER = Opppppp N
+INTER_MODEL = POL
+
+#Npp-O2 interaction
+INTER = Npp O2
+INTER_MODEL = POL
+
+#Npp-O2 interaction
+INTER = Nppp O2
+INTER_MODEL = POL
+
+#Nppp-O2 interaction
+INTER = Npppp O2
+INTER_MODEL = POL
+
+#Nppppp-O2 interaction
+INTER = Nppppp O2
+INTER_MODEL = POL
+
+#Nppppp-O2 interaction
+INTER = Npppppp O2
+INTER_MODEL = POL
+
+#Npp-NO interaction
+INTER = Npp NO
+INTER_MODEL = POL
+
+#Nppp-NO interaction
+INTER = Nppp NO
+INTER_MODEL = POL
+
+#Npppp-NO interaction
+INTER = Npppp NO
+INTER_MODEL = POL
+
+#Nppppp-NO interaction
+INTER = Nppppp NO
+INTER_MODEL = POL
+
+#Npppppp-NO interaction
+INTER = Npppppp NO
+INTER_MODEL = POL
+
+#Npp-O interaction
+INTER = Npp O
+INTER_MODEL = POL
+
+#Nppp-O interaction
+INTER = Nppp O
+INTER_MODEL = POL
+
+#Npppp-O interaction
+INTER = Npppp O
+INTER_MODEL = POL
+
+#Nppppp-O interaction
+INTER = Nppppp O
+INTER_MODEL = POL
+
+#Npppppp-O interaction
+INTER = Npppppp O
+INTER_MODEL = POL
+
+#Opp-O interaction
+INTER = Opp O
+INTER_MODEL = POL
+
+#Oppp-O interaction
+INTER = Oppp O
+INTER_MODEL = POL
+
+#Oppp-O interaction
+INTER = Opppp O
+INTER_MODEL = POL
+
+#Opppp-O interaction
+INTER = Oppppp O
+INTER_MODEL = POL
+
+#Oppppp-O interaction
+INTER = Opppppp O
+INTER_MODEL = POL
+
+#Opppppp-O interaction
+INTER = Oppppppp O
+INTER_MODEL = POL
+
+#Oppp-O2 interaction
+INTER = Oppp O2
+INTER_MODEL = POL
+
+#Opppp-O2 interaction
+INTER = Opppp O2
+INTER_MODEL = POL
+
+#Oppppp-O2 interaction
+INTER = Oppppp O2
+INTER_MODEL = POL
+
+#Opppppp-O2 interaction
+INTER = Opppppp O2
+INTER_MODEL = POL
+
+#Oppppppp-O2 interaction
+INTER = Oppppppp O2
+INTER_MODEL = POL
+
+#Npp-N interaction
+INTER = Npp N
+INTER_MODEL = POL
+
+#Nppp-N interaction
+INTER = Nppp N
+INTER_MODEL = POL
+
+#Npppp-N interaction
+INTER = Npppp N
+INTER_MODEL = POL
+
+#Nppppp-N interaction
+INTER = Nppppp N
+INTER_MODEL = POL
+
+#Npppppp-N interaction
+INTER = Npppppp N
+INTER_MODEL = POL
+
+#He-N interaction
+INTER = He N
+INTER_MODEL = LJ
+
+#H-O interaction
+INTER = H O
+INTER_MODEL = LJ
+
+#OH-OH interaction
+INTER = OH OH
+INTER_MODEL = LJ
+
+#H-OH interaction
+INTER = H OH
+INTER_MODEL = LJ
+
+#H-OH interaction
+INTER = C OH
+INTER_MODEL = LJ
+
+#C2-OH interaction
+INTER = C2 OH
+INTER_MODEL = LJ
+
+#CH-OH interaction
+INTER = CH OH
+INTER_MODEL = LJ
+
+#CH2-OH interaction
+INTER = CH2 OH
+INTER_MODEL = LJ
+
+#CH3-OH interaction
+INTER = CH3 OH
+INTER_MODEL = LJ
+
+#CH4-OH interaction
+INTER = CH4 OH
+INTER_MODEL = LJ
+
+#C2H-OH interaction
+INTER = C2H OH
+INTER_MODEL = LJ
+
+#C2H2-OH interaction
+INTER = C2H2 OH
+INTER_MODEL = LJ
+
+#C2H3-OH interaction
+INTER = C2H3 OH
+INTER_MODEL = LJ
+
+#C2H4-OH interaction
+INTER = C2H4 OH
+INTER_MODEL = LJ
+
+#CO-OH interaction
+INTER = CO OH
+INTER_MODEL = LJ
+
+#H-CO interaction
+INTER = H CO
+INTER_MODEL = LJ
+
+#H2-CO interaction
+INTER = H2 CO
+INTER_MODEL = LJ
+
+#H2-CO2 interaction
+INTER = H2 CO2
+INTER_MODEL = LJ
+
+#C2-CO interaction
+INTER = C2 CO
+INTER_MODEL = LJ
+
+#C2-COp interaction
+INTER = C2 COp
+INTER_MODEL = POL
+
+#O2-COp interaction
+INTER = O2 COp
+INTER_MODEL = POL
+
+#C2-CO2 interaction
+INTER = C2 CO2
+INTER_MODEL = LJ
+
+#OH-CO2 interaction
+INTER = OH CO2
+INTER_MODEL = LJ
+
+#CO-CH interaction
+INTER = CO CH
+INTER_MODEL = LJ
+
+#CO-CH2 interaction
+INTER = CO CH2
+INTER_MODEL = LJ
+
+#CO-CH3 interaction
+INTER = CO CH3
+INTER_MODEL = LJ
+
+#CO-CH4 interaction
+INTER = CO CH4
+INTER_MODEL = LJ
+
+#CO-CH interaction
+INTER = CO2 CH
+INTER_MODEL = LJ
+
+#CO-CH2 interaction
+INTER = CO2 CH2
+INTER_MODEL = LJ
+
+#CO-CH3 interaction
+INTER = CO2 CH3
+INTER_MODEL = LJ
+
+#CO-CH4 interaction
+INTER = CO2 CH4
+INTER_MODEL = LJ
+
+#CO-C2H interaction
+INTER = CO C2H
+INTER_MODEL = LJ
+
+#CO-C2H2 interaction
+INTER = CO C2H2
+INTER_MODEL = LJ
+
+#CO-C2H3 interaction
+INTER = CO C2H3
+INTER_MODEL = LJ
+
+#CO-C2H4 interaction
+INTER = CO C2H4
+INTER_MODEL = LJ
+
+#CO2-C2H interaction
+INTER = CO2 C2H
+INTER_MODEL = LJ
+
+#CO2-C2H2 interaction
+INTER = CO2 C2H2
+INTER_MODEL = LJ
+
+#CO2-C2H3 interaction
+INTER = CO2 C2H3
+INTER_MODEL = LJ
+
+#CO2-C2H4 interaction
+INTER = CO2 C2H4
+INTER_MODEL = LJ
+
+#H-CO2 interaction
+INTER = H CO2
+INTER_MODEL = LJ
+
+#Cp-OH interaction
+INTER = Cp OH
+INTER_MODEL = POL
+
+#Cpp-OH interaction
+INTER = Cpp OH
+INTER_MODEL = POL
+
+#Cppp-OH interaction
+INTER = Cppp OH
+INTER_MODEL = POL
+
+#Cpppp-OH interaction
+INTER = Cpppp OH
+INTER_MODEL = POL
+
+#Cppppp-OH interaction
+INTER = Cppppp OH
+INTER_MODEL = POL
+
+#C2p-OH interaction
+INTER = C2p OH
+INTER_MODEL = POL
+
+#CHp-OH interaction
+INTER = CHp OH
+INTER_MODEL = POL
+
+#CH2p-OH interaction
+INTER = CH2p OH
+INTER_MODEL = POL
+
+#CH3p-OH interaction
+INTER = CH3p OH
+INTER_MODEL = POL
+
+#CH4p-OH interaction
+INTER = CH4p OH
+INTER_MODEL = POL
+
+#C2Hp-OH interaction
+INTER = C2Hp OH
+INTER_MODEL = POL
+
+#C2H2p-OH interaction
+INTER = C2H2p OH
+INTER_MODEL = POL
+
+#C2H3p-OH interaction
+INTER = C2H3p OH
+INTER_MODEL = POL
+
+#C2H4p-OH interaction
+INTER = C2H4p OH
+INTER_MODEL = POL
+
+#H-H2O interaction
+INTER = H H2O
+INTER_MODEL = LJ
+
+#H-HO2 interaction
+INTER = H HO2
+INTER_MODEL = LJ
+
+#H-H2O2 interaction
+INTER = H H2O2
+INTER_MODEL = LJ
+
+#N-OH interaction
+INTER = N OH
+INTER_MODEL = LJ
+
+#N-OH interaction
+INTER = N H2O
+INTER_MODEL = LJ
+
+#N-HO2 interaction
+INTER = N HO2
+INTER_MODEL = LJ
+
+#N-H2O2 interaction
+INTER = N H2O2
+INTER_MODEL = LJ
+
+#N2-OH interaction
+INTER = N2 OH
+INTER_MODEL = LJ
+
+#N2-H2O interaction
+INTER = N2 H2O
+INTER_MODEL = LJ
+
+#N2-HO2 interaction
+INTER = N2 HO2
+INTER_MODEL = LJ
+
+#N2-H2O2 interaction
+INTER = N2 H2O2
+INTER_MODEL = LJ
+
+#NO-OH interaction
+INTER = NO OH
+INTER_MODEL = LJ
+
+#NO-H2O interaction
+INTER = NO H2O
+INTER_MODEL = LJ
+
+#NO-HO2 interaction
+INTER = NO HO2
+INTER_MODEL = LJ
+
+#NO-H2O2 interaction
+INTER = NO H2O2
+INTER_MODEL = LJ
+
+#O-OH interaction
+INTER = O OH
+INTER_MODEL = LJ
+
+#O-H2O interaction
+INTER = O H2O
+INTER_MODEL = LJ
+
+#O-HO2 interaction
+INTER = O HO2
+INTER_MODEL = LJ
+
+#O2-OH interaction
+INTER = O2 OH
+INTER_MODEL = LJ
+
+#O2-H2O interaction
+INTER = O2 H2O
+INTER_MODEL = LJ
+
+#O2-HO2 interaction
+INTER = O2 HO2
+INTER_MODEL = LJ
+
+#N-H interaction
+INTER = N H
+INTER_MODEL = LJ
+
+#H2-O2 interaction
+INTER = H2 O2
+INTER_MODEL = LJ
+
+#H2-OH interaction
+INTER = H2 OH
+INTER_MODEL = LJ
+
+#H2-H2O interaction
+INTER = H2 H2O
+INTER_MODEL = LJ
+
+#H2-HO2 interaction
+INTER = H2 HO2
+INTER_MODEL = LJ
+
+#H2-H2O2 interaction
+INTER = H2 H2O2
+INTER_MODEL = LJ
+
+#H2-N2 interaction
+INTER = H2 N2
+INTER_MODEL = LJ
+
+#N2-C2 interaction
+INTER = N2 C2
+INTER_MODEL = LJ
+
+#N2-CH interaction
+INTER = N2 CH
+INTER_MODEL = LJ
+
+#N2-CH2 interaction
+INTER = N2 CH2
+INTER_MODEL = LJ
+
+#N2-CH3 interaction
+INTER = N2 CH3
+INTER_MODEL = LJ
+
+#N2-CH4 interaction
+INTER = N2 CH4
+INTER_MODEL = LJ
+
+#N2-C2H interaction
+INTER = N2 C2H
+INTER_MODEL = LJ
+
+#N2-C2H2 interaction
+INTER = N2 C2H2
+INTER_MODEL = LJ
+
+#N2-C2H3 interaction
+INTER = N2 C2H3
+INTER_MODEL = LJ
+
+#N2-C2H4 interaction
+INTER = N2 C2H4
+INTER_MODEL = LJ
+
+#N2-Cpp interaction
+INTER = N2 Cpp
+INTER_MODEL = POL
+
+#N2-Cppp interaction
+INTER = N2 Cppp
+INTER_MODEL = POL
+
+#N2-Cpppp interaction
+INTER = N2 Cpppp
+INTER_MODEL = POL
+
+#N2-Cppppp interaction
+INTER = N2 Cppppp
+INTER_MODEL = POL
+
+#N2-C2p interaction
+INTER = N2 C2p
+INTER_MODEL = POL
+
+#N2-CHp interaction
+INTER = N2 CHp
+INTER_MODEL = POL
+
+#N2-CH2p interaction
+INTER = N2 CH2p
+INTER_MODEL = POL
+
+#N2-CH3p interaction
+INTER = N2 CH3p
+INTER_MODEL = POL
+
+#N2-CH4p interaction
+INTER = N2 CH4p
+INTER_MODEL = POL
+
+#N2-C2Hp interaction
+INTER = N2 C2Hp
+INTER_MODEL = POL
+
+#N2-C2H2p interaction
+INTER = N2 C2H2p
+INTER_MODEL = POL
+
+#N2-C2H3p interaction
+INTER = N2 C2H3p
+INTER_MODEL = POL
+
+#N2-C2H4p interaction
+INTER = N2 C2H4p
+INTER_MODEL = POL
+
+#N-H2 interaction
+INTER = N H2
+INTER_MODEL = LJ
+
+#N2 H2p interaction
+INTER = N2 H2p
+INTER_MODEL = POL
+
+#OH H2p interaction
+INTER = OH H2p
+INTER_MODEL = POL
+
+#OH Hp interaction
+INTER = OH Hp
+INTER_MODEL = POL
+
+#OH NOp interaction
+INTER = OH NOp
+INTER_MODEL = POL
+
+#OH Np interaction
+INTER = OH Np
+INTER_MODEL = POL
+
+#OH Npp interaction
+INTER = OH Npp
+INTER_MODEL = POL
+
+#OH Nppp interaction
+INTER = OH Nppp
+INTER_MODEL = POL
+
+#OH Npppp interaction
+INTER = OH Npppp
+INTER_MODEL = POL
+
+#OH Nppppp interaction
+INTER = OH Nppppp
+INTER_MODEL = POL
+
+#OH Npppppp interaction
+INTER = OH Npppppp
+INTER_MODEL = POL
+
+#OH N2p interaction
+INTER = OH N2p
+INTER_MODEL = POL
+
+#OH O2p interaction
+INTER = OH O2p
+INTER_MODEL = POL
+
+#H2O NOp interaction
+INTER = H2O NOp
+INTER_MODEL = POL
+
+#H2O Np interaction
+INTER = H2O Np
+INTER_MODEL = POL
+
+#H2O Npp interaction
+INTER = H2O Npp
+INTER_MODEL = POL
+
+#H2O Nppp interaction
+INTER = H2O Nppp
+INTER_MODEL = POL
+
+#H2O Npppp interaction
+INTER = H2O Npppp
+INTER_MODEL = POL
+
+#H2O Nppppp interaction
+INTER = H2O Nppppp
+INTER_MODEL = POL
+
+#H2O Npppppp interaction
+INTER = H2O Npppppp
+INTER_MODEL = POL
+
+#H2O N2p interaction
+INTER = H2O N2p
+INTER_MODEL = POL
+
+#HO2 NOp interaction
+INTER = HO2 NOp
+INTER_MODEL = POL
+
+#HO2 Np interaction
+INTER = HO2 Np
+INTER_MODEL = POL
+
+#HO2 Npp interaction
+INTER = HO2 Npp
+INTER_MODEL = POL
+
+#HO2 Nppp interaction
+INTER = HO2 Nppp
+INTER_MODEL = POL
+
+#HO2 Npppp interaction
+INTER = HO2 Npppp
+INTER_MODEL = POL
+
+#HO2 Nppppp interaction
+INTER = HO2 Nppppp
+INTER_MODEL = POL
+
+#HO2 Npppppp interaction
+INTER = HO2 Npppppp
+INTER_MODEL = POL
+
+#HO2 N2p interaction
+INTER = HO2 N2p
+INTER_MODEL = POL
+
+#H2O2 NOp interaction
+INTER = H2O2 NOp
+INTER_MODEL = POL
+
+#H2O2 Np interaction
+INTER = H2O2 Np
+INTER_MODEL = POL
+
+#H2O2 Npp interaction
+INTER = H2O2 Npp
+INTER_MODEL = POL
+
+#H2O2 Nppp interaction
+INTER = H2O2 Nppp
+INTER_MODEL = POL
+
+#H2O2 Npppp interaction
+INTER = H2O2 Npppp
+INTER_MODEL = POL
+
+#H2O2 Nppppp interaction
+INTER = H2O2 Nppppp
+INTER_MODEL = POL
+
+#H2O2 Npppppp interaction
+INTER = H2O2 Npppppp
+INTER_MODEL = POL
+
+#H2O2 N2p interaction
+INTER = H2O2 N2p
+INTER_MODEL = POL
+
+#CO Npp interaction
+INTER = CO Npp
+INTER_MODEL = POL
+
+#CO Nppp interaction
+INTER = CO Nppp
+INTER_MODEL = POL
+
+#CO Npppp interaction
+INTER = CO Npppp
+INTER_MODEL = POL
+
+#CO Nppppp interaction
+INTER = CO Nppppp
+INTER_MODEL = POL
+
+#CO Npppppp interaction
+INTER = CO Npppppp
+INTER_MODEL = POL
+
+#CO N2p interaction
+INTER = CO N2p
+INTER_MODEL = POL
+
+#CO2 Npp interaction
+INTER = CO2 Npp
+INTER_MODEL = POL
+
+#CO2 Nppp interaction
+INTER = CO2 Nppp
+INTER_MODEL = POL
+
+#CO2 Npppp interaction
+INTER = CO2 Npppp
+INTER_MODEL = POL
+
+#CO2 Nppppp interaction
+INTER = CO2 Nppppp
+INTER_MODEL = POL
+
+#CO2 Npppppp interaction
+INTER = CO2 Npppppp
+INTER_MODEL = POL
+
+#CO2 N2p interaction
+INTER = CO2 N2p
+INTER_MODEL = POL
+
+#OH Op interaction
+INTER = OH Op
+INTER_MODEL = POL
+
+#OH Opp interaction
+INTER = OH Opp
+INTER_MODEL = POL
+
+#OH Oppp interaction
+INTER = OH Oppp
+INTER_MODEL = POL
+
+#OH Opppp interaction
+INTER = OH Opppp
+INTER_MODEL = POL
+
+#OH Oppppp interaction
+INTER = OH Oppppp
+INTER_MODEL = POL
+
+#OH Opppppp interaction
+INTER = OH Opppppp
+INTER_MODEL = POL
+
+#N2p-H2 interaction
+INTER = N2p H2
+INTER_MODEL = POL
+
+#NO-H2 interaction
+INTER = NO H2
+INTER_MODEL = LJ
+
+#NO-C2 interaction
+INTER = NO C2
+INTER_MODEL = LJ
+
+#NO-CH interaction
+INTER = NO CH
+INTER_MODEL = LJ
+
+#NO-CH2 interaction
+INTER = NO CH2
+INTER_MODEL = LJ
+
+#NO-CH3 interaction
+INTER = NO CH3
+INTER_MODEL = LJ
+
+#NO-CH4 interaction
+INTER = NO CH4
+INTER_MODEL = LJ
+
+#NO-C2H interaction
+INTER = NO C2H
+INTER_MODEL = LJ
+
+#NO-C2H2 interaction
+INTER = NO C2H2
+INTER_MODEL = LJ
+
+#NO-C2H3 interaction
+INTER = NO C2H3
+INTER_MODEL = LJ
+
+#NO-C2H4 interaction
+INTER = NO C2H4
+INTER_MODEL = LJ
+
+#NO-H2p interaction
+INTER = NO H2p
+INTER_MODEL = POL
+
+#NO-Hp interaction
+INTER = NO Hp
+INTER_MODEL = POL
+
+
+#N2-Hp interaction
+INTER = N2 Hp
+INTER_MODEL = POL
+
+#N-H2p interaction
+INTER = N H2p
+INTER_MODEL = POL
+
+#H2-O interaction
+INTER = H2 O
+INTER_MODEL = LJ
+
+#He-O interaction 
+INTER = He O
+INTER_MODEL = LJ
+
+#H-O2 interaction
+INTER = H O2
+INTER_MODEL = LJ
+
+#H-NO interaction
+INTER = H NO
+INTER_MODEL = LJ
+
+#H-N2 interaction
+INTER = H N2
+INTER_MODEL = LJ
+
+#H-N2p interaction
+INTER = H N2p
+INTER_MODEL = POL
+
+#H-NOp interaction
+INTER = H NOp
+INTER_MODEL = POL
+
+#H2-NOp interaction
+INTER = H2 NOp
+INTER_MODEL = POL
+
+#H-O2p interaction
+INTER = H O2p
+INTER_MODEL = POL
+
+#H-Opp interaction
+INTER = H Opp
+INTER_MODEL = POL
+
+#H-Opp interaction
+INTER = H Oppp
+INTER_MODEL = POL
+
+#H-Opppp interaction
+INTER = H Opppp
+INTER_MODEL = POL
+
+#H-Oppppp interaction
+INTER = H Oppppp
+INTER_MODEL = POL
+
+#H-Opppppp interaction
+INTER = H Opppppp
+INTER_MODEL = POL
+
+#H-Npp interaction
+INTER = H Npp
+INTER_MODEL = POL
+
+#H-Npp interaction
+INTER = H Nppp
+INTER_MODEL = POL
+
+#H-Npppp interaction
+INTER = H Npppp
+INTER_MODEL = POL
+
+#H-Nppppp interaction
+INTER = H Nppppp
+INTER_MODEL = POL
+
+#H-Npppppp interaction
+INTER = H Npppppp
+INTER_MODEL = POL
+
+#O2-Hp interaction
+INTER = O2 Hp
+INTER_MODEL = POL
+
+#N-Hp interaction
+INTER = N Hp
+INTER_MODEL = POL
+
+#H2-O2p interaction
+INTER = H2 O2p
+INTER_MODEL = POL
+
+#H2-Op interaction
+INTER = H2 Op
+INTER_MODEL = POL
+
+#H2-Opp interaction
+INTER = H2 Opp
+INTER_MODEL = POL
+
+#H2-Oppp interaction
+INTER = H2 Oppp
+INTER_MODEL = POL
+
+#H2-Opppp interaction
+INTER = H2 Opppp
+INTER_MODEL = POL
+
+#H2-Opppp interaction
+INTER = H2 Oppppp
+INTER_MODEL = POL
+
+#H2-Oppppp interaction
+INTER = H2 Opppppp
+INTER_MODEL = POL
+
+#He-N2 interaction
+INTER = He N2
+INTER_MODEL = LJ
+
+#He-O2 interaction
+INTER = He O2
+INTER_MODEL = LJ
+
+#He-NO interaction
+INTER = He NO
+INTER_MODEL = LJ
+
+#He-N2p interaction
+INTER = He N2p
+INTER_MODEL = POL
+
+#He-O2p interaction
+INTER = He O2p
+INTER_MODEL = POL
+
+#Np-H interaction
+INTER = Np H
+INTER_MODEL = POL
+
+#Np-H2 interaction
+INTER = Np H2
+INTER_MODEL = POL
+
+#Np-H2 interaction
+INTER = Npp H2
+INTER_MODEL = POL
+
+#Npp-N2 interaction
+INTER = Npp N2
+INTER_MODEL = POL
+
+#Nppp-N2 interaction
+INTER = Nppp N2
+INTER_MODEL = POL
+
+#Npppp-N2 interaction
+INTER = Npppp N2
+INTER_MODEL = POL
+
+#Nppppp-N2 interaction
+INTER = Nppppp N2
+INTER_MODEL = POL
+
+#Npppppp-N2 interaction
+INTER = Npppppp N2
+INTER_MODEL = POL
+
+#Opp-NO interaction
+INTER = Opp NO
+INTER_MODEL = POL
+
+#Oppp-NO interaction
+INTER = Oppp NO
+INTER_MODEL = POL
+
+#Opppp-NO interaction
+INTER = Opppp NO
+INTER_MODEL = POL
+
+#Oppppp-NO interaction
+INTER = Oppppp NO
+INTER_MODEL = POL
+
+#Oppppp-NO interaction
+INTER = Opppppp NO
+INTER_MODEL = POL
+
+#He-Np interaction
+INTER = He Np
+INTER_MODEL = POL
+
+#H-Op interaction
+INTER = H Op
+INTER_MODEL = POL
+
+#Hp-O interaction
+INTER = Hp O
+INTER_MODEL = POL
+
+#He-Op interaction
+INTER = He Op
+INTER_MODEL = POL
+
+#He-NOp interaction
+INTER = He NOp
+INTER_MODEL = POL
+
+#O-H2p interaction
+INTER = O H2p
+INTER_MODEL = POL
+
+#O2-H2p interaction
+INTER = O2 H2p
+INTER_MODEL = POL
+
+#Arpp-Ar interaction
+INTER = Arpp Ar
+INTER_MODEL = POL 
+
+#Arpp-Ar interaction
+INTER = Arppp Ar 
+INTER_MODEL = POL
+
+#Arppp-Ar interaction
+INTER = Arpppp Ar 
+INTER_MODEL = POL
+
+#Arpppp-Ar interaction
+INTER = Arppppp Ar 
+INTER_MODEL = POL
+
+#Arppppp-Ar interaction
+INTER = Arpppppp Ar 
+INTER_MODEL = POL
+
+#Arppppppp-Ar interactions 
+INTER = Arppppppp Ar 
+INTER_MODEL = POL
+
+#Arpppppppp-Ar interaction 
+INTER = Arpppppppp Ar 
+INTER_MODEL = POL
+
+#Ar-Ar interaction
+INTER = Ar Ar
+OMEGA11 = -1.14490E-03    1.24550E-02   -2.21977E-01    4.63388E+00
+OMEGA22 = -1.48457E-03    2.16912E-02   -2.86221E-01    4.90187E+00
+BSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    9.06000E-02
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Ar-C interaction
+INTER = Ar C 
+OMEGA11 = -1.6482668e-003  2.5678811e-002 -3.3793450e-001  4.6642733e+000
+OMEGA22 = -1.5490706e-003  2.4445576e-002 -3.2300460e-001  4.7472987e+000
+BSTAR =  2.3474364e-004 -4.2636619e-003  3.7981865e-002 -9.5743070e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-N interaction
+INTER = Ar N 
+OMEGA11 = -1.9342277e-003  2.9443333e-002 -3.6506209e-001  4.8097333e+000
+OMEGA22 = -1.8137905e-003  2.7883720e-002 -3.4724121e-001  4.8901637e+000
+BSTAR = 2.5663251e-004 -4.3334609e-003  3.7159659e-002  1.3487231e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-O interaction
+INTER = Ar O 
+OMEGA11 = -1.1068836e-003  1.4201563e-002 -2.3904629e-001  4.2916703e+000
+OMEGA22 = -1.0226517e-003  1.3153232e-002 -2.2566776e-001  4.3735044e+000
+BSTAR =  1.4736352e-004 -2.3190518e-003  2.1648967e-002  3.1777023e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-CO interaction
+INTER = Ar CO 
+OMEGA11 = 1.1767855e-002 -2.6309333e-001  1.6670019e+000  5.2775461e-001
+OMEGA22 = 5.1022539e-003 -1.1507571e-001  6.1310793e-001  3.0518193e+000
+BSTAR = -1.1644446e-002  2.6462036e-001 -1.9529844e+000  4.7676999e+000
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-CO2 interaction
+INTER = Ar CO2 
+OMEGA11 = -1.5463410e-002  3.5358650e-001 -2.8942747e+000  1.1709521e+001
+OMEGA22 = -2.5176305e-002  5.6915270e-001 -4.4453220e+000  1.5437236e+001
+BSTAR = -1.5772631e-002  3.5957693e-001 -2.6840991e+000  6.6439629e+000
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-N2 interaction
+INTER = Ar N2 
+OMEGA11 = -1.5416229e-002  3.2850004e-001 -2.5256070e+000  1.0128662e+001
+OMEGA22 = -2.5136134e-002  5.4356549e-001 -4.0583365e+000  1.3768640e+001
+BSTAR = -1.4897836e-002  3.3604888e-001 -2.4638059e+000  5.9615442e+000
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-NO interaction
+INTER = Ar NO 
+OMEGA11 = -8.3024770e-004  8.0279904e-003 -1.8825900e-001  4.4188770e+000
+OMEGA22 = -7.5290148e-004  7.1104208e-003 -1.7605889e-001  4.5025960e+000
+BSTAR = 1.1505458e-004 -1.5865975e-003  1.5630706e-002  4.6882559e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Ar-O2 interaction
+INTER = Ar O2 
+OMEGA11 = 1.7623121e-003 -3.8234153e-002  2.5217514e-002  4.3787077e+000
+OMEGA22 = -4.7270195e-003  1.0410820e-001 -9.7962724e-001  6.7750668e+000
+BSTAR = -1.1758527e-002  2.6562773e-001 -1.9551413e+000  4.7716636e+000
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#C-C interaction
+INTER = C C
+OMEGA11 =-1.6327676e-003  1.7417562e-002 -2.6103287e-001  4.5040757e+000
+OMEGA22 =-1.5276854e-003  1.6492590e-002 -2.4827903e-001  4.6074172e+000
+BSTAR = 2.3653754e-004 -2.9549469e-003  2.4856752e-002  1.6499191e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#C-N interaction
+INTER = C N
+OMEGA11 = -2.7450477e-002  6.5860720e-001 -5.5028246e+000  1.8710405e+001
+OMEGA22 = -3.6911425e-002  9.2729360e-001 -7.9870953e+000  2.6334421e+001
+BSTAR = -5.9980559e-002  1.6409235e+000 -1.4831473e+001  4.4502549e+001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#C-O interaction
+INTER = C O
+OMEGA11 = -8.2219082E-004  2.7889884E-003 -0.1512225       4.04199746
+OMEGA22 = -7.6162144E-004  2.6091445E-003 -0.14426435      4.15142777492
+BSTAR = 1.9388330e-004 -2.3810371e-003  2.1065081e-002  1.9665477e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#C-CO interaction
+INTER = C CO
+OMEGA11 = -2.0318602e-003  3.0605593e-002 -3.7324272e-001  4.8692602e+000
+OMEGA22 = -1.9086177e-003  2.9058110e-002 -3.5551006e-001  4.9519996e+000
+BSTAR = 2.4979338e-004 -3.9768125e-003  3.3658119e-002  1.4140474e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#C-COp interaction
+INTER = C COp
+INTER_MODEL = POL
+
+#C-CO2 interaction
+INTER = C CO2
+OMEGA11 = -2.0318602e-003  3.0605593e-002 -3.7324272e-001  4.8692602e+000
+OMEGA22 = -1.9086177e-003  2.9058110e-002 -3.5551006e-001  4.9519996e+000
+BSTAR = 2.4979338e-004 -3.9768125e-003  3.3658119e-002  1.4140474e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#C-N2 interaction
+INTER = C N2
+OMEGA11 = -2.4864238e-003  3.9406080e-002 -4.4386941e-001  5.1076098e+000
+OMEGA22 = -2.3838226e-003  3.8559823e-002 -4.3212343e-001  5.2114509e+000
+BSTAR =  4.2259537e-004 -8.0280779e-003  6.7275986e-002 -7.5771373e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#C-NO interaction
+INTER = C NO
+OMEGA11 = -1.8385856e-003  2.8165839e-002 -3.5651972e-001  4.7956317e+000
+OMEGA22 = -1.6091947e-003  2.3735306e-002 -3.1410114e-001  4.8041192e+000
+BSTAR =  5.0440626e-004 -1.0852039e-002  9.3397442e-002 -1.6155340e-001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#C-O2 interaction
+INTER = C O2
+OMEGA11 =-9.1012703e-004  7.8343536e-003 -1.8707494e-001  4.3361932e+000
+OMEGA22 =-8.4072422e-004  7.2508478e-003 -1.7744422e-001  4.4339114e+000
+BSTAR = 1.2748452e-004 -1.4588844e-003  1.4748825e-002  2.4682549e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N-N interaction
+INTER = N N
+OMEGA11 =-5.54400E-03    1.07890E-01   -9.01100E-01    5.83570E+00
+OMEGA22 =-6.46400E-03    1.42760E-01   -1.27810E+00    7.21350E+00
+BSTAR = 0.00000E+00    4.88000E-03   -5.95000E-02    3.21000E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N-O interaction
+INTER = N O
+OMEGA11 =-1.06200E-02    2.42500E-01   -2.08650E+00    9.32090E+00
+OMEGA22 =-1.12230E-02    2.64720E-01   -2.31450E+00    1.01745E+01
+BSTAR = 0.00000E+00    1.32600E-02   -2.08900E-01    9.84500E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N-CO interaction
+INTER = N CO
+OMEGA11 = -2.0318602e-003  3.0605593e-002 -3.7324272e-001  4.8692602e+000
+OMEGA22 = -1.9086177e-003  2.9058110e-002 -3.5551006e-001  4.9519996e+000
+BSTAR = 2.4979338e-004 -3.9768125e-003  3.3658119e-002  1.4140474e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#N-CO2 interaction
+INTER = N CO2
+OMEGA11 = -2.0318602e-003  3.0605593e-002 -3.7324272e-001  4.8692602e+000
+OMEGA22 = -1.9086177e-003  2.9058110e-002 -3.5551006e-001  4.9519996e+000
+BSTAR = 2.4979338e-004 -3.9768125e-003  3.3658119e-002  1.4140474e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#N-N2 interaction
+INTER = N N2
+OMEGA11 = -1.51789E-03    2.30672E-02   -4.22508E-01    5.46824E+00
+OMEGA22 =-3.51846E-03    7.14265E-02   -7.70251E-01    6.34262E+00
+BSTAR = -1.61616E-03    4.59611E-02   -3.90469E-01    1.13622E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N-NO interaction
+INTER = N NO
+OMEGA11 = -2.26640E-03    5.78121E-02   -7.71983E-01    6.44535E+00
+OMEGA22 =-3.73481E-03    9.42189E-02   -1.04371E+00    7.17953E+00
+BSTAR = -1.55459E-03    4.27074E-02   -3.66954E-01    1.10023E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N-O2 interaction
+INTER = N O2
+OMEGA11 = -2.18342E-03    5.38537E-02   -7.31728E-01    6.30580E+00
+OMEGA22 =-3.70168E-03    9.13422E-02   -1.00981E+00    7.05029E+00
+BSTAR = -1.43233E-03    4.00791E-02   -3.47262E-01    1.05104E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-O interaction
+INTER = O O
+OMEGA11 = -9.05100E-03    2.16280E-01   -2.00050E+00    9.40750E+00
+OMEGA22 =-9.69100E-03    2.37450E-01   -2.19950E+00    1.01214E+01
+BSTAR = 0.00000E+00    1.43000E-02   -2.39000E-01    1.16420E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-CO interaction
+INTER = O CO
+OMEGA11 = -1.0724729e-003  9.9488020e-003 -2.0434960e-001  4.2829451e+000
+OMEGA22 =-9.9324603e-004  9.2586383e-003 -1.9377009e-001  4.3819188e+000
+BSTAR = 1.5225588e-004 -1.7984938e-003  1.7112982e-002  2.3112893e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-COp interaction
+INTER = O COp
+INTER_MODEL = POL
+
+#O-CO2 interaction
+INTER = O CO2
+OMEGA11 = -5.5193573e-004  3.3407376e-003 -1.4657720e-001  4.2685087e+000
+OMEGA22 =-5.0602302e-004  3.0042459e-003 -1.3928867e-001  4.3618084e+000
+BSTAR = 7.2754724e-005 -7.1662801e-004  9.3139982e-003  2.6752289e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-N2 interaction
+INTER = O N2
+OMEGA11 = -1.23320E-03    3.53140E-02   -6.20988E-01    5.96843E+00
+OMEGA22 =-1.70204E-03    4.84037E-02   -7.20186E-01    6.29133E+00
+BSTAR = -4.80711E-04    1.90832E-02   -2.02723E-01    7.37414E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-NO interaction
+INTER = O NO
+OMEGA11 = -3.77659E-03    8.92761E-02   -9.74207E-01    6.80956E+00
+OMEGA22 =-5.83107E-03    1.40386E-01   -1.36151E+00    7.83490E+00
+BSTAR = -3.01381E-03    7.57430E-02   -6.06864E-01    1.66213E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-O2 interaction
+INTER = O O2
+OMEGA11 = -1.86954E-03    4.94588E-02   -7.01334E-01    6.06620E+00
+OMEGA22 = -3.07350E-03    7.87235E-02   -9.13464E-01    6.64138E+00
+BSTAR = -1.31598E-03    3.71298E-02   -3.26882E-01    1.00723E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#CO-CO interaction
+INTER = CO CO
+OMEGA11 = -1.6770473e-003  4.3770082e-002 -6.1339771e-001  6.0673826e+000
+OMEGA22 = -3.4426310e-003  8.0490332e-002 -8.3606628e-001  6.5632993e+000
+BSTAR = -1.2586833e-003  2.9664029e-002 -2.1308784e-001  5.5079175e-001
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#CO-COp interaction
+INTER = CO COp
+INTER_MODEL = POL
+
+#CO-CO2 interaction
+INTER = CO CO2
+OMEGA11 = -9.5719869e-003  2.2897350e-001 -2.0036226e+000  9.6091510e+000
+OMEGA22 = -1.3748949e-002  3.2285279e-001 -2.6723780e+000  1.1232716e+001
+BSTAR = -3.8480703e-003  9.3627984e-002 -7.3872081e-001  1.9690651e+000
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#CO-N2 interaction
+INTER = CO N2
+OMEGA11 = 4.2270139e-002 -9.7162109e-001  7.1267916e+000 -1.3352870e+001
+OMEGA22 = 2.6442790e-002 -6.1475227e-001  4.4989704e+000 -6.9037116e+000
+BSTAR = -2.5878190e-002  5.8833015e-001 -4.3857796e+000  1.0811234e+001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#CO-NO interaction
+INTER = CO NO
+OMEGA11 = 5.6117613e-002 -1.2736046e+000  9.2990986e+000 -1.8543691e+001
+OMEGA22 = 3.7607404e-002 -8.5885878e-001  6.2571402e+000 -1.1113275e+001
+BSTAR = -2.9800114e-002  6.7344848e-001 -4.9997726e+000  1.2282911e+001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#CO-O2 interaction
+INTER = CO O2
+OMEGA11 = -8.0896479e-003  1.7605708e-001 -1.4675202e+000  7.7816374e+000
+OMEGA22 = -8.6697149e-003  1.8556377e-001 -1.4844429e+000  7.7722700e+000
+BSTAR = -3.0722459e-003  7.2102755e-002 -5.3479643e-001  1.3417832e+000
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#CO2-CO2 interaction
+INTER = CO2 CO2
+OMEGA11 = -1.3305518E-002  0.338623312    -3.0057290443    12.6592810781
+OMEGA22 = -1.4590334E-002  0.37261406     -3.287949434403 13.49700355519
+BSTAR = -3.3571646e-003  8.7572196e-002 -7.4912489e-001  2.1838067e+000
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#CO2-COp 
+INTER = CO2 COp
+INTER_MODEL = POL
+
+#CO2-N2 interaction
+INTER = CO2 N2
+OMEGA11 = -1.7218940e-002  3.7538056e-001 -2.9247173e+000  1.1511145e+001
+OMEGA22 = -2.7760050e-002  6.0907177e-001 -4.5993531e+000  1.5504930e+001
+BSTAR = -1.6009011e-002  3.6283730e-001 -2.6818565e+000  6.5510359e+000
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#CO2-NO interaction
+INTER = CO2 NO
+OMEGA11 = -2.2930660e-002  5.1095172e-001 -3.9648201e+000  1.4084612e+001
+OMEGA22 = -4.9601879e-002  1.1016081e+000 -8.2671658e+000  2.4504494e+001
+BSTAR = -3.8942018e-002  8.7220990e-001 -6.4435148e+000  1.5779898e+001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#CO2-O2 interaction
+INTER = CO2 O2
+OMEGA11 = -1.3043254e-002  3.0443184e-001 -2.5410139e+000  1.0827670e+001
+OMEGA22 = -1.7889037e-002  4.1380006e-001 -3.3244531e+000  1.2726172e+001
+BSTAR = -4.5284032e-003  1.0958273e-001 -8.5894625e-001  2.2658976e+000
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2-N2 interaction
+INTER = N2 N2
+OMEGA11 = -5.04358E-03    1.08079E-01   -9.98634E-01    6.80089E+00
+OMEGA22 = -6.99424E-03    1.54912E-01   -1.33680E+00    7.66252E+00
+BSTAR = -1.83418E-03    4.44907E-02   -3.35033E-01    8.97329E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2-NO interaction
+INTER = N2 NO
+OMEGA11 = -4.44480E-03    1.04355E-01   -1.05628E+00    7.14403E+00
+OMEGA22 = -6.15361E-03    1.46536E-01   -1.37211E+00    7.98835E+00
+BSTAR = -1.57713E-03    4.04223E-02   -3.27192E-01    9.46802E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2-O2 interaction
+INTER = N2 O2
+OMEGA11 = -7.31941E-03    1.59426E-01   -1.37616E+00    7.66794E+00
+OMEGA22 = -9.02697E-03    2.02408E-01   -1.69776E+00    8.52008E+00
+BSTAR = -3.67074E-03    8.64713E-02   -6.43558E-01    1.63049E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NO-NO interaction
+INTER = NO NO
+OMEGA11 = -6.57078E-03    1.49230E-01   -1.36580E+00    7.80744E+00
+OMEGA22 = -8.25101E-03    1.92894E-01   -1.70482E+00    8.73353E+00
+BSTAR = -3.70923E-03    8.86490E-02   -6.74730E-01    1.75099E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NO-O2 interaction
+INTER = NO O2
+OMEGA11 = -5.09515E-03    1.20912E-01   -1.18322E+00    7.38998E+00
+OMEGA22 = -6.70708E-03    1.61363E-01   -1.49069E+00    8.22506E+00
+BSTAR = -2.46650E-03    6.00487E-02   -4.66854E-01    1.26572E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O2-O2 interaction
+INTER = O2 O2
+OMEGA11 =-9.67668E-03    2.12618E-01   -1.77047E+00    8.58808E+00
+OMEGA22 = -1.08216E-02    2.44418E-01   -2.02069E+00    9.29763E+00
+BSTAR = -6.06664E-03    1.42665E-01   -1.06789E+00    2.66780E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Arp-Ar interaction
+INTER = Arp Ar 
+OMEGA11 = 1.00000E-03   -3.68000E-02    2.45000E-01    4.57020E+00
+OMEGA22 = -6.04000E-03    1.49600E-01   -1.43850E+00    8.14830E+00
+BSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    1.93300E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Cp-C interaction
+INTER = Cp C
+OMEGA11 = -6.2054732E-005 -6.0714587E-004 -7.7485473E-002  5.34692764
+OMEGA22 = -1.3508854e-003  1.4319670e-002 -2.3216643e-001  4.3743452e+000
+BSTAR = 2.0928722e-004 -2.6206833e-003  2.2699167e-002  1.7438789e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Np-N interaction
+INTER = Np N
+OMEGA11 = -1.93600E-03    5.15400E-02   -5.68400E-01    6.78500E+00
+OMEGA22 = -2.33780E-02    5.37280E-01   -4.43190E+00    1.64097E+01
+BSTAR = 0.00000E+00    7.20000E-04   -1.02000E-02    1.02300E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-O interaction
+INTER = Op O
+OMEGA11 = -1.95000E-03    5.28800E-02   -5.75700E-01    6.53480E+00
+OMEGA22 = -2.68200E-03    3.70600E-02   -4.40200E-01    5.70790E+00
+BSTAR = 0.00000E+00    2.60000E-03   -4.32000E-02    2.38600E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2p-N2 interaction
+INTER = N2p N2
+OMEGA11 = -5.51543E-05   -6.91995E-04   -6.81266E-02    5.50089E+00
+OMEGA22 = 1.04583E-06   -3.00140E-05   -4.99784E-01    7.34193E+00
+BSTAR = 7.29390E-06   -5.34833E-05    2.44143E-03    4.80118E-02
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NOp-NO interaction
+INTER = NOp NO
+OMEGA11 = -1.28816E-04   -4.14670E-04   -8.56684E-02    5.27134E+00
+OMEGA22 = 7.92031E-07   -2.27303E-05   -4.99834E-01    7.37373E+00
+BSTAR = -1.90773E-04    2.44218E-03   -2.48194E-02   -9.93479E-02
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O2p-O2 interaction
+INTER = O2p O2
+OMEGA11 = -1.16801E-04   -5.01551E-04   -8.43100E-02    5.34363E+00
+OMEGA22 = 2.04993E-06   -1.47249E-05   -5.00155E-01    7.29556E+00
+BSTAR = 3.38760E-05   -5.45379E-04    5.93873E-03    4.10974E-02
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Opp-O2 interaction
+INTER = Opp O2
+OMEGA11 =  -0.163135E-17  0.414616E-16 -0.500000E+00  0.811164E+01
+OMEGA22 =  -0.155056E-17  0.434656E-16 -0.500000E+00  0.797289E+01
+BSTAR =   0.565884E-20  0.178619E-17 -0.408101E-16  0.223144E+00
+CSTAR =  -0.174719E-17  0.485199E-16 -0.441233E-15 -0.182322E+00
+
+#Arp-C interaction
+INTER = Arp C 
+OMEGA11 = -2.6692648e-003  4.6940135e-002 -5.1630236e-001  5.3028119e+000
+OMEGA22 = -2.5368233e-003  4.5186661e-002 -4.9680809e-001  5.3812855e+000
+BSTAR = 3.7612533e-004 -7.2344811e-003  6.2053767e-002 -6.7792981e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-N interaction
+INTER = Arp N 
+OMEGA11 = -3.8253762e-003  7.1760929e-002 -7.2135379e-001  5.9790942e+000
+OMEGA22 = -3.7080191e-003  7.0689663e-002 -7.0772627e-001  6.0811294e+000
+BSTAR = 5.1649890e-004 -1.0200693e-002  8.5965752e-002 -1.2724229e-001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-O interaction
+INTER = Arp O 
+OMEGA11 = -1.9353649e-003  3.1774291e-002 -3.9011406e-001  4.8386692e+000
+OMEGA22 = -1.8075932e-003  2.9876502e-002 -3.6923607e-001  4.9065758e+000
+BSTAR = 2.4422804e-004 -4.2899802e-003  3.7515599e-002 -4.2257193e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-CO interaction
+INTER = Arp CO 
+OMEGA11 = -1.5692980e-003  2.4979928e-002 -3.3393871e-001  4.9865086e+000
+OMEGA22 = -1.4654809e-003  2.3533484e-002 -3.1711802e-001  5.0615975e+000
+BSTAR = 2.2279332e-004 -4.1449639e-003  3.7595159e-002 -1.2190404e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-CO2 interaction
+INTER = Arp CO2 
+OMEGA11 = -9.6462708e-004  1.2773977e-002 -2.2714891e-001  4.8646241e+000
+OMEGA22 = -8.9583582e-004  1.1959634e-002 -2.1585369e-001  4.9473401e+000
+BSTAR = 1.0597980e-004 -1.5308071e-003  1.5378373e-002  4.4032983e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-N2 interaction
+INTER = Arp N2 
+OMEGA11 = -1.7334465e-003  2.7649355e-002 -3.5535221e-001  5.0844908e+000
+OMEGA22 = -1.6260728e-003  2.6214497e-002 -3.3857790e-001  5.1624773e+000
+BSTAR = 2.7721728e-004 -5.3700289e-003  4.7858645e-002 -3.8516890e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-NO interaction
+INTER = Arp NO 
+OMEGA11 = -1.8370825e-003  3.0275026e-002 -3.7852750e-001  5.1146713e+000
+OMEGA22 = -1.7163073e-003  2.8490376e-002 -3.5863129e-001  5.1836236e+000
+BSTAR = 2.5815544e-004 -4.8347478e-003  4.2985454e-002 -2.3574228e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Arp-O2 interaction
+INTER = Arp O2 
+OMEGA11 = -1.2145304e-003  1.7662652e-002 -2.7000224e-001  4.7405532e+000
+OMEGA22 = -1.1167712e-003  1.6206755e-002 -2.5298307e-001  4.8103168e+000
+BSTAR = 1.7357849e-004 -3.1009716e-003  2.8798559e-002  9.0885006e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Cp-Ar interaction
+INTER = Cp Ar
+OMEGA11 = -1.4223345e-003  2.1565242e-002 -3.0382158e-001  4.4877315e+000
+OMEGA22 = -1.3285550e-003  2.0345234e-002 -2.8897711e-001  4.5675491e+000
+BSTAR = 1.3712201e-004 -1.8991941e-003  1.7536688e-002  4.6713918e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Cp-N interaction
+INTER = Cp N
+OMEGA11 = -3.8253762e-003  7.0999639e-002 -7.1188350e-001  5.5659465e+000
+OMEGA22 = -3.7080191e-003  6.9951728e-002 -6.9839656e-001  5.6688809e+000
+BSTAR = 5.1649890e-004 -1.0097904e-002  8.4619208e-002 -1.2158433e-001
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Cp-O interaction
+INTER = Cp O
+OMEGA11 = -1.1681606e-003  1.1241557e-002 -2.1450839e-001  4.1346034e+000
+OMEGA22 = -1.0835257e-003  1.0491696e-002 -2.0340970e-001  4.2341485e+000
+BSTAR = 1.6685539e-004 -2.0040758e-003  1.8523581e-002  2.1899777e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Cp-O interaction
+INTER = Cp CO
+OMEGA11 = -9.2483178e-004  7.9277661e-003 -1.8810638e-001  4.2767500e+000
+OMEGA22 = -8.5451495e-004  7.3416901e-003 -1.7842750e-001  4.3749314e+000
+BSTAR = 1.2972744e-004 -1.4759955e-003  1.4861530e-002  2.5072018e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Cp-CO2 interaction
+INTER = Cp CO2
+OMEGA11 = -5.9934933e-004  3.9376655e-003 -1.5228037e-001  4.3450298e+000
+OMEGA22 = -5.5002811e-004  3.5629453e-003 -1.4462796e-001  4.4389686e+000
+BSTAR = 8.0039906e-005 -8.1780065e-004  1.0081732e-002  2.6503443e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Cp-N2 interaction
+INTER = Cp N2
+OMEGA11 = -1.8370825e-003  3.0068528e-002 -3.7626653e-001  4.7949507e+000
+OMEGA22 = -1.7163073e-003  2.8297455e-002 -3.5650354e-001  4.8646460e+000
+BSTAR = 2.5815544e-004 -4.8057298e-003  4.2624241e-002 -2.1970407e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Cp-NO interaction
+INTER = Cp NO
+OMEGA11 = -1.8370825e-003  2.9904247e-002 -3.7447883e-001  4.7557890e+000
+OMEGA22 = -1.7163073e-003  2.8143973e-002 -3.5482111e-001  4.8260718e+000
+BSTAR = 2.5815544e-004 -4.7826441e-003  4.2338426e-002 -2.0704107e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Cp-O2 interaction
+INTER = Cp O2
+OMEGA11 = -7.6706392e-004  5.9979969e-003 -1.7133012e-001  4.1488009e+000
+OMEGA22 = -7.0667389e-004  5.5109374e-003 -1.6258547e-001  4.2451115e+000
+BSTAR = 1.0567811e-004 -1.1610529e-003  1.2620952e-002  2.5815917e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Np-Ar interaction
+INTER = Np Ar
+OMEGA11 = -1.7334465e-003  2.8014804e-002 -3.5926396e-001  4.7291150e+000
+OMEGA22 = -1.6260728e-003  2.6557309e-002 -3.4228639e-001  4.8059155e+000
+BSTAR = 2.7721728e-004 -5.4284725e-003  4.8617500e-002 -4.1906729e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Np-C interaction
+INTER = Np C
+OMEGA11 = -3.1989750e-003  5.6906218e-002 -5.9350420e-001  5.2477005e+000
+OMEGA22 = -3.0604221e-003  5.5179744e-002 -5.7410416e-001  5.3306876e+000
+BSTAR = 4.0550635e-004 -7.4534459e-003  6.1985287e-002 -5.8734224e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Np-O interaction
+INTER = Np O
+OMEGA11 = -1.02666E-02    2.29443E-01   -2.14807E+00    1.08239E+01
+OMEGA22 =-1.07982E-02    2.49193E-01   -2.31583E+00    1.12439E+01
+BSTAR = -2.44585E-03    5.72825E-02   -4.24337E-01    1.20213E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Np-CO interaction
+INTER = Np CO
+OMEGA11 = -1.8370825e-003  2.9743508e-002 -3.7273917e-001  4.8474791e+000
+OMEGA22 = -1.7163073e-003  2.7993802e-002 -3.5318382e-001  4.9183337e+000
+BSTAR = 2.5815544e-004 -4.7600564e-003  4.2060108e-002 -1.9473346e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Np-CO2 interaction
+INTER = Np CO2
+OMEGA11 = -1.1602587e-003  1.6457350e-002 -2.5959301e-001  4.7200991e+000
+OMEGA22 = -1.0689840e-003  1.5154555e-002 -2.4390189e-001  4.7932142e+000
+BSTAR = 1.8012896e-004 -3.3079042e-003  3.0728475e-002  2.7415552e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Np-N2 interaction
+INTER = Np N2
+OMEGA11 = 2.01344E-16   -4.55770E-15   -5.00000E-01    6.33569E+00
+OMEGA22 = 2.03247E-16   -4.65870E-15   -5.00000E-01    6.19757E+00
+BSTAR = 7.88861E-31   -1.89771E-29    1.50203E-28    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Np-NO interaction
+INTER = Np NO
+OMEGA11 = -2.71159E-16    5.98338E-15   -5.00000E-01    6.31834E+00
+OMEGA22 = -3.79871E-17    7.33991E-16   -5.00000E-01    6.18023E+00
+BSTAR = -2.06322E-17    5.37205E-16   -4.65707E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Np-O2 interaction
+INTER = Np O2
+OMEGA11 = 1.06835E-16   -2.75858E-15   -5.00000E-01    6.28803E+00
+OMEGA22 = 7.09690E-17   -1.86124E-15   -5.00000E-01    6.14992E+00
+BSTAR = 2.33037E-17   -5.98577E-16    5.11403E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-Ar interaction
+INTER = Op Ar
+OMEGA11 = -2.3810013e-003  4.1436301e-002 -4.7237938e-001  5.1290761e+000
+OMEGA22 = -2.2453786e-003  3.9463707e-002 -4.5080906e-001  5.1981920e+000
+BSTAR = 3.6923731e-004 -7.3844562e-003  6.4708434e-002 -8.1492201e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#Op-C interaction
+INTER = Op C
+OMEGA11 = -1.5042162e-003  1.5940110e-002 -2.4989158e-001  4.4537831e+000
+OMEGA22 = -1.4039757e-003  1.5033160e-002 -2.3740168e-001  4.5553512e+000
+BSTAR = 2.1749992e-004 -2.7311431e-003  2.3421920e-002  1.6863544e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-N interaction
+INTER = Op N
+OMEGA11 = -1.52595E-02    3.50684E-01   -3.05498E+00    1.30542E+01
+OMEGA22 = -7.61789E-03    1.84705E-01   -1.85720E+00    1.02139E+01
+BSTAR = -2.77237E-03    7.56668E-02   -6.43240E-01    1.91799E+00
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-CO interaction
+INTER = Op CO
+OMEGA11 = -1.4489544e-003  1.5100175e-002 -2.4372748e-001  4.5778399e+000
+OMEGA22 = -1.3508850e-003  1.4216111e-002 -2.3143724e-001  4.6791950e+000
+BSTAR = 2.0928915e-004 -2.6046853e-003  2.2565998e-002  1.8016163e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-CO2 interaction
+INTER = Op CO2
+OMEGA11 = -9.7087433e-004  8.5688203e-003 -1.9329027e-001  4.5886771e+000
+OMEGA22 = -8.9772475e-004  7.9485789e-003 -1.8331721e-001  4.6870763e+000
+BSTAR = 1.3674941e-004 -1.5782297e-003  1.5581009e-002  2.4412193e-002
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-N2 interaction
+INTER = Op N2
+OMEGA11 = 2.01344E-16   -4.55770E-15   -5.00000E-01    6.33569E+00
+OMEGA22 = 2.03247E-16   -4.65870E-15   -5.00000E-01    6.19757E+00
+BSTAR = 7.88861E-31   -1.89771E-29    1.50203E-28    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-NO interaction
+INTER = Op NO
+OMEGA11 = -2.71159E-16    5.98338E-15   -5.00000E-01    6.31834E+00
+OMEGA22 = -3.79871E-17    7.33991E-16   -5.00000E-01    6.18023E+00
+BSTAR = -2.06322E-17    5.37205E-16   -4.65707E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#Op-O2 interaction
+INTER = Op O2
+OMEGA11 = 1.06835E-16   -2.75858E-15   -5.00000E-01    6.28803E+00
+OMEGA22 = 7.09690E-17   -1.86124E-15   -5.00000E-01    6.14992E+00
+BSTAR = 2.33037E-17   -5.98577E-16    5.11403E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2p-N interaction
+INTER = N2p N
+OMEGA11 = -2.71159E-16    5.98338E-15   -5.00000E-01    6.11414E+00
+OMEGA22 = 2.67566E-17   -7.83239E-16   -5.00000E-01    5.97603E+00
+BSTAR = 1.31352E-17   -3.44494E-16    3.00920E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2p-O interaction
+INTER = N2p O
+OMEGA11 = 3.06889E-17   -8.79142E-16   -5.00000E-01    5.92235E+00
+OMEGA22 = -2.13774E-16    4.91146E-15   -5.00000E-01    5.78423E+00
+BSTAR = 2.75615E-17   -7.16692E-16    6.20349E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2p-O interaction
+INTER = N2p NO
+OMEGA11 = -2.71159E-16    5.98338E-15   -5.00000E-01    6.31834E+00
+OMEGA22 = -3.79871E-17    7.33991E-16   -5.00000E-01    6.18023E+00
+BSTAR = -2.06322E-17    5.37205E-16   -4.65707E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#N2p-O2 interaction
+INTER = N2p O2
+OMEGA11 = 1.06835E-16   -2.75858E-15   -5.00000E-01    6.28803E+00
+OMEGA22 = 7.09690E-17   -1.86124E-15   -5.00000E-01    6.14992E+00
+BSTAR = 2.33037E-17   -5.98577E-16    5.11403E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NOp-O interaction
+INTER = NOp O
+OMEGA11 = 3.06889E-17   -8.79142E-16   -5.00000E-01    5.92235E+00
+OMEGA22 =-2.13774E-16    4.91146E-15   -5.00000E-01    5.78423E+00
+BSTAR = 2.75615E-17   -7.16692E-16    6.20349E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NOp-Ar interaction
+INTER = NOp Ar
+OMEGA11 = -1.1602587e-003  1.6504577e-002 -2.6004023e-001  4.6542532e+000
+OMEGA22 = -1.0689840e-003  1.5198067e-002 -2.4431371e-001  4.7271552e+000
+BSTAR = 1.8012896e-004 -3.3152362e-003  3.0818338e-002  2.3240203e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#NOp-C interaction
+INTER = NOp C
+OMEGA11 = -2.0318602e-003  3.2872093e-002 -3.9684542e-001  4.9400281e+000
+OMEGA22 = -1.9086177e-003  3.1187136e-002 -3.7791086e-001  5.0159537e+000
+BSTAR = 2.4979338e-004 -4.2554521e-003  3.6719096e-002  1.0628294e-003
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#NOp-N interaction
+INTER = NOp N
+OMEGA11 = -2.71159E-16    5.98338E-15   -5.00000E-01    6.11414E+00
+OMEGA22 = 2.67566E-17   -7.83239E-16   -5.00000E-01    5.97603E+00
+BSTAR = 1.31352E-17   -3.44494E-16    3.00920E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NOp-N2 interaction
+INTER = NOp N2
+OMEGA11 = 2.01344E-16   -4.55770E-15   -5.00000E-01    6.33569E+00
+OMEGA22 = 2.03247E-16   -4.65870E-15   -5.00000E-01    6.19757E+00
+BSTAR = 7.88861E-31   -1.89771E-29    1.50203E-28    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#NOp-CO interaction
+INTER = NOp CO
+OMEGA11 = -1.2145304e-003  1.7232393e-002 -2.6588161e-001  4.7589612e+000
+OMEGA22 = -1.1167712e-003  1.5811128e-002 -2.4920219e-001  4.8307144e+000
+BSTAR = 1.7357849e-004 -3.0394797e-003  2.8073455e-002  1.2446266e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#NOp-CO2 interaction
+INTER = NOp CO2
+OMEGA11 = -8.6201845e-004  1.1250568e-002 -2.1325606e-001  4.7889842e+000
+OMEGA22 = -7.8898912e-004  1.0224460e-002 -2.0008174e-001  4.8630123e+000
+BSTAR = 1.0541696e-004 -1.6633333e-003  1.6762196e-002  3.6838582e-002
+CSTAR = 0.0000000e+000  0.0000000e+000  0.0000000e+000  0.0000000e+000
+
+#NOp-O2 interaction
+INTER = NOp O2      
+OMEGA11 = 1.06835E-16   -2.75858E-15   -5.00000E-01    6.28803E+00
+OMEGA22 = 7.09690E-17   -1.86124E-15   -5.00000E-01    6.14992E+00
+BSTAR = 2.33037E-17   -5.98577E-16    5.11403E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O2p-N interaction
+INTER = O2p N
+OMEGA11 =-2.71159E-16    5.98338E-15   -5.00000E-01    6.11414E+00
+OMEGA22 = 2.67566E-17   -7.83239E-16   -5.00000E-01    5.97603E+00
+BSTAR = 1.31352E-17   -3.44494E-16    3.00920E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O2p-O interaction
+INTER = O2p O
+OMEGA11 = 3.06889E-17   -8.79142E-16   -5.00000E-01    5.92235E+00
+OMEGA22 =-2.13774E-16    4.91146E-15   -5.00000E-01    5.78423E+00
+BSTAR = 2.75615E-17   -7.16692E-16    6.20349E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O2p-N2 interaction
+INTER = O2p N2
+OMEGA11 = 2.01344E-16   -4.55770E-15   -5.00000E-01    6.33569E+00
+OMEGA22 = 2.03247E-16   -4.65870E-15   -5.00000E-01    6.19757E+00
+BSTAR = 7.88861E-31   -1.89771E-29    1.50203E-28    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O2p-NO interaction
+INTER = O2p NO
+OMEGA11 = -2.71159E-16    5.98338E-15   -5.00000E-01    6.31834E+00
+OMEGA22 = -3.79871E-17    7.33991E-16   -5.00000E-01    6.18023E+00
+BSTAR = -2.06322E-17    5.37205E-16   -4.65707E-15    2.22904E-01
+CSTAR = 0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+#O-C2 interaction
+INTER = O C2 
+INTER_MODEL = LJ
+
+#O-CH interaction
+INTER = O CH 
+INTER_MODEL = LJ
+
+#O-CH2 interaction
+INTER = O CH2 
+INTER_MODEL = LJ
+
+#O-CH3 interaction
+INTER = O CH3 
+INTER_MODEL = LJ
+
+#O-CH4 interaction
+INTER = O CH4 
+INTER_MODEL = LJ
+
+#O-C2H interaction
+INTER = O C2H 
+INTER_MODEL = LJ
+
+#O-C2H2 interaction
+INTER = O C2H2 
+INTER_MODEL = LJ
+
+#O-C2H3 interaction
+INTER = O C2H3 
+INTER_MODEL = LJ
+
+#O-C2H4 interaction
+INTER = O C2H4 
+INTER_MODEL = LJ
+
+#O-Cpp interaction
+INTER = O Cpp
+INTER_MODEL = POL
+
+#O-Cppp interaction
+INTER = O Cppp
+INTER_MODEL = POL
+
+#O-Cpppp interaction
+INTER = O Cpppp
+INTER_MODEL = POL
+
+#O-Cppppp interaction
+INTER = O Cppppp
+INTER_MODEL = POL
+
+#CO-Hp interaction
+INTER = CO Hp
+INTER_MODEL = POL
+
+#CO2-Hp interaction
+INTER = CO2 Hp
+INTER_MODEL = POL
+
+#CO-H2p interaction
+INTER = CO H2p
+INTER_MODEL = POL
+
+#CO2-H2p interaction
+INTER = CO2 H2p
+INTER_MODEL = POL
+
+#CO-Cpp interaction
+INTER = CO Cpp
+INTER_MODEL = POL
+
+#CO-Cppp interaction
+INTER = CO Cppp
+INTER_MODEL = POL
+
+#CO-Cpppp interaction
+INTER = CO Cpppp
+INTER_MODEL = POL
+
+#CO-Cppppp interaction
+INTER = CO Cppppp
+INTER_MODEL = POL
+
+#CO2-Cpp interaction
+INTER = CO2 Cpp
+INTER_MODEL = POL
+
+#CO2-Cppp interaction
+INTER = CO2 Cppp
+INTER_MODEL = POL
+
+#CO2-Cpppp interaction
+INTER = CO2 Cpppp
+INTER_MODEL = POL
+
+#CO2-Cppppp interaction
+INTER = CO2 Cppppp
+INTER_MODEL = POL
+
+#CO2-Opp interaction
+INTER = CO2 Opp
+INTER_MODEL = POL
+
+#CO2-Oppp interaction
+INTER = CO2 Oppp
+INTER_MODEL = POL
+
+#CO2-Opppp interaction
+INTER = CO2 Opppp
+INTER_MODEL = POL
+
+#CO2-Oppppp interaction
+INTER = CO2 Oppppp
+INTER_MODEL = POL
+
+#CO2-Opppppp interaction
+INTER = CO2 Opppppp
+INTER_MODEL = POL
+
+#CO2-O2 interaction
+INTER = CO2 O2p
+INTER_MODEL = POL
+
+#CO2-C2p interaction
+INTER = CO2 C2p
+INTER_MODEL = POL
+
+#CO2-CHp interaction
+INTER = CO2 CHp
+INTER_MODEL = POL
+
+#CO2-CHp interaction
+INTER = CO2 CH2p
+INTER_MODEL = POL
+
+#CO2-CHp interaction
+INTER = CO2 CH3p
+INTER_MODEL = POL
+
+#CO2-CHp interaction
+INTER = CO2 CH4p
+INTER_MODEL = POL
+
+#CO2-CHp interaction
+INTER = CO2 C2Hp
+INTER_MODEL = POL
+
+#CO2-C2H2p interaction
+INTER = CO2 C2H2p
+INTER_MODEL = POL
+
+#CO2-C2H3p interaction
+INTER = CO2 C2H3p
+INTER_MODEL = POL
+
+#CO2-C2H4p interaction
+INTER = CO2 C2H4p
+INTER_MODEL = POL
+
+#NO-Cpp interaction
+INTER = NO Cpp
+INTER_MODEL = POL
+
+#NO-Cppp interaction
+INTER = NO Cppp
+INTER_MODEL = POL
+
+#NO-Cpppp interaction
+INTER = NO Cpppp
+INTER_MODEL = POL
+
+#NO-Cppppp interaction
+INTER = NO Cppppp
+INTER_MODEL = POL
+
+#NO-C2p interaction
+INTER = NO C2p
+INTER_MODEL = POL
+
+#NO-CHp interaction
+INTER = NO CHp
+INTER_MODEL = POL
+
+#NO-CH2p interaction
+INTER = NO CH2p
+INTER_MODEL = POL
+
+#NO-CH3p interaction
+INTER = NO CH3p
+INTER_MODEL = POL
+
+#NO-CH4p interaction
+INTER = NO CH4p
+INTER_MODEL = POL
+
+#NO-C2Hp interaction
+INTER = NO C2Hp
+INTER_MODEL = POL
+
+#NO-C2H2p interaction
+INTER = NO C2H2p
+INTER_MODEL = POL
+
+#NO-C2H3p interaction
+INTER = NO C2H3p
+INTER_MODEL = POL
+
+#NO-C2H4p interaction
+INTER = NO C2H4p
+INTER_MODEL = POL
+
+#O-C2p interaction
+INTER = O C2p
+INTER_MODEL = POL
+
+#O-CHp interaction
+INTER = O CHp
+INTER_MODEL = POL
+
+#O-CH2p interaction
+INTER = O CH2p
+INTER_MODEL = POL
+
+#O-CH3p interaction
+INTER = O CH3p
+INTER_MODEL = POL
+
+#O-CH4p interaction
+INTER = O CH4p
+INTER_MODEL = POL
+
+#O-C2Hp interaction
+INTER = O C2Hp
+INTER_MODEL = POL
+
+#O-C2H2p interaction
+INTER = O C2H2p
+INTER_MODEL = POL
+
+#O-C2H3p interaction
+INTER = O C2H3p
+INTER_MODEL = POL
+
+#O-C2H4p interaction
+INTER = O C2H4p
+INTER_MODEL = POL
+
+#O2-C2 interaction
+INTER = O2 C2 
+INTER_MODEL = LJ
+
+#O2-CH interaction
+INTER = O2 CH 
+INTER_MODEL = LJ
+
+#O2-CH2 interaction
+INTER = O2 CH2 
+INTER_MODEL = LJ
+
+#O2-CH3 interaction
+INTER = O2 CH3 
+INTER_MODEL = LJ
+
+#O2-CH4 interaction
+INTER = O2 CH4 
+INTER_MODEL = LJ
+
+#O2-C2H interaction
+INTER = O2 C2H 
+INTER_MODEL = LJ
+
+#O2-C2H2 interaction
+INTER = O2 C2H2 
+INTER_MODEL = LJ
+
+#O2-C2H3 interaction
+INTER = O2 C2H3 
+INTER_MODEL = LJ
+
+#O2-C2H4 interaction
+INTER = O2 C2H4 
+INTER_MODEL = LJ
+
+#O2-Cpp interaction
+INTER = O2 Cpp
+INTER_MODEL = POL
+
+#O2-Cppp interaction
+INTER = O2 Cppp
+INTER_MODEL = POL
+
+#O2-Cpppp interaction
+INTER = O2 Cpppp
+INTER_MODEL = POL
+
+#O2-Cppppp interaction
+INTER = O2 Cppppp
+INTER_MODEL = POL
+
+#O2-C2p interaction
+INTER = O2 C2p
+INTER_MODEL = POL
+
+#O2-CHp interaction
+INTER = O2 CHp
+INTER_MODEL = POL
+
+#O2-CH2p interaction
+INTER = O2 CH2p
+INTER_MODEL = POL
+
+#O2-CH3p interaction
+INTER = O2 CH3p
+INTER_MODEL = POL
+
+#O2-CH4p interaction
+INTER = O2 CH4p
+INTER_MODEL = POL
+
+#O2-C2Hp interaction
+INTER = O2 C2Hp
+INTER_MODEL = POL
+
+#O2-C2H2p interaction
+INTER = O2 C2H2p
+INTER_MODEL = POL
+
+#O2-C2H3p interaction
+INTER = O2 C2H3p
+INTER_MODEL = POL
+
+#O2-C2H4p interaction
+INTER = O2 C2H4p
+INTER_MODEL = POL
+
+#H2O-OH interaction
+INTER = H2O OH
+INTER_MODEL = LJ
+
+#H2O-H2O interaction
+INTER = H2O H2O
+INTER_MODEL = LJ
+
+#H2O-C interaction
+INTER = H2O C
+INTER_MODEL = LJ
+
+#H2O2-C interaction
+INTER = H2O2 C
+INTER_MODEL = LJ
+
+#H2O-C2 interaction
+INTER = H2O C2
+INTER_MODEL = LJ
+
+#H2O-CO interaction
+INTER = H2O CO
+INTER_MODEL = LJ
+
+#H2O-CO2 interaction
+INTER = H2O CO2
+INTER_MODEL = LJ
+
+#H2O2-CO interaction
+INTER = H2O2 CO
+INTER_MODEL = LJ
+
+#H2O2-CO2 interaction
+INTER = H2O2 CO2
+INTER_MODEL = LJ
+
+#H2O-CH interaction
+INTER = H2O CH
+INTER_MODEL = LJ
+
+#H2O2-CH interaction
+INTER = H2O2 CH
+INTER_MODEL = LJ
+
+#H2O-CH2 interaction
+INTER = H2O CH2
+INTER_MODEL = LJ
+
+#H2O2-CH2 interaction
+INTER = H2O2 CH2
+INTER_MODEL = LJ
+
+#H2O-CH3 interaction
+INTER = H2O CH3
+INTER_MODEL = LJ
+
+#H2O2-CH3 interaction
+INTER = H2O2 CH3
+INTER_MODEL = LJ
+
+#H2O-CH4 interaction
+INTER = H2O CH4
+INTER_MODEL = LJ
+
+#H2O2-CH4 interaction
+INTER = H2O2 CH4
+INTER_MODEL = LJ
+
+#H2O-C2H interaction
+INTER = H2O C2H
+INTER_MODEL = LJ
+
+#H2O2-C2H interaction
+INTER = H2O2 C2H
+INTER_MODEL = LJ
+
+#H2O-C2H2 interaction
+INTER = H2O C2H2
+INTER_MODEL = LJ
+
+#H2O2-C2H2 interaction
+INTER = H2O2 C2H2
+INTER_MODEL = LJ
+
+#H2O-C2H3 interaction
+INTER = H2O C2H3
+INTER_MODEL = LJ
+
+#H2O2-C2H3 interaction
+INTER = H2O2 C2H3
+INTER_MODEL = LJ
+
+#H2O-C2H4 interaction
+INTER = H2O C2H4
+INTER_MODEL = LJ
+
+#H2O2-C2H4 interaction
+INTER = H2O2 C2H4
+INTER_MODEL = LJ
+
+#H2O-Cp interaction
+INTER = H2O Cp
+INTER_MODEL = POL
+
+#H2O-Cpp interaction
+INTER = H2O Cpp
+INTER_MODEL = POL
+
+#H2O-Cppp interaction
+INTER = H2O Cppp
+INTER_MODEL = POL
+
+#H2O-Cpppp interaction
+INTER = H2O Cpppp
+INTER_MODEL = POL
+
+#H2O-Cppppp interaction
+INTER = H2O Cppppp
+INTER_MODEL = POL
+
+#H2O-C2p interaction
+INTER = H2O C2p
+INTER_MODEL = POL
+
+#H2O-CHp interaction
+INTER = H2O CHp
+INTER_MODEL = POL
+
+#H2O-CH2p interaction
+INTER = H2O CH2p
+INTER_MODEL = POL
+
+#H2O-CH3p interaction
+INTER = H2O CH3p
+INTER_MODEL = POL
+
+#H2O-CH4p interaction
+INTER = H2O CH4p
+INTER_MODEL = POL
+
+#H2O-C2Hp interaction
+INTER = H2O C2Hp
+INTER_MODEL = POL
+
+#H2O-C2H2p interaction
+INTER = H2O C2H2p
+INTER_MODEL = POL
+
+#H2O-C2H3p interaction
+INTER = H2O C2H3p
+INTER_MODEL = POL
+
+#H2O-C2H4p interaction
+INTER = H2O C2H4p
+INTER_MODEL = POL
+
+#H2O2-Cp interaction
+INTER = H2O2 Cp
+INTER_MODEL = POL
+
+#H2O2-Cpp interaction
+INTER = H2O2 Cpp
+INTER_MODEL = POL
+
+#H2O2-Cppp interaction
+INTER = H2O2 Cppp
+INTER_MODEL = POL
+
+#H2O2-Cpppp interaction
+INTER = H2O2 Cpppp
+INTER_MODEL = POL
+
+#H2O2-Cppppp interaction
+INTER = H2O2 Cppppp
+INTER_MODEL = POL
+
+#H2O2-C2p interaction
+INTER = H2O2 C2p
+INTER_MODEL = POL
+
+#H2O2-CHp interaction
+INTER = H2O2 CHp
+INTER_MODEL = POL
+
+#H2O2-CH2p interaction
+INTER = H2O2 CH2p
+INTER_MODEL = POL
+
+#H2O2-CH3p interaction
+INTER = H2O2 CH3p
+INTER_MODEL = POL
+
+#H2O2-CH4p interaction
+INTER = H2O2 CH4p
+INTER_MODEL = POL
+
+#H2O2-C2Hp interaction
+INTER = H2O2 C2Hp
+INTER_MODEL = POL
+
+#H2O2-C2H2p interaction
+INTER = H2O2 C2H2p
+INTER_MODEL = POL
+
+#H2O2-C2H3p interaction
+INTER = H2O2 C2H3p
+INTER_MODEL = POL
+
+#H2O2-C2H4p interaction
+INTER = H2O2 C2H4p
+INTER_MODEL = POL
+
+#H2O2-C2 interaction
+INTER = H2O2 C2
+INTER_MODEL = LJ
+
+#H2O-H2p interaction
+INTER = H2O H2p
+INTER_MODEL = POL
+
+#H2O-O2p interaction
+INTER = H2O O2p
+INTER_MODEL = POL
+
+#H2O-Hp interaction
+INTER = H2O Hp
+INTER_MODEL = POL
+
+#H2O-Op interaction
+INTER = H2O Op
+INTER_MODEL = POL
+
+#CO-Opp interaction
+INTER = CO Opp
+INTER_MODEL = POL
+
+#CO-Oppp interaction
+INTER = CO Oppp
+INTER_MODEL = POL
+
+#CO-Opppp interaction
+INTER = CO Opppp
+INTER_MODEL = POL
+
+#CO-Oppppp interaction
+INTER = CO Oppppp
+INTER_MODEL = POL
+
+#CO-Opppppp interaction
+INTER = CO Opppppp
+INTER_MODEL = POL
+
+#CO-O2p interaction
+INTER = CO O2p
+INTER_MODEL = POL
+
+#CO-C2p interaction
+INTER = CO C2p
+INTER_MODEL = POL
+
+#CO-CHp interaction
+INTER = CO CHp
+INTER_MODEL = POL
+
+#CO-CH2p interaction
+INTER = CO CH2p
+INTER_MODEL = POL
+
+#CO-CH3p interaction
+INTER = CO CH3p
+INTER_MODEL = POL
+
+#CO-CH4p interaction
+INTER = CO CH4p
+INTER_MODEL = POL
+
+#CO-C2Hp interaction
+INTER = CO C2Hp
+INTER_MODEL = POL
+
+#CO-C2H2p interaction
+INTER = CO C2H2p
+INTER_MODEL = POL
+
+#CO-C2H3p interaction
+INTER = CO C2H3p
+INTER_MODEL = POL
+
+#CO-C2H4p interaction
+INTER = CO C2H4p
+INTER_MODEL = POL
+
+#H2O-Opp interaction
+INTER = H2O Opp
+INTER_MODEL = POL
+
+#H2O-Oppp interaction
+INTER = H2O Oppp
+INTER_MODEL = POL
+
+#H2O-Opppp interaction
+INTER = H2O Opppp
+INTER_MODEL = POL
+
+#H2O-Oppppp interaction
+INTER = H2O Oppppp
+INTER_MODEL = POL
+
+#H2O-Opppppp interaction
+INTER = H2O Opppppp
+INTER_MODEL = POL
+
+#H2O2-O interaction
+INTER = H2O2 O 
+INTER_MODEL = LJ
+
+#H2O2-O2 interaction
+INTER = H2O2 O2 
+INTER_MODEL = LJ
+
+#H2O2-OH interaction
+INTER = H2O2 OH 
+INTER_MODEL = LJ
+
+#C-HO2 interaction
+INTER = C HO2 
+INTER_MODEL = LJ
+
+#C2-HO2 interaction
+INTER = C2 HO2 
+INTER_MODEL = LJ
+
+#CO-HO2 interaction
+INTER = CO HO2 
+INTER_MODEL = LJ
+
+#CH-HO2 interaction
+INTER = CH HO2 
+INTER_MODEL = LJ
+
+#CH2-HO2 interaction
+INTER = CH2 HO2 
+INTER_MODEL = LJ
+
+#CH3-HO2 interaction
+INTER = CH3 HO2 
+INTER_MODEL = LJ
+
+#CH4-HO2 interaction
+INTER = CH4 HO2 
+INTER_MODEL = LJ
+
+#C2H-HO2 interaction
+INTER = C2H HO2 
+INTER_MODEL = LJ
+
+#C2H2-HO2 interaction
+INTER = C2H2 HO2 
+INTER_MODEL = LJ
+
+#C2H3-HO2 interaction
+INTER = C2H3 HO2 
+INTER_MODEL = LJ
+
+#C2H4-HO2 interaction
+INTER = C2H4 HO2 
+INTER_MODEL = LJ
+
+#CO2-HO2 interaction
+INTER = CO2 HO2 
+INTER_MODEL = LJ
+
+#H2O2-HO2 interaction
+INTER = H2O2 HO2 
+INTER_MODEL = LJ
+
+#H2O2-H2O interaction
+INTER = H2O2 H2O 
+INTER_MODEL = LJ
+
+#H2O2-H2O2 interaction
+INTER = H2O2 H2O2 
+INTER_MODEL = LJ
+
+#H2O2-H2p interaction
+INTER = H2O2 H2p 
+INTER_MODEL = POL
+
+#H2O2-O2p interaction
+INTER = H2O2 O2p 
+INTER_MODEL = POL
+
+#H2O2-Hp interaction
+INTER = H2O2 Hp 
+INTER_MODEL = POL
+
+#H2O2-Op interaction
+INTER = H2O2 Op 
+INTER_MODEL = POL
+
+#H2O2-Opp interaction
+INTER = H2O2 Opp 
+INTER_MODEL = POL
+
+#H2O2-Oppp interaction
+INTER = H2O2 Oppp 
+INTER_MODEL = POL
+
+#H2O2-Opppp interaction
+INTER = H2O2 Opppp 
+INTER_MODEL = POL
+
+#H2O2-Oppppp interaction
+INTER = H2O2 Oppppp 
+INTER_MODEL = POL
+
+#H2O2-Opppppp interaction
+INTER = H2O2 Opppppp 
+INTER_MODEL = POL
+
+#OH-HO2 interaction
+INTER = OH HO2
+INTER_MODEL = LJ
+
+#H2O-HO2 interaction
+INTER = H2O HO2
+INTER_MODEL = LJ
+
+#HO2-HO2 interaction
+INTER = HO2 HO2
+INTER_MODEL = LJ
+
+#HO2-H2p interaction
+INTER = HO2 H2p
+INTER_MODEL = POL
+
+#HO2-O2p interaction
+INTER = HO2 O2p
+INTER_MODEL = POL
+
+#HO2-Hp interaction
+INTER = HO2 Hp
+INTER_MODEL = POL
+
+#HO2-Cp interaction
+INTER = HO2 Cp
+INTER_MODEL = POL
+
+#HO2-Cpp interaction
+INTER = HO2 Cpp
+INTER_MODEL = POL
+
+#HO2-Oppp interaction
+INTER = HO2 Cppp
+INTER_MODEL = POL
+
+#HO2-Cpppp interaction
+INTER = HO2 Cpppp
+INTER_MODEL = POL
+
+#HO2-Cppppp interaction
+INTER = HO2 Cppppp
+INTER_MODEL = POL
+
+#HO2-C2p interaction
+INTER = HO2 C2p
+INTER_MODEL = POL
+
+#HO2-CHp interaction
+INTER = HO2 CHp
+INTER_MODEL = POL
+
+#HO2-CH2p interaction
+INTER = HO2 CH2p
+INTER_MODEL = POL
+
+#HO2-CH3p interaction
+INTER = HO2 CH3p
+INTER_MODEL = POL
+
+#HO2-CH4p interaction
+INTER = HO2 CH4p
+INTER_MODEL = POL
+
+#HO2-C2Hp interaction
+INTER = HO2 C2Hp
+INTER_MODEL = POL
+
+#HO2-C2H2p interaction
+INTER = HO2 C2H2p
+INTER_MODEL = POL
+
+#HO2-C2H3p interaction
+INTER = HO2 C2H3p
+INTER_MODEL = POL
+
+#HO2-C2H4p interaction
+INTER = HO2 C2H4p
+INTER_MODEL = POL
+
+#HO2-Op interaction
+INTER = HO2 Op
+INTER_MODEL = POL
+
+#HO2-Opp interaction
+INTER = HO2 Opp
+INTER_MODEL = POL
+
+#HO2-Oppp interaction
+INTER = HO2 Oppp
+INTER_MODEL = POL
+
+#HO2-Opppp interaction
+INTER = HO2 Opppp
+INTER_MODEL = POL
+
+#HO2-Oppppp interaction
+INTER = HO2 Oppppp
+INTER_MODEL = POL
+
+#HO2-Opppppp interaction
+INTER = HO2 Opppppp
+INTER_MODEL = POL

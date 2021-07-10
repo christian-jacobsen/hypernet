@@ -1,0 +1,60 @@
+#-------------------------------------
+#Species file for CNp
+#-------------------------------------
+NAME = CNp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 26.01715d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em C N
+ELEM_QUANT = -1 1 1
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1791000.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.e+00
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.73d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 2925.1d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 7
+0.100000E+01  0.000000E+00
+0.600000E+01  0.247966E+00
+0.200000E+01  0.103075E+01
+0.600000E+01  0.148780E+01
+0.100000E+01  0.393907E+01
+0.100000E+01  0.562060E+01
+0.200000E+01  0.566430E+01

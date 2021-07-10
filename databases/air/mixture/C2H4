@@ -1,0 +1,65 @@
+#----------------------------
+#Mixture file for ethylene_ion
+#----------------------------
+
+#----------------------------
+#Elements (names and nuclear factions)
+#----------------------------
+ELEM      = em C H
+ELEM_FRAC = 0.d0 0.333333333d0 0.666666666d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em HI CI H2 C2 CH CH2 CH3 CH4 C2H C2H2 C2H3 C2H4 CII CIII CIV CV CVI Hp H2p C2p CHp CH2p CH3p CH4p C2Hp C2H2p C2H3p C2H4p
+
+#---------------------------
+#Thermodynamics
+#---------------------------
+
+#Look-up-table limits
+DT_LOOK_UP = 20.d0
+TMAX_LOOK_UP = 6.d5
+
+#---------------------------
+#Transport
+#---------------------------
+
+#Look-up-table for collision integrals
+DT_COLL_INT   = 50.d0
+TMIN_COLL_INT = 200.d0
+TMAX_COLL_INT = 600200.d0 
+
+#---------------------------
+#Kinetics
+#--------------------------
+
+#Flag not to include the 'Omega_CEL' energy transfer term
+TRANSFER_OMEGA_CEL = F
+
+#Minimum temperature value for rate coefficient evaluation
+TMIN_RATE = 500.d0
+
+#---------------------------
+#Radiation settings
+#---------------------------
+
+INCLUDE_RADIATION = T
+
+#Atomic database
+RAD_AT_LEVELS = NIST
+
+#Radiating atoms
+RAD_ATOMS = H C Hp Cp Cpp Cppp Cpppp Cppppp
+
+#Radiating molecules
+RAD_MOLECULES = C2H4 H2 H2p C2p CHp CH2p CH3p CH4p C2Hp C2H2p C2H3p C2H4p 
+
+#Radiative transitions to be included
+RAD_BB = F
+RAD_BF = F
+RAD_FF = T
+
+#Wavelength range [A]
+RAD_LAMBDA_MIN = 4000.d0
+RAD_LAMBDA_MAX = 7000.d0

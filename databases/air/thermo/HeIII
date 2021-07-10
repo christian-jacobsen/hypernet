@@ -1,0 +1,42 @@
+#-------------------------------------
+#Species file for Hepp
+#-------------------------------------
+NAME = Hepp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 4.002602e-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em He
+ELEM_QUANT = -2 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 7629035.78d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 2
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 0.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+#--------------------------------------
+#Energy levels [eV] (for State-to-State approach)
+NB_ELEC_LEVELS = 1
+1.d0 0.d0

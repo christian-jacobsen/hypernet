@@ -1,0 +1,98 @@
+#-------------------------------------
+#Species file for C2H2
+#-------------------------------------
+NAME = C2H2
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 26.038d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 4
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = H C
+ELEM_QUANT = 2 2
+
+#--------------------------------------
+#Formation energy [J/mol]
+# 227959.d0 -  from Sharma et al. paper ("Calculation of Thermochemical Properties of Carbon-cluster Ablation Species", AIAA 2018-4179)
+# 228840.d0  - from AcT database (ANL)
+EF = 228840.d0  
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 11.4d0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.d0
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 4.1d0
+LJ_EPS  = 209.d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 3.487d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational and vibrational temperatures and electronic levels - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Refs.:
+# - Herzberg, G., Electronic spectra and electronic structure of polyatomic molecules,Van Nostrand,New York, 1966
+# - T Koops, WMA Smit, T Visser "Measurement and Interpretation of the absolute Infrared Intensities of acetylene: Fundamentals and Combination bands" J. Mol. Struct. 112 (1984) 285-299 
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 1.69286d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 4854.40505d0 2840.12909d0 4732.10972d0 880.52635d0 1050.30103d0
+ 
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 2
+1.d0 0.d0
+1.d0 5.23180d0
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+#THETA_ROT = 1.69d0 
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+#THETA_VIB = 4852.7d0 2839.8d0 4724.7d0 881.8d0 881.8d0 1050.7d0 1050.7d0
+ 
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+#NB_ELEC_LEVELS = 6
+#0.200000E+01  0.000000E+00
+#0.300000E+01  0.309958E+01
+#0.600000E+01  0.433941E+01
+#0.100000E+01  0.523184E+01
+#0.300000E+01  0.619916E+01
+#0.100000E+01  0.670947E+01

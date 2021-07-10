@@ -1,0 +1,29 @@
+#----------------------------
+#Mixture file for hydrogen_helium
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em H He
+ELEM_FRAC = 0.d0 0.91d0 0.09d0   
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em H Hp H2 H2p H2pp He Hep Hepp
+
+#-------------------------
+#Minumm temperature for equilibrium composition
+#------------------------
+
+TMIN_EQ = 1500.d0
+
+#--------------------------
+#Look-up-table data
+#--------------------------
+
+TMIN_LOOK_UP = 1500.d0
+TMAX_LOOK_UP = 5.d5
+DT_LOOK_UP = 100.d0
+

@@ -1,0 +1,7 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+__pycache__/
+build/
+dist/
+prode.egg-info/
+.DS_Store

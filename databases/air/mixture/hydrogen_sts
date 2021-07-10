@@ -1,0 +1,14 @@
+#----------------------------
+#Mixture file for hydrogen_sts
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em H
+ELEM_FRAC = 0.d0 1.d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em H_sts Hp

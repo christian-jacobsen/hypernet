@@ -1,0 +1,44 @@
+#-------------------------------------
+#Species file for Cp
+#-------------------------------------
+NAME = Cp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 12.01045e-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em C
+ELEM_QUANT = -1 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 1797648.0e+00
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 7
+0.200000E+01  0.000000E+00
+0.400000E+01  0.786301E-02
+0.200000E+01  0.533169E+01
+0.400000E+01  0.533441E+01
+0.600000E+01  0.533792E+01
+0.600000E+01  0.929007E+01
+0.400000E+01  0.929038E+01

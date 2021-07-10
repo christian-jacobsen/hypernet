@@ -1,0 +1,62 @@
+#-------------------------------------
+#Species file for NOp
+#-------------------------------------
+NAME = NOp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 30.00555d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em N O
+ELEM_QUANT = -1 1 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 984623.d0
+
+#--------------------------------------
+#Dissociation energy
+DE = 10.85d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 2.87d0
+
+#--------------------------------------
+#Chracteristic vibrational temperature(s) [K]
+THETA_VIB = 3420.7d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 5
+0.100000E+01  0.000000E+00
+0.300000E+01  0.647068E+01
+0.600000E+01  0.734290E+01
+0.300000E+01  0.839924E+01
+0.100000E+01  0.862204E+01

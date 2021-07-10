@@ -1,0 +1,42 @@
+#-------------------------------------
+#Species file for Fepppp
+#-------------------------------------
+NAME = Fepppp 
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 55.845d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em Fe
+ELEM_QUANT = -4 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 5290.d3
+
+#--------------------------------------
+#Electric charge
+CHARGE = 4
+
+#--------------------------------------
+#Nuclear charge (or atomic number)
+NUCLEAR_CHARGE = 26
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 1
+1.d0  0.d0

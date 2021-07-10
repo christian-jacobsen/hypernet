@@ -1,0 +1,77 @@
+#-------------------------------------
+#Species file for CH4
+#-------------------------------------
+NAME = CH4
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 16.0426d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 5
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = H C
+ELEM_QUANT = 4 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+# (Gurvich tables)
+EF = -66630.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#-------------------------------------
+#Ionization potential [eV] 
+IP = 12.610d0
+
+#-------------------------------------
+#Linearity
+LIN = 0
+
+#--------------------------------------
+#Symmetry factor
+SYM = 12.d0 
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.746d0
+LJ_EPS  = 141.4d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 2.448d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#Characteristic rotational and vibrational temperatures and electronic levels - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Refs.:
+# - Herzberg, G., Electronic spectra and electronic structure of polyatomic molecules,Van Nostrand,New York, 1966
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 5.15d0   
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 4196.5d0 2206.1d0 2206.1d0 4344.4d0 4344.4d0 4344.4d0 1885.9d0 1885.9d0 1885.9d0
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 2
+1.d0  0.d0
+1.d0  8.52136d0

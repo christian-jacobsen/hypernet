@@ -1,0 +1,72 @@
+#-------------------------------------
+#Species file for C
+#-------------------------------------
+NAME = C
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 12.011d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C
+ELEM_QUANT = 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+# 711194 - from Gurvich tables
+# 711401 - from AcT database (ANL)
+EF = 711401.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 11.2602880d0
+
+#--------------------------------------
+#Nuclear charge (or atomic number)
+NUCLEAR_CHARGE = 6
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.298d0 
+LJ_EPS  = 71.4d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 1.76d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 12
+0.100000E+01  0.000000E+00
+0.300000E+01  0.203332E-02
+0.500000E+01  0.538087E-02
+0.500000E+01  0.126371E+01
+0.100000E+01  0.268399E+01
+0.500000E+01  0.418260E+01
+0.700000E+01  0.794570E+01
+0.500000E+01  0.794621E+01
+0.300000E+01  0.794607E+01
+0.300000E+01  0.933023E+01
+0.500000E+01  0.933039E+01
+0.100000E+01  0.933049E+01 
+

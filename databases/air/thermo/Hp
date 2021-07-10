@@ -1,0 +1,40 @@
+#-------------------------------------
+#Species file for Hp
+#-------------------------------------
+NAME = Hp
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 0.100735d-2
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Number of chemical elements, related symbols and quantities
+ELEM_NAME = em H
+ELEM_QUANT = -1 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 0.152809d7
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Nuclear charge (or atomic number)
+NUCLEAR_CHARGE = 1
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+NB_ELEC_LEVELS = 1
+1.d0 0.d0

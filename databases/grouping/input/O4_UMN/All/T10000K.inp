@@ -1,0 +1,31 @@
+#############################################
+### Input File for CVODE
+###
+# System Long Name (SystemLong = O3)
+O4_UMN
+# System Name (System = O3)
+O4
+# Nb Components (NbComp = 2)
+2
+# Nb Molecules (NbMolecules = 1)
+1
+# Molecule Name (MoleculeName(1) = O2)
+O2
+# Mapping Component-to-Molecule (CompToMol = 0,1)
+0,1
+# Inital Mole Fractions (X0 = 0.05d0,0.95d0)
+0.0d0,1.d0
+# Initial Pressure (p0  = 1.38064852d+03)
+4.667216597046385e+05
+# Temperature After Jump (Th = 1500.d0)
+10000.d0
+# Intial Time (ts = 0.d0)
+0.d0
+# Final Time (te = 1000000.d0)
+1.e-4
+# Minimum Time Step (dt_min = 1.d-14)
+1.d-14
+# Maximum Time Step (dt_max = 10000.d0)
+1.d-7
+# Stretching factor (stretch = 1.35d0)
+1.015d0

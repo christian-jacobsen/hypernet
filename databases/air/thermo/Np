@@ -1,0 +1,50 @@
+#-------------------------------------
+#Species file for Np
+#-------------------------------------
+NAME = Np
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 14.00615d-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = em N
+ELEM_QUANT = -1 1
+
+#--------------------------------------
+#Formation energy [J/mol^-1]
+EF = 1873145.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 1
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 29.60125d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 9
+0.100000e+01  0.000000e+00
+0.300000e+01  0.603798e-02
+0.500000e+01  0.162170e-01
+0.500000e+01  0.189895e+01
+0.100000e+01  0.405286e+01
+0.500000e+01  0.580050e+01
+0.700000e+01  0.114359e+02
+0.500000e+01  0.114375e+02
+0.300000e+01  0.114377e+02

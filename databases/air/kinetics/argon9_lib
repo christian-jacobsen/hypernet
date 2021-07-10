@@ -1,0 +1,9 @@
+Units=cm^3/(mol*s)
+Ar+em=Arp+em+em:0.103587E+14,0.699900E+00,0.181024E+06,9
+Arp+em=Arpp+em+em:0.600637E+16,0.152543E+00,0.322366E+06,9
+Arpp+em=Arppp+em+em:0.315998E+16,0.145575E+00,0.479918E+06,9
+Arppp+em=Arpppp+em+em:0.520161E+15,0.220073E+00,0.702481E+06,9
+Arpppp+em=Arppppp+em+em:0.831284E+15,0.160902E+00,0.882832E+06,9
+Arppppp+em=Arpppppp+em+em:0.564791E+15,0.158138E+00,0.106623E+07,9
+Arpppppp+em=Arppppppp+em+em:0.348146E+12,0.634131E+00,0.140953E+07,9
+Ar=Arp+em:4.28603d-75,7.d0,0.d0,11

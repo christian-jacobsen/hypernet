@@ -1,0 +1,16 @@
+#----------------------------
+#Mixture file for Ar_Acetylene
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = Ar C H
+ELEM_FRAC = 0.95d0 0.025d0 0.025d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = Ar C H C2 C2H2 C3 C4 C5 C3H C2H CH H2
+
+INCLUDE_TRANSPORT = F

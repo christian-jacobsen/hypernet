@@ -1,0 +1,54 @@
+#----------------------------
+#Mixture file for oxygen10_lib_NIST
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = em O
+ELEM_FRAC = 0.d0 1.d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = em OI O2 O2p OII OIII OIV OV OVI OVII
+
+#Look-up-table limits
+DT_LOOK_UP = 20.d0
+TMAX_LOOK_UP = 6.d5
+
+#Flag not to include the 'Omega_CEL' energy transfer term
+TRANSFER_OMEGA_CEL = F
+
+#---------------------------
+#Transport
+#---------------------------
+
+#Look-up-table for collision integrals
+DT_COLL_INT   = 50.d0
+TMIN_COLL_INT = 200.d0
+TMAX_COLL_INT = 600200.d0 
+
+#---------------------------
+#Radiation settings
+#---------------------------
+
+INCLUDE_RADIATION = T
+
+#Atomic database
+RAD_AT_LEVELS = NIST
+
+#Radiating atoms
+RAD_ATOMS = O Op Opp Oppp Opppp Oppppp Opppppp
+
+#Radiating molecules
+RAD_MOLECULES = O2 O2p
+
+#Radiative transitions to be included
+RAD_BB = F
+RAD_BF = F
+RAD_FF = T
+
+#Wavelength range [A]
+RAD_LAMBDA_MIN = 5000.d0
+RAD_LAMBDA_MAX = 6000.d0

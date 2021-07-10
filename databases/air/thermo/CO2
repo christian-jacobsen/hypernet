@@ -1,0 +1,70 @@
+#-------------------------------------
+#Species file for CO2
+#-------------------------------------
+NAME = CO2
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 44.0098e-3
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 3
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = C O
+ELEM_QUANT = 1 2
+ 
+#--------------------------------------
+#Formation energy [J/mol]
+EF = -393145.e+00
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 2.0e+00
+
+#--------------------------------------
+#Lennard-Jones parameters (from CANTERA)
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.76d0
+LJ_EPS  = 244.d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 2.507d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 0.56e+00
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 1918.7e+00 959.6e+00 959.6e+00 3382.0e+00
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 5 
+0.100000E+01  0.000000E+00
+0.300000E+01  0.371950E+01
+0.600000E+01  0.409144E+01
+0.300000E+01  0.446339E+01
+0.200000E+01  0.557924E+01 

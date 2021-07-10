@@ -1,0 +1,127 @@
+Units=cm^3/(mol*s)
+
+#-------------------
+# References:
+# 1) Park, C., "Nonequilibrium Ionization and Radiation in Hydrogen-Helium Mixtures", J. Thermophys. Heat Transfer, 
+#    Vol. 26, No. 2, pp. 231--243, 2012
+#
+#
+# 2) Park, C., "Review of chemical-kinetic problems of Future NASA missions, I: Earth entries", 
+#    J. Thermophys. Heat Transfer, Vol. 7, no. 3, pp. 385--398, 1993 
+#
+#-----------------
+
+#Heavy-particle impact dissociation reactions 
+# H2 (Ref. [2])  
+#H2+M=H+H+M:1.91503947056d+20,-1.0735d0,55105.d0,1
+#M=H
+#H2+M=H+H+M:1.78676795889d+17,-0.5165d0,52530.d0,1
+#M=H2
+
+# O2 (Ref. [1])  
+#O2+M=O+O+M:1.0E+22,-1.50d0,59500.d0,1
+#M=O
+#O2+M=O+O+M:2.0E+21,-1.5d0,59500.d0,1
+#M=O2,O2
+
+# Combustion reactions (from San Diego mechanism)
+# 1
+H+O2=OH+O:3.52d16,-0.7d0,8589.8013941413537d0,6
+
+# 2
+H2+O=OH+H:5.06d+4,2.67d0,3165.5498836992497d0,6
+
+# 3
+H2+OH=H2O+H:1.17d9,1.3d0,1829.3318286879023d0,6
+
+# 4
+H2O+O=OH+OH:7.d+5,2.330,7320.9354643150964d0,6
+
+# 5 (This is also provided in Park et al. work as dissociation)
+#H+H+M=H2+M:1.3d18,-1.d0,0.d0,13
+#M=O,H,O2,OH,HO2,H2O2
+
+#H+H+M=H2+M:15.6d18,-1.d0,0.d0,13
+#M=H2O
+
+#H+H+M=H2+M:3.25d18,-1.d0,0.d0,13
+#M=H2
+
+# 6
+H+OH+M=H2O+M:4.d22,-2.d0,0.d0,13
+M=O,H,O2,OH,HO2,H2O2
+
+H+OH+M=H2O+M:4.8d23,-2.d0,0.d0,13
+M=H2O
+
+H+OH+M=H2O+M:1.d23,-2.d0,0.d0,13
+M=H2
+
+# 7 (This is also provided in Park et al. work as dissociation)
+#O+O+M=O2+M:6.17d15,-0.5d0,0.d0,13
+#M=O,H,O2,OH,HO2,H2O2
+
+#O+O+M=O2+M:74.04d15,-0.5d0,0.d0,13
+#M=H2O
+
+#O+O+M=O2+M:15.425d15,-0.5d0,0.d0,13
+#M=H2
+
+# 8 
+H+O+M=OH+M:4.71d18,-1.d0,0.d0,13
+M=O,H,O2,OH,HO2,H2O2
+
+H+O+M=OH+M:56.52d18,-1.d0,0.d0,13
+M=H2O
+
+H+O+M=OH+M:11.75d18,-1.d0,0.d0,13
+M=H2
+
+# 9 
+O+OH+M=HO2+M:8.d15,0.d0,0.d0,13
+M=O,H,O2,OH,HO2,H2O2
+
+O+OH+M=HO2+M:96.d15,0.d0,0.d0,13
+M=H2O
+
+O+OH+M=HO2+M:20.d15,0.d0,0.d0,13
+M=H2
+
+# 10 (FALL-OFF TYPE; NOT ARRHENIUS LIKE)
+# H + O2 (+ M) [=] HO2 (+ M)
+
+# 11
+HO2+H=OH+OH:7.08d13,0.d0,148.41521871143138d0,6
+
+# 12
+HO2+H=H2+O2:1.66d13,0.d0,414.09529823618988d0,6
+
+# 13
+HO2+H=H2O+O:3.1d13,0.d0,865.95589523687681d0,6
+
+# 14
+HO2+O=OH+O2:2.d13,0.d0,0.d0,6
+
+# 15 -16 (Duplicate reactions like in CANTERA and Chemkin)
+HO2+OH=H2O+O2:4.5d14,0.d0,5500.0226512753297d0,6
+HO2+OH=H2O+O2:2.89d13,0.d0,-249.65988848911712d0,6
+
+# 17 (FALL-OFF TYPE; NOT ARRHENIUS LIKE)  
+# OH + OH (+ M) [=] H2O2 (+ M)
+
+# 18 - 19 (Duplicate reactions like in CANTERA and Chemkin)
+HO2+HO2=H2O2+O2:1.94d11,0.d0,-709.00138922519295d0,6 
+HO2+HO2=H2O2+O2:1.03d14,0.d0,5556.5503277699599d0,6
+
+# 20
+H2O2+H=HO2+H2:2.3d13,0.d0,4000.5959643422548d0,6
+
+# 21
+H2O2+H=H2O+OH:1.d13,0.d0,1804.0747817434933d0,6
+
+# 22 -23 (Duplicate reactions like in CANTERA and Chemkin)
+H2O2+OH=H2O+HO2:7.59d13,0.d0,3659.8663738969667d0,6
+H2O2+OH=H2O+HO2:1.74d12,0.d0,159.96129731458976d0,6
+
+# 24 
+H2O2+O=HO2+OH:9.6d6,2.d0,2008.5365903410893d0,6

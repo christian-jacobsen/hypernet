@@ -1,0 +1,115 @@
+#--------------------------------------
+#This file provides the "a" and "b" parameters for Millikan and White formula to be used in VT relaxation
+#--------------------------------------
+
+#N2-N VT interaction
+INTER = N2 N 
+MWAB = 180. 0.0262
+
+#N2-O VT interaction
+INTER = N2 O
+MWAB =  72.4 0.0150
+
+#N2-N2 VT interaction
+INTER = N2 N2
+MWAB =  221. 0.0290
+
+#N2-O2 VT interaction
+INTER = N2 O2
+MWAB =  229. 0.0295
+
+#N2-NO VT interaction
+INTER = N2 NO
+MWAB = 225. 0.0293
+
+#O2-N VT interaction
+INTER = O2 N
+MWAB = 72.4 0.015
+
+#O2-O VT interaction
+INTER = O2 O
+MWAB = 47.7 0.059
+
+#O2-O2 VT interaction
+INTER = O2 N2
+MWAB = 134. 0.0295
+
+#O2-O2 VT interaction
+INTER = O2 O2
+MWAB = 138. 0.0300
+
+#O2-N VT interaction
+INTER = O2 NO
+MWAB = 136. 0.0298
+
+#NO-N VT interaction
+INTER = NO N
+MWAB = 49.5 0.042
+
+#NO-O VT interaction
+INTER = NO O
+MWAB = 49.5 0.042
+
+#NO-N2 VT interaction
+INTER = NO N2
+MWAB = 49.5 0.042
+
+#NO-O2 VT interaction
+INTER = NO O2
+MWAB = 49.5 0.042
+
+#NO-NO VT interaction
+INTER = NO NO
+MWAB = 49.5 0.042
+
+#N2-CO VT interaction
+INTER = N2 CO
+MWAB = 221.0 0.029
+
+#N2-CO VT interaction
+INTER = N2 CO2
+MWAB = 245.0 0.0305
+
+#CO-O VT interaction
+INTER = CO O
+MWAB = 47.7 0.05
+
+#CO-N VT interaction
+INTER = CO N 
+MWAB = 47.7 0.05
+
+#CO-C VT interaction
+INTER = CO C 
+MWAB = 47.7 0.05
+
+#CO-CO VT interaction
+INTER = CO CO
+MWAB = 198.0 0.029
+
+#CO-N2 VT interaction
+INTER = CO N2
+MWAB = 198.0 0.029
+
+#CO-CO2 VT interaction
+INTER = CO CO2
+MWAB = 218.0 0.0305
+
+#CO2-CO2 VT interaction
+INTER = CO2 CO2
+MWAB = 36.5 -0.0193
+
+#CO2-N VT interaction
+MWAB = CO2 N
+MWAB = 35.8 0.0271
+
+#CO2-O VT interaction
+INTER = CO2 O
+MWAB = 37.6 0.0278
+
+#CO2-C VT interaction
+INTER = CO2 C
+MWAB = 33.7 0.0263
+
+#CO2-CO VT interaction
+INTER = CO2 CO
+MWAB = 45.4 0.0305

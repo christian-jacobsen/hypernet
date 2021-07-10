@@ -1,0 +1,79 @@
+#-------------------------------------
+#Species file for OH
+#-------------------------------------
+NAME = OH
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 1.70073d-2
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 2
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = O H
+ELEM_QUANT = 1 1
+
+#--------------------------------------
+#Formation energy [J/mol] (from AcT database)
+EF = 37.250d3
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Ionization potential [eV]
+IP = 13.017d0
+
+#--------------------------------------
+#Linearity
+LIN = 1
+
+#--------------------------------------
+#Symmetry factor
+SYM = 1.d0
+
+#--------------------------------------
+#Lennard-Jones parameters (from CANTERA) 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 2.75d0 
+LJ_EPS  = 80.d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Value below has been computed using Hartree-Fock method (STO-3G)
+POLAR = 0.265d0 
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...,)
+#RR = Rigid-rotor
+#HO = Harmomic-oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = RR_HO_EL
+
+#Characteristic rotational and vibrational temperatures and electronic levels - values have been taken from 
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+#Refs.:
+#Huber, K.P.; Herzberg, G., Molecular Spectra and Molecular Structure. IV. Constants of Diatomic Molecules,, Van Nostrand Reinhold Co., 1979
+
+#--------------------------------------
+#Characteristic rotational temperature [K]
+THETA_ROT = 27.208264064037394d0
+
+#--------------------------------------
+#Characteristic vibrational temperature(s) [K]
+THETA_VIB = 5378.1167941796111d0 
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ELEC_LEVELS = 4
+2.d0 0.d0
+2.d0 1.7259697969473440d-2
+2.d0 4.0522785317438892d0
+2.d0 8.6508021415274747d0 

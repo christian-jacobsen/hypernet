@@ -1,0 +1,327 @@
+Units=cm^3/(mol*s)
+
+#-------------------
+# References:
+# 1) Lennon, M. A., Bell, K. L., Gilbody, H. B., Hughes, J. G., Kingston, A. E., Murray, M. J., Smith, F. J, 
+#    "Recommended Data on Electron Impact Ionization of Atoms and Ions: Fluorine to Nickel", 
+#    J. Phys. Chem. Ref. Data, Vol. 17, No. 3, 1285--1363, 1988
+#
+# 2) Janev, R. K., Wang, J. G., Murakami, I., Kato, T., "Cross-Sections and Rate Coefficients for Electron-Impact Ionization
+#    of Hydrocarbon Molecules", NIFS-DATA-68, 2001
+#
+# 3) Yoon, J.-S., Song, Mi-Y., Han, J.-M, Hwang, S. H., Chang, W.-S., Lee, B.-J., Itikawa, Y.,  "Cross Sections for 
+#    Electron-Collisions with Hydrogen Molecules", J. Phys. Chem. Ref. Data, Vol. 37, No. 2, 913--931, 2008
+#
+# 4) Y.-K. Kim and M.E. Rudd, Phys. Rev. A 50, 3954 (1994); W. Hwang, Y.-K. Kim and M.E. Rudd, J. Chem. Phys. 104, 2956 (1996)
+#    and Y.-K. Kim and M. E. Rudd, Comments At. Mol. Phys. 34, 293 (1999). [Binary Encounter Bethe (BEB) theory]    
+#
+# 5) Janev, R. K, Reiter, D., "Collisional processes of CHy and CHy+ hydrocarbons with plasma electrons and protons", 
+#    Phys. Plasmas, Vol. 9, No. 9, 4071--4081, 2002 
+#
+# 6) Janev, R. K, Reiter, D., "Collisional processes of CH2,3y and C2,3Hy+ hydrocarbons with plasma electrons and protons", 
+#    Phys. Plasmas, Vol. 11, No. 2, 780--829, 2004   
+#
+# 7)  Park, C. "Review of chemical-kinetic problems of future NASA missions, I: Earth entries", J. Thermophys. Heat Transfer, 
+#     Vol. 7, No. 3, 385--398, 1993
+#
+# 8) Itikawa, Y. "Cross Sections for Electron-Collisions with Oxygen Molecules", J. Phys. Chem. Ref. Data, Vol. 38, No. 1, 1--20, 2009
+#
+#
+# 9) Itikawa, Y. "Cross Sections for Electron-Collisions with Nitrogen Molecules", J. Phys. Chem. Ref. Data, Vol. 35, No. 1, 31--53, 2006 
+#-----------------
+
+#-----------------
+#NEED TO ADD
+# - Charge exchange
+# - Dissociative recombination
+# - Heavy-particle dissociation and radical reactions
+
+#------------------
+# Multi-photon ionization reactions (Grey-Morgan model). NOTE: intensity must be expressed in [W/cm^2]
+C2H4=C2H4p+em:5.6927934147785266d-49,5.d0,0.d0,11
+O=Op+em:5.41104243d-62,6.d0,0.d0,11
+N=Np+em:4.28603002454d-75,7.d0,0.d0,11
+O2=O2p+em:4.d-66,6.d0,0.d0,11
+N2=N2p+em:1.d-78,7.d0,0.d0,11
+
+#-----------------
+# Heavy-particle impact dissociation (Ref. [7)]
+O2+M=O+O+M:1.0E+22,-1.50d0,59500.d0,1
+M=O,Op
+O2+M=O+O+M:2.0E+21,-1.5d0,59500.d0,1
+M=O2,O2p
+N2+M=N+N+M:3.0E+22,-1.6d0,113200.d0,1
+M=N,O,Np,Op
+N2+M=N+N+M:7.0E+21,-1.6d0,113200.d0,1
+M=N2,NO,O2,N2p,O2p,NOp
+NO+M=N+O+M:1.1E+17,0.d0,75500.d0,1
+M=N,O,Np,Op
+NO+M=N+O+M:5.0E+15,0.d0,75500.d0,1
+M=N2,NO,O2,N2p,O2p,NOp
+
+#------------------
+#Electron impact dissociation and dissociative excitation reactions 
+# H2 (Ref. [3])
+H2+em=H+H+em:0.6690E+17,-0.1347E+00,0.1084E+06,4
+
+# O2 (Ref. [8])
+O2+em=O+O+em:0.1425E+17,0.4825E-02,0.1550E+06,4
+
+# N2 (Ref. [9])
+N2+em=N+N+em:0.1811E+11,0.1161E+01,0.1187E+06,4
+
+# Hydrocarbon molecules 
+# Neutral molecules
+# CH (Ref. [5]) 
+CH+em=C+H+em:1.43829927e+13,5.96765633e-01,9.29062384e+04,4
+
+# CH2 (Ref. [5])
+CH2+em=C+H2+em:6.83452754e+11,6.48288185e-01,1.06930337e+05,4
+CH2+em=CH+H+em:6.48207519e+12,6.60409793e-01,1.10428103e+05,4
+
+# CH3 (Ref. [5]) 
+CH3+em=CH2+H+em:4.10927966e+12,6.98901088e-01,1.22068817e+05,4
+CH3+em=CH+H2+em:5.35470218e+11,7.17138074e-01,1.27880174e+05,4
+ 
+# CH4 (Ref. [5])
+CH4+em=CH2+H2+em:8.68020813e+11,6.95176551e-01,1.20905886e+05,4
+CH4+em=CH3+H+em:6.33197412e+12,6.72256795e-01,1.13923134e+05,4
+
+# C2 (Ref. [6]) 
+C2+em=C+C+em:9.90492877e+12,6.26586127e-01,1.00860281e+05,4
+
+# C2H (Ref. [6]) 
+C2H+em=C2+H+em:4.29965575e+12,6.72256795e-01,1.13923134e+05,4
+C2H+em=C+CH+em:5.15600190e+11,7.51820543e-01,1.39488565e+05,4
+
+# C2H2 (Ref. [6]) 
+C2H2+em=C2+H2+em:1.25031983e+12,6.68337508e-01,1.12758413e+05,4
+C2H2+em=C2H+H+em:7.10725354e+12,6.18857887e-01,9.87567303e+04,4
+C2H2+em=C+CH2+em:4.24635877e+11,7.09918957e-01,1.25556267e+05,4
+C2H2+em=CH+CH+em:2.32640394e+11,7.38220093e-01,1.34847284e+05,4
+
+# C2H3 (Ref. [6]) 
+C2H3+em=C2H2+H+em:5.61476070e+13,4.74981117e-01,6.46037711e+04,4
+C2H3+em=C2H+H2+em:1.09209027e+13,5.28292180e-01,7.62158727e+04,4
+C2H3+em=C+CH3+em:1.59463717e+12,5.90863592e-01,9.13831900e+04,4
+C2H3+em=CH2+CH+em:8.63598805e+11,6.23594348e-01,1.00042388e+05,4
+
+# C2H4 (Ref. [6]) 
+C2H4+em=C2H2+H2+em:1.22605369e+13,5.39521134e-01,7.88105628e+04,4
+C2H4+em=C2H3+H+em:7.82433183e+12,5.92231607e-01,9.17347379e+04,4
+C2H4+em=C+CH4+em:9.43153336e+11,6.44184302e-01,1.05763763e+05,4
+C2H4+em=CH2+CH2+em:4.50849211e+11,6.76146980e-01,1.15087576e+05,4
+C2H4+em=CH3+CH+em:5.03356457e+11,6.68337508e-01,1.12758413e+05,4
+
+#C2H4 (Ref. [6])
+C2H4+em=C2H2+H2+em:1.22605369e+13,5.39521134e-01,7.88105628e+04,4
+C2H4+em=C2H3+H+em:7.82433183e+12,5.92231607e-01,9.17347379e+04,4
+
+#Charged molecules
+# CHp (Ref. [5])
+CHp+em=C+Hp+em:8.55018204e+14,2.99045236e-01,6.77897602e+04,4
+CHp+em=Cp+H+em:1.75087822e+12,5.73742195e-01,1.51599380e+05,4
+
+# CH2p (Ref. [5]) 
+CH2p+em=C+H2p+em:8.97514472e+11,5.56214228e-01,1.44656082e+05,4
+CH2p+em=CH+Hp+em:9.63901401e+13,4.71377507e-01,1.14516989e+05,4
+CH2p+em=CHp+H+em:7.04490079e+12,5.67974014e-01,1.49285317e+05,4
+CH2p+em=Cp+H2+em:3.10423769e+12,5.37986632e-01,1.37709136e+05,4
+
+# CH3p (Ref. [5])
+CH3p+em=CH2+Hp+em:4.04011219e+13,5.37986632e-01,1.37709136e+05,4
+CH3p+em=CH2p+H+em:2.40204612e+13,5.25418192e-01,1.33075499e+05,4
+CH3p+em=CH+H2p+em:3.30231601e+12,5.47191304e-01,1.41183102e+05,4
+CH3p+em=CHp+H2+em:6.39101062e+12,5.67974014e-01,1.49285317e+05,4
+
+# CH4p (Ref. [5]) 
+CH4p+em=CH2+H2p+em:1.48723542e+13,4.88960883e-01,1.20321256e+05,4
+CH4p+em=CH2p+H2+em:1.49346550e+14,3.71578878e-01,8.53962873e+04,4
+CH4p+em=CH3+Hp+em:1.39563718e+14,4.34040668e-01,1.02891783e+05,4
+CH4p+em=CH3p+H+em:9.16069410e+14,3.09425626e-01,7.01462886e+04,4
+
+# C2p (Ref. [6])
+C2p+em=Cp+C+em:9.70428087e+13,4.39455336e-01,1.04520846e+05,4
+
+# C2Hp (Ref. [6]) 
+C2Hp+em=C2+Hp+em:2.09189631e+13,5.31745588e-01,1.35392568e+05,4
+C2Hp+em=C2p+H+em:4.68190586e+13,4.78845035e-01,1.16955378e+05,4
+C2Hp+em=CH+Cp+em:5.79272410e+12,5.44754792e-01,1.40256811e+05,4
+C2Hp+em=CHp+C+em:9.88889210e+12,5.18031806e-01,1.30410210e+05,4
+
+# C2H2p (Ref. [6]) 
+C2H2p+em=C2+H2p+em:7.35391855e+11,6.22609918e-01,1.72412366e+05,4
+C2H2p+em=C2H+Hp+em:3.58426660e+13,4.89994694e-01,1.20669361e+05,4
+C2H2p+em=C2Hp+H+em:2.91287727e+14,3.87372971e-01,8.96031355e+04,4
+C2H2p+em=C2p+H2+em:4.19272405e+13,4.56436753e-01,1.09753595e+05,4
+C2H2p+em=CH2+Cp+em:2.59575566e+12,5.70290045e-01,1.50210985e+05,4
+C2H2p+em=CH2p+C+em:5.99819773e+12,5.35188699e-01,1.36666741e+05,4
+C2H2p+em=CHp+CH+em:2.24976833e+12,5.80286649e-01,1.54260127e+05,4
+ 
+# C2H3p (Ref. [6]) 
+C2H3p+em=C2H2+Hp+em:5.26718411e+13,4.80956405e-01,1.17651898e+05,4
+C2H3p+em=C2H2p+H+em:4.99166979e+14,3.63469683e-01,8.32905894e+04,4
+C2H3p+em=C2H+H2p+em:6.78019273e+12,5.37055889e-01,1.37361681e+05,4
+C2H3p+em=C2Hp+H2+em:1.59222220e+14,3.95491655e-01,9.18211759e+04,4
+C2H3p+em=CH2+CHp+em:1.21073371e+12,6.09023828e-01,1.66401928e+05,4
+C2H3p+em=CH2p+CH+em:2.36963417e+12,5.82259933e-01,1.55069833e+05,4
+C2H3p+em=CH3+Cp+em:2.31134320e+12,5.63892459e-01,1.47665259e+05,4
+C2H3p+em=CH3p+C+em:1.09200681e+13,5.03560153e-01,1.25309267e+05,4
+
+# C2H4p (Ref. [6])  
+C2H4p+em=C2H2+H2p+em:2.41188220e+13,4.74948687e-01,1.15678239e+05,4
+C2H4p+em=C2H2p+H2+em:1.40455846e+15,2.93762200e-01,6.66102122e+04,4
+C2H4p+em=C2H3p+H+em:2.34812809e+15,2.79722236e-01,6.35390361e+04,4
+C2H4p+em=CH2p+CH2+em:8.76037687e+12,5.06889590e-01,1.26468831e+05,4
+C2H4p+em=CH3+CHp+em:1.03028591e+13,4.95469239e-01,1.22525651e+05,4
+C2H4p+em=CH3p+CH+em:2.21542253e+13,4.57177017e-01,1.09986045e+05,4
+C2H4p+em=CH4+Cp+em:1.26575742e+13,4.80956405e-01,1.17651898e+05,4
+
+#-------------------
+# Electron impact ionziation reactions
+#Atoms (Ref. [1])
+H+em=Hp+em+em:0.921536E+14,0.417858E+00,0.159182E+06,9
+C+em=Cp+em+em:0.311744E+14,0.591040E+00,0.122184E+06,9
+Cp+em=Cpp+em+em:0.558609E+15,0.272430E+00,0.285392E+06,9
+Cpp+em=Cppp+em+em:0.766982E+14,0.326024E+00,0.559292E+06,9
+Cppp+em=Cpppp+em+em:0.650178E+14,0.221245E+00,0.777878E+06,9
+Cpppp+em=Cppppp+em+em:0.315216E+10,0.750459E+00,0.446487E+07,9
+
+O+em=Op+em+em:0.336252E+14,0.534479E+00,0.159345E+06,9
+Op+em=Opp+em+em:0.231534E+15,0.327117E+00,0.438729E+06,9
+Opp+em=Oppp+em+em:0.738137E+15,0.186397E+00,0.654103E+06,9
+Oppp+em=Opppp+em+em:0.184552E+15,0.225405E+00,0.986005E+06,9
+Opppp+em=Oppppp+em+em:0.178232E+15,0.156931E+00,0.137254E+07,9
+Oppppp+em=Opppppp+em+em:0.891948E+14,0.151838E+00,0.163586E+07,9
+
+N+em=Np+em+em:0.796795E+15,0.306752E+00,0.180749E+06,9
+Np+em=Npp+em+em:0.489183E+14,0.445240E+00,0.354282E+06,9
+Npp+em=Nppp+em+em:0.330192E+16,0.735545E-01,0.614360E+06,9
+Nppp+em=Npppp+em+em:0.599821E+15,0.115635E+00,0.951373E+06,9
+Npppp+em=Nppppp+em+em:0.498886E+14,0.212779E+00,0.115880E+07,9
+Nppppp+em=Npppppp+em+em:0.958927E+09,0.785293E+00,0.593677E+07,9
+
+# O2 (Ref. [8])
+O2+em=O2p+em+em:0.2119E+13,0.7502d0,0.1527d6,9
+
+# N2 (Ref. [9])
+N2+em=N2p+em+em:0.4534E+14,0.5395d0,0.1894d6,9
+
+# H2 (Ref. [4]) 
+H2+em=H2p+em+em:0.2589E+14,0.5567E+00,0.1797E+06,9
+
+# Hydrocarbon molecules (Ref. [2])
+CH+em=CHp+em+em:7.09269848e+12,6.93435428e-01,1.31423347e+05,9
+CH2+em=CH2p+em+em:8.34328188e+12,6.82665141e-01,1.26910373e+05,9
+CH3+em=CH3p+em+em:1.93567622e+13,6.12692977e-01,1.23679141e+05,9
+CH4+em=CH4p+em+em:7.86765282e+13,5.12414825e-01,1.63038276e+05,9
+C2H+em=C2Hp+em+em:6.11443187e+12,7.86372462e-01,1.28075507e+05,9
+C2H2+em=C2H2p+em+em:1.03292689e+15,3.64682955e-01,1.78537641e+05,9
+C2H3+em=C2H3p+em+em:5.23660129e+12,7.56653383e-01,1.14950370e+05,9
+C2H4+em=C2H4p+em+em:2.89574940e+12,7.92855883e-01,1.31616469e+05,9
+
+#------------------
+# Dissociative ionization reactions
+# Neutral molecules
+# CH (Ref. [2])
+CH+em=C+Hp+em+em:4.84402148e+09,1.07158822e+00,1.94933376e+05,12
+
+# CH2 (Ref. [2])
+CH2+em=C+H2p+em+em:2.75378015e+12,5.52815457e-01,2.87495307e+05,12
+CH2+em=CH+Hp+em+em:1.73030276e+11,7.53031182e-01,2.57929823e+05,12
+CH2+em=CHp+H+em+em:7.18745316e+12,6.26442395e-01,1.81932391e+05,12
+CH2+em=Cp+H2+em+em:2.05467866e+10,9.33012296e-01,1.97858656e+05,12
+
+# CH3 (Ref. [2])
+CH3+em=CH2+Hp+em+em:2.26516263e+09,1.12960277e+00,2.12317811e+05,12
+CH3+em=CH2p+H+em+em:2.91779164e+13,5.51465618e-01,1.78695210e+05,12
+CH3+em=CH+H2p+em+em:9.70994214e+09,8.46721055e-01,2.31901779e+05,12
+CH3+em=CHp+H2+em+em:5.36763291e+11,7.32158140e-01,1.88478880e+05,12
+
+# CH4 (Ref. [2])
+CH4+em=CH2+H2p+em+em:3.66904507e+04,1.95802945e+00,2.62248308e+05,12
+CH4+em=CH2p+H2+em+em:7.52487766e+10,9.29467700e-01,1.84818788e+05,12
+CH4+em=CH3+Hp+em+em:1.96838034e+11,8.71114273e-01,2.86791363e+05,12
+CH4+em=CH3p+H+em+em:7.82686357e+12,6.75717923e-01,1.63166100e+05,12
+
+# C2H (Ref. [2])
+C2H+em=CHp+C+em+em:1.06475768e+10,1.05406129e+00,2.32329774e+05,12
+C2H+em=Cp+CH+em+em:1.58648740e+11,7.94406240e-01,2.59568902e+05,12
+
+# C2H2 (Ref. [2])
+C2H2+em=C2Hp+H+em+em:9.64245580e+12,6.23736079e-01,2.05589466e+05,12
+C2H2+em=CHp+CH+em+em:1.78699347e+12,6.98355139e-01,2.78289572e+05,12
+C2H2+em=Cp+CH2+em+em:9.35373909e+10,8.93221682e-01,3.27395250e+05,12
+C2H2+em=Hp+C2H+em+em:8.87830665e+11,7.50559029e-01,2.76274417e+05,12
+
+# C2H3 (Ref. [2])
+C2H3+em=C2H2p+H+em+em:2.14586746e+12,7.55312681e-01,1.43469421e+05,12
+C2H3+em=C2Hp+H2+em+em:2.79678219e+11,8.78051289e-01,1.52288474e+05,12
+C2H3+em=CH2p+CH+em+em:1.89652606e+11,6.94958642e-01,2.32658007e+05,12
+C2H3+em=CHp+CH2+em+em:3.75154942e+12,5.88165429e-01,2.98437512e+05,12
+C2H3+em=Cp+CH3+em+em:6.66005870e+11,6.81969114e-01,2.51105362e+05,12
+C2H3+em=Hp+C2H2+em+em:7.61150131e+11,6.81970185e-01,2.51102563e+05,12
+
+# C2H4 (Ref. [2])
+C2H4+em=C2H2p+H2+em+em:4.07429429e+11,8.99522355e-01,1.66760746e+05,12
+C2H4+em=C2H3p+H+em+em:4.18960219e+12,7.25019877e-01,1.62122859e+05,12
+C2H4+em=CH2p+CH2+em+em:7.68562111e+10,8.31265922e-01,2.47559590e+05,12
+C2H4+em=CH3p+CH+em+em:8.38026187e+10,8.31227713e-01,2.47559702e+05,12
+C2H4+em=CHp+CH3+em+em:6.35489481e+11,6.11099749e-01,3.19413492e+05,12
+
+# Charged molecules
+# CHp (Ref. [5]) 
+CHp+em=Cp+Hp+em+em:4.22278130e+13,4.94945308e-01,3.41366738e+05,12
+
+# CH2p (Ref. [5]) 
+CH2p+em=CHp+Hp+em+em:2.15345116e+13,5.05322138e-01,3.57667390e+05,12
+
+# CH3p (Ref. [5]) 
+CH3p+em=CH2p+Hp+em+em:1.61803535e+13,5.08178384e-01,3.62291969e+05,12
+
+# CH4p (Ref. [5]) 
+CH4p+em=CH3p+Hp+em+em:2.34154371e+13,4.79740717e-01,3.18825837e+05,12
+
+# C2p (Ref. [6])
+C2p+em=Cp+Cp+em+em:5.77288706e+13,4.92139223e-01,3.37089517e+05,12
+
+# C2Hp (Ref. [6]) 
+C2Hp+em=C2p+Hp+em+em:3.47355402e+13,5.10927517e-01,3.66801051e+05,12
+C2Hp+em=CHp+Cp+em+em:2.05103696e+13,5.07752331e-01,3.61598274e+05,12
+
+# C2H2p (Ref. [6])
+C2H2p+em=C2Hp+Hp+em+em:1.90509452e+13,5.05752972e-01,3.58361069e+05,12
+C2H2p+em=C2p+H2p+em+em:8.15414603e+12,5.26983576e-01,3.94320506e+05,12
+C2H2p+em=CH2p+Cp+em+em:9.45951249e+12,5.03735089e-01,3.55123925e+05,12
+C2H2p+em=CHp+CHp+em+em:8.07911612e+12,5.14056796e-01,3.72003982e+05,12 
+
+# C2H3p (Ref. [6]) 
+C2H3p+em=C2H2p+Hp+em+em:2.41052301e+13,5.02864538e-01,3.53736595e+05,12
+C2H3p+em=C2Hp+H2p+em+em:1.26936451e+13,5.19442810e-01,3.81138388e+05,12
+C2H3p+em=CH2p+CHp+em+em:1.01580453e+13,5.14056796e-01,3.72003982e+05,12
+C2H3p+em=CH3p+Cp+em+em:1.24246810e+13,5.05394003e-01,3.57783003e+05,12
+
+# C2H4p (Ref. [6])
+C2H4p+em=C2H2p+H2p+em+em:1.69785598e+13,5.01917510e-01,3.52233668e+05,12
+C2H4p+em=C2H3p+Hp+em+em:3.25567325e+13,4.87043766e-01,3.29460147e+05,12
+C2H4p+em=CH2p+CH2p+em+em:1.25197913e+13,4.99051603e-01,3.47724965e+05,12
+C2H4p+em=CH3p+CHp+em+em:1.33576881e+13,4.94794536e-01,3.41135534e+05,12
+C2H4p+em=CH4p+Cp+em+em:9.40177315e+12,5.12115022e-01,3.68766585e+05,12  
+
+# Associative ionization and exchange reactions (particle and charge) 
+NO+O=O2+N:8.4E+12,0.0d0,19450.d0,6
+N2+O=NO+N:6.4E+17,-1.d0,38400.d0,6
+O+O=O2p+em:7.1E+2,2.7d0,80600.d0,10
+N+N=N2p+em:4.4E+7,1.5d0,67500.d0,10
+O+N=NOp+em:8.8E+8,1.d0,31900.d0,10
+O+NOp=Np+O2:1.0E+12,0.5d0,77200.d0,6
+N2+Np=N+N2p:1.0E+12,0.5d0,12200.d0,6
+N+O2p=O2+Np:8.7E+13,0.14d0,28600.d0,6
+NO+Op=O2+Np:1.4E+5,1.9d0,26600.d0,6
+N2+O2p=O2+N2p:9.9E+12,0.d0,40700.d0,6
+O+O2p=O2+Op:4.0E+12,-0.09d0,18000.d0,6
+N+NOp=Op+N2:3.4E+13,-1.08d0,12800.d0,6
+NOp+O2=O2p+NO:2.4E+13,0.41d0,32600.d0,6
+NOp+O=O2p+N:7.2E+12,0.29d0,48600.d0,6
+Op+N2=N2p+O:9.1E+11,0.36d0,22800.d0,6
+NOp+N=N2p+O:7.2E+13,0.d0,35500.d0,6

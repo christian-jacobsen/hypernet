@@ -1,0 +1,36 @@
+Units=cm^3/(mol*s)
+
+#Chemical kinetic scheme for CO2 neutral mixture 
+#
+#-------------------
+# References:
+#
+# 1) Park, C., Howe, T. J., Jaffe, R. L., Candler, G. V., ``Review  of  Chemical-Kinetic  Problems  of Future NASAMissions,  II:  Mars  Entries"
+#    J. Thermophys. Heat Transfer, Vol. 8, No. 1, pp. 9--23 (1994)
+
+#C2 dissociation
+C2+M=C+C+M:3.7E+14,+0.0,69900.0,1
+M=C,O,C2,O2,CO,CO2
+
+#O2 dissociation
+O2+M=O+O+M:1.0E+22,-1.5,59750.0,1
+M=C,O
+O2+M=O+O+M:2.0E+21,-1.5,59750.0,1
+M=CO,C2,O2
+
+#CO dissociation
+CO+M=C+O+M:3.4E+20,-1.0,12900,1
+M=C,O
+CO+M=C+O+M:2.3E+20,-1.0,12900,1
+M=C2,CO,CO2
+
+#CO2 dissociation
+CO2+M=CO+O+M:1.4E+22,-1.5,63275.0,1
+M=C,O
+CO2+M=CO+O+M:6.9E+21,-1.5,63275.0,1
+M=CO,C2,O2
+
+#Exchange 
+CO+O=C+O2:3.9E+13,-0.18,69200.0,6
+CO+C=O+C2:2.0E+17,-1.0,58000.0,6
+CO2+O=O2+CO:2.1E+13,0.0,27800.0,6

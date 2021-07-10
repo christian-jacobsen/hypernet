@@ -1,0 +1,17 @@
+#File descriptor for 'N+em' ionization processes
+ENDIAN = BIG
+
+#Units
+UNITS = m^3/s
+
+#Number of processes
+NB_PROC = 46
+
+#Reactant and product chemical components
+#
+#Process is:
+#
+# A(i) + em <=> Ap(j) + em + em
+#
+COMP_A  = N
+COMP_Ap = Np

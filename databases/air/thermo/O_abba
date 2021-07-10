@@ -1,0 +1,93 @@
+#-------------------------------------
+#Species file for O_abba
+#-------------------------------------
+NAME = O
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 15.9994d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = O
+ELEM_QUANT = 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 246795.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Nuclear charge (or atomic number)
+NUCLEAR_CHARGE = 8
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 2.75d0
+LJ_EPS  = 80.d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 0.802d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = NONE
+
+#--------------------------------------
+#Electronic levels degeneracies and energies [eV]
+NB_ENERGY_LEVELS = 40
+0.900000e+01  0.000000e+00
+0.500000e+01  0.196997e+01
+0.100000e+01  0.418989e+01
+0.500000e+01  0.914599e+01
+0.300000e+01  0.952092e+01
+0.150000e+02  0.107399e+02
+0.900000e+01  0.109900e+02
+0.500000e+01  0.118379e+02
+0.300000e+01  0.119299e+02
+0.250000e+02  0.120900e+02
+0.150000e+02  0.120999e+02
+0.150000e+02  0.123000e+02
+0.900000e+01  0.123699e+02
+0.150000e+02  0.125499e+02
+0.500000e+01  0.126700e+02
+0.300000e+01  0.127099e+02
+0.500000e+01  0.127399e+02
+0.250000e+02  0.127600e+02
+0.150000e+02  0.127699e+02
+0.560000e+02  0.127799e+02
+0.150000e+02  0.128599e+02
+0.900000e+01  0.128899e+02
+0.500000e+01  0.130299e+02
+0.300000e+01  0.130500e+02
+0.400000e+02  0.130800e+02
+0.560000e+02  0.130869e+02
+0.150000e+02  0.131299e+02
+0.900000e+01  0.131400e+02
+0.500000e+01  0.132200e+02
+0.300000e+01  0.132300e+02
+0.168000e+03  0.132500e+02
+0.500000e+01  0.133299e+02
+0.300000e+01  0.133400e+02
+0.960000e+02  0.133530e+02
+0.800000e+01  0.134119e+02
+0.400000e+02  0.134180e+02
+0.800000e+01  0.134590e+02
+0.400000e+02  0.134640e+02
+0.300000e+01  0.134930e+02
+0.400000e+02  0.134959e+02

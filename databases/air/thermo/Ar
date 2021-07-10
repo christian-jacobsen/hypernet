@@ -1,0 +1,66 @@
+#-------------------------------------
+#Species file for Ar
+#-------------------------------------
+NAME = Ar
+
+#-------------------------------------
+#Molecular mass [kg/mol]
+MOLAR_MASS = 39.948d-3 
+
+#-------------------------------------
+#Number of atoms 
+NB_ATOMS = 1
+
+#-------------------------------------
+#Chemical elements (symbols and quantities)
+ELEM_NAME = Ar
+ELEM_QUANT = 1
+
+#--------------------------------------
+#Formation energy [J/mol]
+EF = 0.d0
+
+#--------------------------------------
+#Electric charge
+CHARGE = 0
+
+#--------------------------------------
+#Nuclear charge (or atomic number)
+NUCLEAR_CHARGE = 18
+
+#--------------------------------------
+#Lennard-Jones parameters 
+# - diameter [A]
+# - potential well-depth [K]
+LJ_DIAM = 3.33d0 
+LJ_EPS  = 136.5d0
+
+#--------------------------------------
+#Polarizability [A^3]
+#Computational Chemistry Comparison and Benchmark DataBase (NIST Release 19 (April 2018) Standard Reference Database 101)
+POLAR = 1.664d0
+
+#--------------------------------------
+#Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...)
+#RR = Rigid-rotor
+#HO = Harmomic oscillator
+#EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+#NONE = pure State-to-State approach for internal energy levels
+MODEL = EL
+
+#--------------------------------------
+#Energy levels [eV] (for State-to-State approach)
+NB_ELEC_LEVELS = 12
+0.100000E+01  0.000000E+00
+0.100000E+01  0.138449E+02
+0.300000E+01  0.138636E+02
+0.500000E+01  0.139034E+02
+0.900000E+01  0.139791E+02
+0.700000E+01  0.140126E+02
+0.500000E+01  0.140629E+02
+0.700000E+01  0.140989E+02
+0.300000E+01  0.141524E+02
+0.500000E+01  0.142136E+02
+0.500000E+01  0.142339E+02
+0.700000E+01  0.142360E+02
+0.300000E+01  0.143036E+02
