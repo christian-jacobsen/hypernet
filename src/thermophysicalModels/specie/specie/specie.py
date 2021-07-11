@@ -6,7 +6,7 @@ class specie(object):
     ###########################################################################
     def __init__(
         self,
-        inputs,
+        database,
         name,
         Y
     ):
@@ -35,20 +35,20 @@ class specie(object):
             'THETA_ROT': [float, 'theta_r'],    # Characteristic rotational temperature [K]
             'THETA_VIB': [float, 'theta_v']     # Characteristic vibrational temperature(s) [K]
         }
-        self.read_properties(inputs.path_to_properties + name)
+        self.read_properties(database.path_to_properties + name)
 
         # Read specie electronic levels =======================================
         self.el_lev, g_e = self.read_elec_levels(
-            inputs.path_to_properties + name
+            database.path_to_properties + name
         )
 
         # Read specie ro-vibrational levels ===================================
         if self.n_at > 1:
             self.rv_lev = self.read_rovib_levels(
-                inputs.path_to_inter_levels, g_e
+                database.path_to_inter_levels, g_e
             )
             self.lev_to_bin, self.n_bins = self.read_grouping(
-                inputs.grouping_file, inputs.grouping
+                database.grouping_file, database.grouping
             )
 
         # Initilize specie mass fraction ======================================

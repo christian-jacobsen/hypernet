@@ -1,7 +1,34 @@
 import numpy as np
 import hypernet.src.general.const as const
 
-class EnergyModes(object):
+class MultiComponent(Basic):
+
+    # Initialization
+    ###########################################################################
+    def __init__(
+        self,
+        specie
+    ):
+        super(multiComponent, self).__init__(dim=dim)
+
+        # Specie Properties ===================================================
+        self.sp = specie
+        
+    # Methods
+    ###########################################################################
+    # Enthalpy ================================================================
+    def cp(self,T):
+        # [J/(kg K)]
+        return self.cv(T) + self.sp.R
+
+    def h(self,T):
+        # [J/kg]
+        return self.e(T) + self.sp.R*T
+
+    # Internal Energy ======================================================
+
+
+class energyModes(object):
 
     # Initialization
     ###########################################################################
@@ -11,7 +38,7 @@ class EnergyModes(object):
     ):
         # Specie Properties ===================================================
         self.sp = specie
-
+        
     # Methods
     ###########################################################################
     # Enthalpy ================================================================

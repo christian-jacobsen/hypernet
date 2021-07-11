@@ -1,4 +1,4 @@
-class perfectGas(object):
+class PerfectGas(object):
 
     # Initialization
     ###########################################################################
