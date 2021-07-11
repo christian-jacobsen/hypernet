@@ -4,77 +4,84 @@ class specie(object):
 
     # Initialization
     ###########################################################################
-    def __init__(self, path_to_database, mixture):
-
-        self.path_to_database = path_to_database
-
+    def __init__(
+        self,
+        inputs,
+        name,
+        Y
+    ):
+        # Read specie properties ==============================================
         self.properties = {
-            'NAME': str,            # Specie name
-            'MOLAR_MASS': float,    # Molecular mass [kg/mol]
-            'NB_ATOMS': int,        # Number of atoms
-            'ELEM_NAME': str,       # Chemical elements (symbols)
-            'ELEM_QUANT': int,      # Chemical elements (quantities)
-            'EF': float,            # Formation energy [J/mol]
-            'DE': float,            # Dissociation energy [eV]
-            'CHARGE': int,          # Electric charge
-            'NUCLEAR_CHARGE': int,  # Nuclear charge (or atomic number)
-            'IP': float,            # Ionization potential [eV]
-            'LIN': int,             # Linearity
-            'SYM': float,           # Symmetry factor
-            'LJ_DIAM': float,       # Lennard-Jones parameter: diameter [A]
-            'LJ_EPS': float,        # Lennard-Jones parameter: potential well-depth [K]
-            'POLAR': float,         # Polarizability [A^3]
-            'MODEL': str,           # Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...):
-                                    #   RR = Rigid-rotor
-                                    #   HO = Harmomic oscillator
-                                    #   EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
-                                    #   NONE = pure State-to-State approach for internal energy levels
-            'THETA_ROT': float,     # Characteristic rotational temperature [K]
-            'THETA_VIB': float,     # Characteristic vibrational temperature(s) [K]
-            'NB_ELEC_LEVELS': int,  # Number of electronic levels
+            'NAME': [str, 'name'],              # Specie name
+            'MOLAR_MASS': [float, 'm'],         # Molecular mass [kg/mol]
+            'NB_ATOMS': [int, 'n_at'],          # Number of atoms
+            'ELEM_NAME': [str, 'elem_name'],    # Chemical elements (symbols)
+            'ELEM_QUANT': [int, 'elem_num'],    # Chemical elements (quantities)
+            'EF': [float, 'Ef'],                # Formation energy [J/mol]
+            'DE': [float, 'D'],                 # Dissociation energy [eV]
+            'CHARGE': [int, 'C'],               # Electric charge
+            'NUCLEAR_CHARGE': [int, 'C_nucl'],  # Nuclear charge (or atomic number)
+            'IP': [float, 'Eion'],              # Ionization potential [eV]
+            'LIN': [int, 'lin'],                # Linearity
+            'SYM': [float, 'sym'],              # Symmetry factor
+            'LJ_DIAM': [float, 'lj_diam'],      # Lennard-Jones parameter: diameter [A]
+            'LJ_EPS': [float, 'lj_eps'],        # Lennard-Jones parameter: potential well-depth [K]
+            'POLAR': [float, 'pol'],            # Polarizability [A^3]
+            'MODEL': [str, 'model'],            # Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...):
+                                                #   RR = Rigid-rotor
+                                                #   HO = Harmomic oscillator
+                                                #   EL = Electronic energy computed based on a Boltzmann distribution of electronic levels 
+                                                #   NONE = pure State-to-State approach for internal energy levels
+            'THETA_ROT': [float, 'theta_r'],    # Characteristic rotational temperature [K]
+            'THETA_VIB': [float, 'theta_v']     # Characteristic vibrational temperature(s) [K]
         }
+        self.read_properties(inputs.path_to_properties + name)
 
-        self.database = {}
-        for specie in mixture:
-            self.read_properties(specie)
+        # Read specie electronic levels =======================================
+        self.el_lev, g_e = self.read_elec_levels(
+            inputs.path_to_properties + name
+        )
+
+        # Read specie ro-vibrational levels ===================================
+        if self.n_at > 1:
+            self.rv_lev = self.read_rovib_levels(
+                inputs.path_to_inter_levels, g_e
+            )
+            self.lev_to_bin, self.n_bins = self.read_grouping(
+                inputs.grouping_file, inputs.grouping
+            )
+
+        # Initilize specie mass fraction ======================================
+        self.Y_(Y)
 
 
     # Methods
     ###########################################################################
-    # Reading -----------------------------------------------------------------
-    def read_properties(self, specie):
-        file = self.path_to_database + specie
+    # Mass Fraction ===========================================================
+    def Y_(self, Y):
+        self.Y = Y
 
-        if specie not in self.database:
+    # Reading methods
+    ###########################################################################
+    # Global properties =======================================================
+    def read_properties(self, file):
+        for name, (data_type, var) in self.properties.items():
+            val = self.read_property(file, name, data_type)
+            setattr(self, var, val)
 
-            # Fill the database
-            self.database[specie] = {
-                prop: self.read_property(file, prop, data_type) \
-                    for prop, data_type in self.properties.items()
-            }
+        # Specific gas constant R [J/(kg K)]
+        self.R = const.URG / self.m
 
-            # Define specie molar mass [kg/mol]
-            m = self.database[specie]['MOLAR_MASS']
-
-            # Additions -------------------------------------------------------
-            # Electronic degeneracies 'g' and energies 'E' [J] levels
-            if 'NB_ELEC_LEVELS' in self.database[specie]:
-                self.database[specie]['ELEC_LEVELS'] = \
-                    self.read_elec_levels(file)
-
-            # Specific gas constant R [J/(kg K)]
-            self.database[specie]['R'] = const.URG / m
-
-            # Conversions -------------------------------------------------------
-            if self.database[specie]['EF']:
-                # Formation energy: [J/mol] -> [J/kg]
-                self.database[specie]['EF'] = self.database[specie]['EF'] * m
-            if self.database[specie]['DE']:
-                # Dissociation energy: [eV] -> [J]
-                self.database[specie]['DE'] = self.database[specie]['DE'] * const.EV_to_J
-            if self.database[specie]['IP']:
-                # Ionization potential: [eV] -> [J]
-                self.database[specie]['IP'] = self.database[specie]['IP'] * const.EV_to_J
+        # Conversions ---------------------------------------------------------
+        if self.Ef:
+            # Formation energy: [J/mol] -> [J/kg]
+            self.Ef = self.Ef / self.m
+        if self.D:
+            # Dissociation energy: [eV] -> [J]
+            self.D = self.D * const.EV_to_J
+        if self.Eion:
+            # Ionization potential: [eV] -> [J]
+            self.Eion = self.Eion * const.EV_to_J
 
     def read_property(self, file, name, data_type):
         result = self.search_string(file, name)
@@ -90,19 +97,59 @@ class specie(object):
         else:
             return None
 
+    # Electronic levels =======================================================
     def read_elec_levels(self, file):
+        '''Retrieve all the electronic levels.'''
+        # Initilize database
+        db = {}
+        # Number of electronic levels
+        db['num'] = self.read_property(file, 'NB_ELEC_LEVELS', int)
+        # Electronic levels degeneracies 'g' and energies 'E' [J]
         num, line = self.search_string(file, 'NB_ELEC_LEVELS')
-        degeneracies, energies = [], []
+        deg, en = [], []
         with open(file, 'r') as f:
             for l in f.readlines()[num+1:]:
-                g, e = l.strip().split("  ")
-                degeneracies.append(float(g))
-                energies.append(float(e) * const.EV_to_J)
-            return {
-                'g': degeneracies, 'E': energies
-            }
+                g, E = l.strip().split("  ")
+                deg.append(float(g))
+                en.append(float(E) * const.EH_to_J)
+        db['g'] = deg
+        db['E'] = en
 
-    # Utils -------------------------------------------------------------------
+        return db, deg[0]
+
+    # Molecular ro-vibrational levels =========================================
+    def read_rovib_levels(self, file, g_e):
+        '''Retrieve all the ro-vib levels.
+        g_e: electronic ground state degeneracy
+
+        '''
+        # Initilize database
+        db = {}
+        # Initilize database
+        data = pd.read_csv(file, header=None, skiprows=15, delim_whitespace=True).values
+        vqn = np.array(data[0])                     # Vibrational Q.N.
+        jqn = np.array(data[1])                     # Rotational  Q.N.
+        db['num'] = len(vqn)
+        db['g'] = g_e/2.0*(2.0*jqn+1.0)       # Degeneracies
+        E = np.array(data[2]) * const.EH_to_J       # Energy [J]
+        db['E'] = E - E[0]
+        return db
+
+    # Grouping ================================================================
+    def read_grouping(self, file, name):
+        '''Retrieve mapping of each rot-vib level to the respective bin.'''
+        if name is not None:
+            data = pd.read_csv(file, header=None, skiprows=1).values
+            lev_to_bin = np.array(data[1]) - 1
+            n_bins = max(bins) + 1
+        else:
+            lev_to_bin = np.zeros(self.rv_lev['num'], dtype=np.int32)
+            n_bins = 1
+        return lev_to_bin, n_bins
+
+
+    # Util methods
+    ###########################################################################
     def search_string(self, file, string):
         with open(file, 'r') as f:
             for i, line in enumerate(f):
