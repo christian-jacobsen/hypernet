@@ -1,131 +1,137 @@
 import numpy as np
 import hypernet.src.general.const as const
+from hypernet.src.thermophysicalModels.specie import Specie
+from hypernet.src.thermophysicalModels.specie import Specie
 
-class MultiComponent(Basic):
+class Basic(object):
 
     # Initialization
     ###########################################################################
     def __init__(
         self,
-        specie
+        input_file,
+        mixture
     ):
-        super(multiComponent, self).__init__(dim=dim)
-
-        # Specie Properties ===================================================
-        self.sp = specie
+        self.mix = {}
+        for s, Y in mixture.items():
+            sp = Specie(input_file, s)
+            sp.Y_(Y)
+            self.mix[s] = Thermo(sp)
         
     # Methods
     ###########################################################################
     # Enthalpy ================================================================
     def cp(self,T):
         # [J/(kg K)]
-        return self.cv(T) + self.sp.R
+        return self.mix_quantity('cp',T)
 
     def h(self,T):
         # [J/kg]
-        return self.e(T) + self.sp.R*T
-
-    # Internal Energy ======================================================
-
-
-class energyModes(object):
-
-    # Initialization
-    ###########################################################################
-    def __init__(
-        self,
-        specie
-    ):
-        # Specie Properties ===================================================
-        self.sp = specie
-        
-    # Methods
-    ###########################################################################
-    # Enthalpy ================================================================
-    def cp(self,T):
-        # [J/(kg K)]
-        return self.cv(T) + self.sp.R
-
-    def h(self,T):
-        # [J/kg]
-        return self.e(T) + self.sp.R*T
+        return self.mix_quantity('h',T)
 
     # Internal Energy =========================================================
     def cv(self,T):
         # [J/(kg K)]
-        return self.cv_tr() + self.cv_rv(T)
+        return self.mix_quantity('cv',T)
 
     def e(self,T):
         # [J/kg]
-        return self.e_tr(T) + self.e_rv(T) + self.e_f()
+        return self.mix_quantity('e',T)
 
     # Energy of formation -----------------------------------------------------
     def e_f(self):
         # [J/kg]
-        return self.sp.Ef
+        return self.mix_quantity('e_f',T)
 
     # Translational Internal Energy -------------------------------------------
     def cv_tr(self):
         # [J/(kg K)]
-        return 3./2.*self.sp.R
+        return self.mix_quantity('cv_tr',T)
 
     def e_tr(self,T):
         # [J/kg]
-        return 3./2.*self.sp.R*T
+        return self.mix_quantity('e_tr',T)
 
     # Ro-Vibrational Internal Energy ------------------------------------------
     def cv_rv(self,T):
         # [J/(kg K)]
-        if self.sp.n_at > 1:
-            q_, Q_ = self.q(T), self.Q(T)
-            dq_dT_, dQ_dT_ = self.dq_dT(T), self.dQ_dT(T)
-            cv_rv_ = np.zeros(self.sp.n_bins)
-            for bin_i in range(self.sp.n_bins):
-                mask = self.sp.lev_to_bin == bin_i
-                f1 = self.sp.rv_lev['E'][mask] / Q_[bin_i]
-                f2 = dq_dT_[mask] - q_[mask] * dQ_dT_[bin_i] / Q_[bin_i]
-                cv_rv_[bin_i] = np.sum(f1 * f2)
-            return cv_rv_ * const.UNA / self.sp.m
-        else:
-            return 0.
+        return self.mix_quantity('cv_rv',T)
 
     def e_rv(self,T):
         # [J/kg]
-        if self.sp.n_at > 1:
-            q_, Q_ = self.q(T), self.Q(T)
-            e_rv_ = np.zeros(self.sp.n_bins)
-            for bin_i in range(self.sp.n_bins):
-                mask = self.sp.lev_to_bin == bin_i
-                e_rv_[bin_i] = np.sum(self.sp.rv_lev['E'][mask] * q_[mask] / Q_[bin_i])
-            return e_rv_ * const.UNA / self.sp.m
-        else:
-            return 0.
+        return self.mix_quantity('e_rv',T)
 
-    # Partition functions
-    def z(self, T):
-        return - self.sp.rv_lev['E'] / (T * const.UKB)
 
-    def dz_dT(self, T):
-        return - self.z(T) / T
+    def m(self):
+        # [kg/mol]
+        return 1./self.mix_quantity(1.)
 
-    def q(self, T):
-        return self.sp.rv_lev['g'] * np.exp(self.z(T))
+    def R(self):
+        # [J/(kg K)]
+        return self.mix_quantity(const.URG)
 
-    def dq_dT(self, T):
-        return self.q(T) * self.dz_dT(T)
+    def X_i(self):
+        for specie, thermo in self.mix.items():
+            specie.X_(np.clip(thermo.sp.Y * self.m() / thermo.sp.m), a_min=0.)
 
-    def Q(self, T):
-        '''Compute bins partition function.'''
-        q_ = self.q(T)
-        Q_ = np.zeros(self.sp.n_bins)
-        for bin_i in range(self.sp.n_bins):
-            Q_[bin_i] = np.sum(q_[self.sp.lev_to_bin == bin_i])
-        return Q_
+    def n_i(self, rho):
+        for specie, thermo in self.mix.items():
+            specie.n_(np.clip(thermo.sp.Y * const.UNA * rho / thermo.sp.m), a_min=0.)
 
-    def dQ_dT(self, T):
-        '''Compute bins partition function.'''
-        dq_dT_ = self.dq_dT(T)
-        dQ_dT_ = np.zeros(self.sp.n_bins)
-        for bin_i in range(self.sp.n_bins):
-            dQ_dT_[bin_i] = np.sum(dq_dT_[self.sp.lev_to_bin == bin_i])
-        return dQ_dT_
+    def rho_i(self, rho):
+        for specie, thermo in self.mix.items():
+            specie.rho_(np.clip(thermo.sp.Y * rho), a_min=0.)
+
+    def p_i(self, rho):
+        for specie, thermo in self.mix.items():
+            specie.p_(np.clip(thermo.sp.Y * rho), a_min=0.)
+
+
+    return max(Yi*NA.value()*rho/speciesData_[speciei].W(), 0);
+
+
+max(Yi*molWeightMixture(celli)/speciesData_[speciei].W(), 0);
+
+        
+        //- Update values of molar-fractions from mass-fractions for cell-set
+        virtual scalar molarFraction(const label speciei, const scalar Yi, const label celli);
+        
+        //- Update values of molar-fractions from mass-fractions for patch
+        virtual scalar molarFraction(const label speciei, const scalar Yi, const label patchi, const label facei);
+        
+        //- Update values of mass-fractions from molar-fractions during the initialisation
+        virtual scalar massFractionFromMolarFraction(const label speciei, /*const scalar celli,*/ const scalar Xi);
+        
+        //- Update values of mass-fractions from partial densities
+        virtual scalar massFractionFromPartialDensity(const scalar rhoi, const scalar p, const scalar Tt);
+        
+        //- Update values of number densities from mass fractions
+        virtual scalar numberDensity(const label speciei, const scalar Yi, const scalar rho);
+        
+        //- Update values of partial pressures from molar fractions
+        virtual scalar partialPressure(const scalar Xi, const scalar p);
+        
+        //- Update values of partial pressures from the equation of state
+        virtual scalar partialPressureEoS(const label speciei, const scalar rhoi, const scalar Ti);
+        
+        //- Update values of partial densities from mass fractions
+        virtual scalar partialDensity(const scalar Yi, const scalar rho);
+        
+
+
+
+    def convert_to_array(x):        
+        if not isinstance(x, np.ndarray):
+            x = np.array(x)
+        return x
+
+    def mix_quantity(self, quantity, args):
+        var = []
+        for specie, thermo in self.mix.items():
+            if isinstance(quantity, str):
+                var_ = getattr(thermo, quantity)(*args)
+            else:
+                var_ = quantity
+            var_ = utils.convert_to_array(var_)
+            var.append(thermo.sp.Y / thermo.sp.m * var_)
+        return np.sum(np.concatenate(tuple(var)))

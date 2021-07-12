@@ -6,9 +6,8 @@ class specie(object):
     ###########################################################################
     def __init__(
         self,
-        database,
-        name,
-        Y
+        input_file,
+        name
     ):
         # Read specie properties ==============================================
         self.properties = {
@@ -35,24 +34,21 @@ class specie(object):
             'THETA_ROT': [float, 'theta_r'],    # Characteristic rotational temperature [K]
             'THETA_VIB': [float, 'theta_v']     # Characteristic vibrational temperature(s) [K]
         }
-        self.read_properties(database.path_to_properties + name)
+        self.read_properties(input_file.path_to_properties + name)
 
         # Read specie electronic levels =======================================
         self.el_lev, g_e = self.read_elec_levels(
-            database.path_to_properties + name
+            input_file.path_to_properties + name
         )
 
         # Read specie ro-vibrational levels ===================================
         if self.n_at > 1:
             self.rv_lev = self.read_rovib_levels(
-                database.path_to_inter_levels, g_e
+                input_file.path_to_inter_levels, g_e
             )
             self.lev_to_bin, self.n_bins = self.read_grouping(
-                database.grouping_file, database.grouping
+                input_file.grouping_file, input_file.grouping
             )
-
-        # Initilize specie mass fraction ======================================
-        self.Y_(Y)
 
 
     # Methods
@@ -60,6 +56,15 @@ class specie(object):
     # Mass Fraction ===========================================================
     def Y_(self, Y):
         self.Y = Y
+
+    def X_(self, X):
+        self.X = X
+
+    def n_(self, n):
+        self.n = n
+
+    def rho_(self, rho):
+        self.rho = rho
 
     # Reading methods
     ###########################################################################
@@ -73,9 +78,6 @@ class specie(object):
         self.R = const.URG / self.m
 
         # Conversions ---------------------------------------------------------
-        if self.Ef:
-            # Formation energy: [J/mol] -> [J/kg]
-            self.Ef = self.Ef / self.m
         if self.D:
             # Dissociation energy: [eV] -> [J]
             self.D = self.D * const.EV_to_J
@@ -100,7 +102,7 @@ class specie(object):
     # Electronic levels =======================================================
     def read_elec_levels(self, file):
         '''Retrieve all the electronic levels.'''
-        # Initilize database
+        # Initilize input_file
         db = {}
         # Number of electronic levels
         db['num'] = self.read_property(file, 'NB_ELEC_LEVELS', int)
@@ -123,9 +125,9 @@ class specie(object):
         g_e: electronic ground state degeneracy
 
         '''
-        # Initilize database
+        # Initilize input_file
         db = {}
-        # Initilize database
+        # Initilize input_file
         data = pd.read_csv(file, header=None, skiprows=15, delim_whitespace=True).values
         vqn = np.array(data[0])                     # Vibrational Q.N.
         jqn = np.array(data[1])                     # Rotational  Q.N.
