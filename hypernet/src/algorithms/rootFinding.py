@@ -50,16 +50,18 @@ class Root(object):
 
         return X, Y
 
-    def step(self, y0, args):
-        sol = optimize.root(self.fun, y0, args=tuple(args), \
+    def step(self, y0, *args):
+        if not isinstance(args, tuple):
+            args = tuple(args)
+        sol = optimize.root(self.fun, y0, args=args, \
             method=self.method, jac=self.jac)
         return sol.x
 
-    def fun(self, y, args):
+    def fun(self, y, *args):
         return None
 
-    def jac(self, y, args):
+    def jac(self, y, *args):
         return None
 
-    def get_args(self, x):
+    def get_args(self, x=None):
         return None

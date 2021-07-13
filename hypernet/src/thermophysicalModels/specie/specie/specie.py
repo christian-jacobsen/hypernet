@@ -51,18 +51,34 @@ class specie(object):
 
     # Methods
     ###########################################################################
-    # Mass Fraction ===========================================================
-    def Y_(self, Y):
-        self.Y = Y
+    # Thermodynamic properties ================================================
+    @property
+    def Y(self):
+        return self._Y
+    @Y.setter
+    def Y(self, value):
+        self._Y = value
 
-    def X_(self, X):
-        self.X = X
+    @property
+    def X(self):
+        return self._X
+    @X.setter
+    def X(self, value):
+        self._X = value
 
-    def n_(self, n):
-        self.n = n
+    @property
+    def n(self):
+        return self._n
+    @n.setter
+    def n(self, value):
+        self._n = value
 
-    def rho_(self, rho):
-        self.rho = rho
+    @property
+    def rho(self):
+        return self._rho
+    @rho.setter
+    def rho(self, value):
+        self._rho = value
 
     # Reading methods
     ###########################################################################

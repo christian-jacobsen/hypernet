@@ -1,5 +1,6 @@
 import numpy as np
-import hypernet.src.general.const as const
+from hypernet.src.general import const
+from hypernet.src.general import utils
 from hypernet.src.thermophysicalModels.specie import Specie
 from hypernet.src.thermophysicalModels.specie import Thermo
 
@@ -9,8 +10,8 @@ class MultiComponent(object):
     ###########################################################################
     def __init__(
         self,
-        input_file,
         mixture,
+        thermo,
         *args,
         **kwargs
     ):
@@ -22,10 +23,10 @@ class MultiComponent(object):
         
     # Methods
     ###########################################################################
-
+    # Mixture mass fractions ==================================================
     def update(self, mixture):
-        for specie, Y in mixture.items():
-            self.mix[specie].sp.Y_(Y)
+        for specie, value in mixture.items():
+            self.mix[specie].sp.Y = value
 
     # Enthalpy ================================================================
     def cp(self,T):
@@ -68,6 +69,7 @@ class MultiComponent(object):
         # [J/kg]
         return self.mix_quantity('e_rv',T)
 
+    # Mixture properties ======================================================
     def m(self):
         # [kg/mol]
         return 1./self.mix_quantity(1.)
@@ -77,20 +79,24 @@ class MultiComponent(object):
         return self.mix_quantity(const.URG)
 
     def p(self, rho, T):
-        return self.mix_quantity(rho*const.URG*T)
+        return rho*self.R()*T
+
+    def rho(self, p, T):
+        return p/(self.R()*T)
 
     def X_i(self):
         for specie, thermo in self.mix.items():
-            specie.X_(np.clip(thermo.sp.Y * self.m() / thermo.sp.m, a_min=0.))
+            specie.X = np.clip(thermo.sp.Y * self.m() / thermo.sp.m, a_min=0.)
 
     def n_i(self, rho):
         for specie, thermo in self.mix.items():
-            specie.n_(np.clip(thermo.sp.Y * const.UNA * rho / thermo.sp.m, a_min=0.))
+            specie.n = np.clip(thermo.sp.Y * const.UNA * rho / thermo.sp.m, a_min=0.)
 
     def rho_i(self, rho):
         for specie, thermo in self.mix.items():
-            specie.rho_(np.clip(thermo.sp.Y * rho, a_min=0.))
+            specie.rho = np.clip(thermo.sp.Y * rho, a_min=0.)
 
+    # Utils ===================================================================
     def mix_quantity(self, quantity, args):
         var = []
         for specie, thermo in self.mix.items():
