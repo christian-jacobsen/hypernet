@@ -6,8 +6,9 @@ class specie(object):
     ###########################################################################
     def __init__(
         self,
-        input_file,
-        name
+        name,
+        *args,
+        **kwargs
     ):
         # Read specie properties ==============================================
         self.properties = {
@@ -34,22 +35,19 @@ class specie(object):
             'THETA_ROT': [float, 'theta_r'],    # Characteristic rotational temperature [K]
             'THETA_VIB': [float, 'theta_v']     # Characteristic vibrational temperature(s) [K]
         }
-        self.read_properties(input_file.path_to_properties + name)
+        self.read_properties(path + name)
 
         # Read specie electronic levels =======================================
-        self.el_lev, g_e = self.read_elec_levels(
-            input_file.path_to_properties + name
-        )
+        self.el_lev, g_e = self.read_elec_levels(path + name)
 
         # Read specie ro-vibrational levels ===================================
         if self.n_at > 1:
             self.rv_lev = self.read_rovib_levels(
-                input_file.path_to_inter_levels, g_e
+                grouping[name]['path']['rovib_levels'], g_e
             )
             self.lev_to_bin, self.n_bins = self.read_grouping(
-                input_file.grouping_file, input_file.grouping
+                grouping[name]['path']['lev_to_bin'], grouping[name]['name']
             )
-
 
     # Methods
     ###########################################################################
