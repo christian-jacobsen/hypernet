@@ -1,20 +1,13 @@
 import numpy as np
-import hypernet.src.general.const as const
-from hypernet.src.thermophysicalModels.specie import Specie
-from hypernet.src.thermophysicalModels.specie import Thermo
+import inputs as inp
 
-from scipy import optimize
+from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixture_module
+from hypernet.src.algorithms import root
 
-
-import os
-import sys
-import tensorflow as tf
-import numpy as np
-from shutil import copy
 
 def fun(y, *args):
     # Conserved quantities
-    M, Q, E = const
+    M, Q, E = cons
     # Variables
     p, T, u = y[0], y[1], y[2]
     psi = 1./(mix.R()*T)
@@ -42,35 +35,41 @@ def conserved(p, T, u, mix):
     return M, Q, E
 
 
+@utils.timing()
 def main(*args):
 
     # Read input file
-    if inp not in args:
-        if len(sys.argv) != 2:
-            raise ValueError
-        else:
-            utils.print_main("Reading input file")
-            inp = sys.argv[1]
+    # if inp not in args:
+    #     if len(sys.argv) != 2:
+    #         utils.raise_value_err(
+    #             "Define the input file. Usage:\n"
+    #             "$ python3 <application> <path_to_input>"
+    #         )
+    #     else:
+    #         utils.print_main("Reading input file")
+    #         inp = sys.argv[1]
 
     # Initialize specie mixture
     if mix not in args:
         utils.print_main("Initializing Thermo model")
-        mix = MultiComponent(inp.mixture, **inp.specie)
+        mix = utils.get_class(mixture_module, inp.mixture['name'])(
+            inp.mixture['species'], inp.thermo, **inp.specie
+        )
 
     # Conserved quantities
     utils.print_main("Initializing conserved flow quantities")
-    const = conserved(**inp.freestream, mix)
+    cons = conserved(**inp.freestream, mix)
 
     # Set up solver
     utils.print_main("Setting up solver")
-    solver = Root(inp.algorithm)
+    solver = root.Root(inp.algorithm)
     solver.fun = fun
     solver.jac = jac
 
     # Solve jump relations
     utils.print_main("Solving")
     y0 = np.array(list(inp.freestream.values()))
-    y = solver.step(y0, const, mix)
+    y = solver.step(y0, cons, mix)
     y = np.stack((y, mix.rho(p=y[0], T=y[1])))
 
     return y

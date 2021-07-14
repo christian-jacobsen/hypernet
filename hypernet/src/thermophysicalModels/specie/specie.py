@@ -1,14 +1,18 @@
-import hypernet.src.general.const as const
+import numpy as np
+import pandas as pd
 
-class specie(object):
+from hypernet.src.general import const
+
+
+class Specie(object):
 
     # Initialization
     ###########################################################################
     def __init__(
         self,
         name,
-        *args,
-        **kwargs
+        thermo_path,
+        grouping=None
     ):
         # Read specie properties ==============================================
         self.properties = {
@@ -26,7 +30,7 @@ class specie(object):
             'SYM': [float, 'sym'],              # Symmetry factor
             'LJ_DIAM': [float, 'lj_diam'],      # Lennard-Jones parameter: diameter [A]
             'LJ_EPS': [float, 'lj_eps'],        # Lennard-Jones parameter: potential well-depth [K]
-            'POLAR': [float, 'pol'],            # Polarizability [A^3]
+            'POLAR': [float, 'pol'],            # Polarizability [A^3]s
             'MODEL': [str, 'model'],            # Thermal model for internal energy (e.g. RR, HO, EL, RR_HO,...):
                                                 #   RR = Rigid-rotor
                                                 #   HO = Harmomic oscillator
@@ -35,10 +39,10 @@ class specie(object):
             'THETA_ROT': [float, 'theta_r'],    # Characteristic rotational temperature [K]
             'THETA_VIB': [float, 'theta_v']     # Characteristic vibrational temperature(s) [K]
         }
-        self.read_properties(path + name)
+        self.read_properties(thermo_path + name)
 
         # Read specie electronic levels =======================================
-        self.el_lev, g_e = self.read_elec_levels(path + name)
+        self.el_lev, g_e = self.read_elec_levels(thermo_path + name)
 
         # Read specie ro-vibrational levels ===================================
         if self.n_at > 1:
@@ -142,11 +146,11 @@ class specie(object):
         # Initilize input_file
         db = {}
         # Initilize input_file
-        data = pd.read_csv(file, header=None, skiprows=15, delim_whitespace=True).values
+        data = pd.read_csv(file, header=None, skiprows=15, delim_whitespace=True)
         vqn = np.array(data[0])                     # Vibrational Q.N.
         jqn = np.array(data[1])                     # Rotational  Q.N.
         db['num'] = len(vqn)
-        db['g'] = g_e/2.0*(2.0*jqn+1.0)       # Degeneracies
+        db['g'] = g_e/2.0*(2.0*jqn+1.0)             # Degeneracies
         E = np.array(data[2]) * const.EH_to_J       # Energy [J]
         db['E'] = E - E[0]
         return db

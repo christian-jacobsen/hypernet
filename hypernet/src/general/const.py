@@ -29,7 +29,7 @@ AS_to_MS    = 1.e-20                                # [A^2]   -> [m^2]
 ATM_to_PA   = 101325.e0                             # [atm]   -> [Pa]
 EH_to_EV    = 27.211386245988e0                     # [Eh]    -> [eV] Hartree to Electronvolt
 EV_to_J     = 1.602176634e-19                       # [eV]    -> [J]  Electronvolt to Joule
-EH_to_J     = EH_TO_EV*EV_TO_J                      # [Eh]    -> [J]  Hartree to Joule
+EH_to_J     = EH_to_EV*EV_to_J                      # [Eh]    -> [J]  Hartree to Joule
 
 # Hydrogen constants ----------------------------------------------------------
 UIH         = 13.598434599702e0                     # Hydrogen ionization potential [eV]

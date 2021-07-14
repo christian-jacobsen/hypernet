@@ -6,6 +6,7 @@ import inspect
 import datetime
 import numpy as np
 
+from varname import nameof
 from functools import wraps
 from hypernet.config import headers
 
@@ -84,14 +85,22 @@ def get_num_args(func):
     sig = inspect.signature(func)
     return len(sig.parameters)
 
+def convert_to_array(arg):
+    """Try to convert the argument into an array."""
+    if not isinstance(arg, np.ndarray):
+        try:
+            arg = np.array(arg)
+            if len(arg.shape) == 0:
+                arg = np.expand_dims(arg, 0)
+        except:
+            raise_value_err(
+                "`{}` can't be converted into an array.".format(nameof(x))
+            )
+    return arg
+
 
 # Others
 ###############################################################################
 def kill_process():
     """Send terminating signal to job `pid`."""
     os.kill(os.getpid(), signal.SIGTERM)
-
-def convert_to_array(x):        
-    if not isinstance(x, np.ndarray):
-        x = np.array(x)
-    return x

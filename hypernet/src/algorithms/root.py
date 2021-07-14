@@ -1,9 +1,9 @@
 import numpy as np
-import hypernet.src.general.const as const
-from hypernet.src.thermophysicalModels.specie import Specie
-from hypernet.src.thermophysicalModels.specie import Thermo
 
 from scipy import optimize
+from hypernet.src.general import const
+from hypernet.src.general import utils
+
 
 class Root(object):
 
@@ -11,7 +11,9 @@ class Root(object):
     ###########################################################################
     def __init__(
         self,
-        setup
+        setup,
+        *args,
+        **kwargs
     ):
         # Start & end points
         self.x_st = setup['x']['start']
@@ -27,7 +29,7 @@ class Root(object):
         
     # Methods
     ###########################################################################
-    @utils.timing()
+    @utils.timing
     def solve(self, y0):
         # Initilize Data
         X = np.array([[self.x_st]])
@@ -53,15 +55,16 @@ class Root(object):
     def step(self, y0, *args):
         if not isinstance(args, tuple):
             args = tuple(args)
-        sol = optimize.root(self.fun, y0, args=args, \
-            method=self.method, jac=self.jac)
+        sol = optimize.root(
+            self.fun, y0, args=args, method=self.method, jac=self.jac
+        )
         return sol.x
 
     def fun(self, y, *args):
-        return None
+        pass
 
     def jac(self, y, *args):
-        return None
+        pass
 
     def get_args(self, x=None):
-        return None
+        pass

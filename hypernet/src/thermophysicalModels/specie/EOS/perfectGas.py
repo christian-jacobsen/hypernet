@@ -3,16 +3,20 @@ class PerfectGas(object):
     # Initialization
     ###########################################################################
     def __init__(
-        self
-    )
+        self,
+        R,
+        *args,
+        **kwargs
+    ):
+        self.R = R
 
     # Methods
     ###########################################################################
     def rho(self, p, T):
-        return p/(R*T)
+        return p/(self.R*T)
 
     def p(self, rho, T):
-        return rho*R*T
+        return rho*self.R*T
 
     def psi(self, T):
-        return 1./(R*T)
+        return 1./(self.R*T)
