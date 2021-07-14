@@ -30,6 +30,8 @@ class MultiComponent(object):
     def update(self, mixture, var='Y'):
         for name, value in mixture.items():
             setattr(self.mixture[name].specie, var, utils.convert_to_array(value))
+        self.m_(var=var)
+        self.R_(var=var)
         if var == 'Y':
             self.X_i()
         elif var == 'X':
@@ -77,39 +79,39 @@ class MultiComponent(object):
         return self.mix_quantity('e_rv',T)
 
     # Mixture properties ======================================================
-    def m(self, var='Y'):
+    def m_(self, var='Y'):
         # [kg/mol]
         m_ = []
         if var == 'Y':
             for specie, thermo in self.mixture.items():
                 m_.append(thermo.specie.Y / thermo.specie.m)
-            return 1./np.sum(np.concatenate(tuple(m_)))
+            self.m = 1./np.sum(np.concatenate(tuple(m_)))
         elif var == 'X':
             for specie, thermo in self.mixture.items():
                 m_.append(thermo.specie.X * thermo.specie.m)
-            return np.sum(np.concatenate(tuple(m_)))
+            self.m = np.sum(np.concatenate(tuple(m_)))
 
-    def R(self):
+    def R_(self):
         # [J/(kg K)]
-        return self.mix_quantity(const.URG)
+        self.R = self.mix_quantity(const.URG)
 
     def p(self, rho, T):
         return rho*self.R()*T
 
-    def rho(self, p, T):
+    def rho_(self, p, T):
         return p/(self.R()*T)
 
     # Species properties ======================================================
     def Y_i(self):
         for specie, thermo in self.mixture.items():
             thermo.specie.Y = np.clip(
-                thermo.specie.X * thermo.specie.m / self.m(var='X'), a_min=0., a_max=1.
+                thermo.specie.X * thermo.specie.m / self.m, a_min=0., a_max=1.
             )
 
     def X_i(self):
         for specie, thermo in self.mixture.items():
             thermo.specie.X = np.clip(
-                thermo.specie.Y * self.m(var='Y') / thermo.specie.m, a_min=0., a_max=1.
+                thermo.specie.Y * self.m / thermo.specie.m, a_min=0., a_max=1.
             )
 
     def n_i(self, rho=None, n=None, var='Y'):
@@ -135,7 +137,7 @@ class MultiComponent(object):
                 )
 
     # Utils ===================================================================
-    def mix_quantity(self, quantity, *args):
+    def mix_quantity(self, quantity, args):
         var = []
         for specie, thermo in self.mixture.items():
             if isinstance(quantity, str):

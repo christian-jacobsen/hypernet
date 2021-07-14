@@ -12,39 +12,44 @@ from hypernet.src.algorithms import root
 from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixture_module
 
 
+# Solver methods ##############################################################
 def fun(y, *args):
     # Conserved quantities
-    M, Q, E = cons
+    M, Q, H = cons
     # Variables
-    p, T, u = y[0], y[1], y[2]
-    psi = 1./(mix.R()*T)
+    T, u = y[0], y[1]
     return np.array([
-        p * psi * u - M,
-        p * (u**2*psi + 1.) - Q,
-        mix.h(T) + 1./2. * u**2 - E
+        T/u * mix.R + u - Q/M,
+        mix.h(T) + 0.5 * u**2 - H/M
     ])
 
 def jac(y, *args):
     # Variables
-    p, T, u = y[0], y[1], y[2]
-    psi = 1./(mix.R()*T)
+    T, u = y[0], y[1]
     return np.array([
-        [ u*psi, -p*psi*u/T, p*psi ],
-        [ u**2*psi+1., -p*psi*u**2/T, 2*p*psi*u ],
-        [ 0., mix.cp(T), u ]
+        [ mix.R/u, -T/u**2*mix.R+1. ],
+        [ mix.cp(T), u ]
     ])
 
+def update_args(self, x, *args):
+    mix.update(chem.update(x))
+    return cons, mix, chem
+
+
+# Thermo methods ##############################################################
 def conserved(mix, p, T, u):
-    rho = p/(mix.R()*T)
+    rho = p/(mix.R*T)
     M = rho * u
     Q = p + M * u
-    H = M * (mix.h(T) + 1./2. * u**2)
+    H = M * (mix.h(T) + 0.5 * u**2)
     return M, Q, H
 
 
+# Main function ###############################################################
 @utils.timing
 def main(*args):
 
+    # Loadind data ============================================================
     utils.print_main("Loading data")
     data = pd.read_csv(inp.data, sep="  ", header=None, \
         skiprows=2, dtype=np.float64, engine="python")
@@ -67,71 +72,39 @@ def main(*args):
     #         utils.print_main("Reading input file")
     #         inp = sys.argv[1]
 
-    # Initialize specie mixture
+    # Initilizing thermophysical models =======================================
+    # Thermodynamic quantities
     utils.print_main("Initializing thermo")
     mix = utils.get_class(mixture_module, inp.mixture['name'])(
         inp.mixture['species'], inp.thermo, **inp.specie
     )
+    # Mixture mass/molar fractions
     mix.update(inp.mixture['species'], var=inp.mixture['var'])
 
-    # Conserved quantities
-    utils.print_main("Initializing conserved flow quantities")
-    # cons = conserved(mix, **inp.freestream)
-    cons = conserved(mix, *data[['p', 'T', 'u']].values[0])
-    print(cons)
-    input('==============================')
+    # Chemistry model
+    utils.print_main("Initializing chemistry")
+    chem = None # chemistryModel
 
+    # Solving =================================================================
     # Set up solver
     utils.print_main("Setting up solver")
     solver = root.Root(inp.algorithm)
     solver.fun = fun
     solver.jac = jac
+    solver.update_args = update_args
 
-    # Solve jump relations
+    # Computing conserved flow quantities
+    utils.print_main("Computing conserved flow quantities")
+    # cons = conserved(mix, **inp.freestream)
+    cons = conserved(mix, *data[['p', 'T', 'u']].values[0])
+    print(cons)
+    input('==============================')
+
+    # Space-marching solution
     utils.print_main("Solving")
     y0 = np.array(list(inp.freestream.values()))
-    y = solver.step(y0, cons, mix)
-    y = np.stack((y, mix.rho(p=y[0], T=y[1])))
+    x, y = solver.solve(y0, cons, mix, chem)
 
-    return y
-
-
-if __name__ == "__main__":
-    main()
-
-
-
-
-    if inp is None:
-        if len(sys.argv) != 2:
-            raise ValueError
-        else:
-            utils.print_main("Reading input file")
-            inp = sys.argv[1]
-
-    # initilize specie mixture
-    utils.print_main("Initilizing thermo and chemistry models")
-    mix = MultiComponent(inp.mixture, **inp.specie)
-
-    # Conservative quantities
-    M, Q, E = jumpRelations(inp.freestream)
-
-    # Rankine-hugoiot
-    y0 = jumpRelations.main(inp=inp)
-
-    # fit Y spline
-    utils.print_main("")
-
-    # Algorithm
-    utils.print_main("Setting up solver")
-    algo = Root(inp.algorithm)
-    algo.fun = fun()
-    algo.jac = jac()
-    algo.get_args = get_args()
-
-    # solve
-    utils.print_main("Solving")
-    algo.solve()
 
 if __name__ == "__main__":
     main()

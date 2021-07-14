@@ -30,7 +30,7 @@ class Root(object):
     # Methods
     ###########################################################################
     @utils.timing
-    def solve(self, y0):
+    def solve(self, y0, args):
         # Initilize Data
         X = np.array([[self.x_st]])
         Y = np.expand_dims(y0,0)
@@ -39,7 +39,7 @@ class Root(object):
         x = self.x_st + dx
         while x <= self.x_end:
             # Update arguments
-            args = self.get_args(x)
+            args = self.update_args(x, args)
             # Find the solution
             y = self.step(y0, args)
             # Collect data
@@ -66,5 +66,5 @@ class Root(object):
     def jac(self, y, *args):
         pass
 
-    def get_args(self, x=None):
+    def update_args(self, x, *args):
         pass
