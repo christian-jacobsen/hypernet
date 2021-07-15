@@ -35,6 +35,16 @@ def raise_value_err(text):
 
 # Decorators
 ###############################################################################
+def main_decorator(f):
+    """Decorator for the `main` function."""
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        print_main('START >>>')
+        result = f(*args, **kwargs)
+        print_main('<<< END')
+        return result
+    return wrapper
+
 def timing(f):
     """Decorator for measuring the execution time of methods."""
     @wraps(f)
@@ -97,6 +107,18 @@ def convert_to_array(arg):
                 "`{}` can't be converted into an array.".format(nameof(x))
             )
     return arg
+
+def search_string(file, string):
+    with open(file, 'r') as f:
+        for i, line in enumerate(f):
+            if string+' ' in line:
+                return i, line
+
+def check_format(data_type, string):
+    if data_type == float and 'd' in string:
+        return string.replace("d", "e")
+    else:
+        return string
 
 
 # Others

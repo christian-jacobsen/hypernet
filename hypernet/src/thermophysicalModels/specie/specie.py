@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from hypernet.src.general import const
+from hypernet.src.general import utils
 
 
 class Specie(object):
@@ -104,16 +105,16 @@ class Specie(object):
             self.Eion = self.Eion * const.EV_to_J
 
     def read_property(self, file, name, data_type):
-        result = self.search_string(file, name)
+        result = utils.search_string(file, name)
         if result:
             num, line = result
             k, v = line.strip().split(" = ")
             if " " in v:
                 v = v.split(" ")
             if isinstance(v, (list,tuple)):
-                return [ data_type(self.check_format(data_type, i)) for i in v ]
+                return [ data_type(utils.check_format(data_type, i)) for i in v ]
             else:
-                return data_type(self.check_format(data_type, v))
+                return data_type(utils.check_format(data_type, v))
         else:
             return None
 
@@ -125,7 +126,7 @@ class Specie(object):
         # Number of electronic levels
         db['num'] = self.read_property(file, 'NB_ELEC_LEVELS', int)
         # Electronic levels degeneracies 'g' and energies 'E' [J]
-        num, line = self.search_string(file, 'NB_ELEC_LEVELS')
+        num, line = utils.search_string(file, 'NB_ELEC_LEVELS')
         deg, en = [], []
         with open(file, 'r') as f:
             for l in f.readlines()[num+1:]:
@@ -152,32 +153,17 @@ class Specie(object):
         db['num'] = len(vqn)
         db['g'] = g_e/2.0*(2.0*jqn+1.0)             # Degeneracies
         E = np.array(data[2]) * const.EH_to_J       # Energy [J]
-        db['E'] = E - E[0]
+        db['E'] = E #- E[0]
         return db
 
     # Grouping ================================================================
     def read_grouping(self, file, name):
         '''Retrieve mapping of each rot-vib level to the respective bin.'''
         if name is not None:
-            data = pd.read_csv(file, header=None, skiprows=1).values
+            data = pd.read_csv(file, header=None, skiprows=1)
             lev_to_bin = np.array(data[1]) - 1
-            n_bins = max(bins) + 1
+            n_bins = max(lev_to_bin) + 1
         else:
             lev_to_bin = np.zeros(self.rv_lev['num'], dtype=np.int32)
             n_bins = 1
         return lev_to_bin, n_bins
-
-
-    # Util methods
-    ###########################################################################
-    def search_string(self, file, string):
-        with open(file, 'r') as f:
-            for i, line in enumerate(f):
-                if string+' ' in line:
-                    return i, line
-
-    def check_format(self, data_type, string):
-        if data_type == float and 'd' in string:
-            return string.replace("d", "e")
-        else:
-            return string

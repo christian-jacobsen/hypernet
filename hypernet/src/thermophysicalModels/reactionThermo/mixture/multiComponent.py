@@ -31,11 +31,11 @@ class MultiComponent(object):
         for name, value in mixture.items():
             setattr(self.mixture[name].specie, var, utils.convert_to_array(value))
         self.m_(var=var)
-        self.R_(var=var)
         if var == 'Y':
             self.X_i()
         elif var == 'X':
             self.Y_i()
+        self.R_()
 
     # Enthalpy ================================================================
     def cp(self,T):
@@ -137,7 +137,7 @@ class MultiComponent(object):
                 )
 
     # Utils ===================================================================
-    def mix_quantity(self, quantity, args):
+    def mix_quantity(self, quantity, *args):
         var = []
         for specie, thermo in self.mixture.items():
             if isinstance(quantity, str):

@@ -97,6 +97,7 @@ class CoupledEnergyModes(object):
         q_ = self.q(T)
         Q_ = np.zeros(self.specie.n_bins)
         for bin_i in range(self.specie.n_bins):
+            mask = self.specie.lev_to_bin == bin_i
             Q_[bin_i] = np.sum(q_[self.specie.lev_to_bin == bin_i])
         return Q_
 

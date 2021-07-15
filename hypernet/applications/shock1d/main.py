@@ -12,6 +12,12 @@ from hypernet.src.algorithms import root
 from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixture_module
 
 
+
+from matplotlib import pyplot as plt
+
+
+
+
 # Solver methods ##############################################################
 def fun(y, *args):
     # Conserved quantities
@@ -42,7 +48,7 @@ def conserved(mix, p, T, u):
     M = rho * u
     Q = p + M * u
     H = M * (mix.h(T) + 0.5 * u**2)
-    return M, Q, H
+    return M, Q, H/M
 
 
 # Main function ###############################################################
@@ -56,10 +62,13 @@ def main(*args):
     data.columns = inp.columns
     data['X_O2'] = 1. - data['X_O']
 
-    # for col in inp.columns:
-    #     if col.startswith('X'):
-    #         name = col.split('_')[-1]
-    #         inp.mixture['species'][name] = data[col].to_numpy()[0]
+    fig = plt.figure()
+    for col in inp.columns:
+        if col.startswith('X'):
+            # name = col.split('_')[-1]
+            # inp.mixture['species'][name] = data[col].to_numpy()[0]
+            plt.plot(data[col])
+    plt.show()
 
     # Read input file
     # if inp not in args:
@@ -97,7 +106,8 @@ def main(*args):
     utils.print_main("Computing conserved flow quantities")
     # cons = conserved(mix, **inp.freestream)
     cons = conserved(mix, *data[['p', 'T', 'u']].values[0])
-    print(cons)
+    print('Pred H [J/kg]:', cons[-1])
+    print('True H [J/kg]:', data['H'][0])
     input('==============================')
 
     # Space-marching solution
