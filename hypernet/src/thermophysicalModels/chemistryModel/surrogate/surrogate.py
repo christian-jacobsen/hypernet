@@ -9,7 +9,7 @@ class Surrogate(object):
         *args,
         **kwargs
     ):
-        # Specie Properties ===================================================
+        # Data ================================================================
         self.x = data_x
         self.Y = data_Y
         self.n_species = data_Y.shape[1]
