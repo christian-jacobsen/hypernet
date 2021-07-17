@@ -64,7 +64,7 @@ def main():
     utils.print_main('Fitting rates')
     for j in range(K.shape[1]):
         K_log_j = np.log( K[:,j][ K[:,j] != 0. ] )
-        T_j     = T[:,0][ K[:,j] != 0. ]
+        T_j = T[:,0][ K[:,j] != 0. ]
 
         param_j, _ = curve_fit(modified_arrhenius_lin, T_j, K_log_j, \
             p0=[1,1,1.e4], method='trf')
@@ -77,6 +77,7 @@ def main():
     # Write Arrhenius coefficient =============================================
     if not os.path.exists(inp.path):
         os.makedirs(inp.path)
+
     path = inp.path + inp.system+'_'+inp.grouping_name
     write(param, dataGen.rates_names, dataGen.reac_idx, path)
 

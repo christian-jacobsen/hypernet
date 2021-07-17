@@ -2,23 +2,23 @@
 hypernet = '/home/zanardi/WORKSPACE/CFD/HyperNet/hypernet/'
 databases = hypernet + 'hypernet/databases/'
 
-data = './shock.dat'
-columns = ['x', 'X_O', 'X_O2', 'u', 'T', 'rho', 'p', 'nd', 'H', 'Mf']
+data = './dataGen/output_shock/shock.dat'
+columns = ['x', 'X_O', 'X_O2_1', 'X_O2_2', 'X_O2_3', 'u', 'T', 'rho', 'p', 'nd', 'H', 'Mf']
 
 #---------------------------
 #Free-strem conditions (pressure, temperature, velocity and mass fractions)
 freestream = {
-    'p': 50.e0,
+    'p': 500.e0,
     'T': 300.e0,
-    'u': 6000.e0
+    'u': 5000.e0
 }
 
 mixture = {
     'var': 'X',
     'name': 'MultiComponent',
     'species': {
-        'O':    0.,
-        'O2':   1.
+        'O':    0.05,
+        'O2':   [0.95, 0., 0.]
     }
 }
 
@@ -31,10 +31,10 @@ specie = {
     'thermo_path': databases + 'air/thermo/',
     'grouping': {
         'O2': {
-            'name': None,
+            'name': 'CBM3',
             'path': {
-                'rovib_levels': databases + 'O2_grouping/levels/O3_UMN/O2/FromUMN_Sorted.inp',
-                'lev_to_bin': databases + 'O2_grouping/grouping/O3_UMN/O2/LevelsMap_' + grouping + '.csv'
+                'rovib_levels': databases + 'grouping/O2/levels/O3_UMN/O2/FromUMN_Sorted.inp',
+                'lev_to_bin': databases + 'grouping/O2/grouping/O3_UMN/O2/LevelsMap_' + grouping + '.csv'
             }
         }
     }

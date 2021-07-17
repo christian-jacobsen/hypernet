@@ -12,12 +12,6 @@ from hypernet.src.algorithms import root
 from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixture_module
 
 
-
-from matplotlib import pyplot as plt
-
-
-
-
 # Solver methods ##############################################################
 def fun(y, *args):
     # Conserved quantities
@@ -41,7 +35,6 @@ def update_args(self, x, *args):
     mix.update(chem.update(x))
     return cons, mix, chem
 
-
 # Thermo methods ##############################################################
 def conserved(mix, p, T, u):
     rho = p/(mix.R*T)
@@ -50,9 +43,8 @@ def conserved(mix, p, T, u):
     H = M * (mix.h(T) + 0.5 * u**2)
     return M, Q, H/M
 
-
 # Main function ###############################################################
-@utils.timing
+@utils.main_decorator
 def main(*args):
 
     # Loadind data ============================================================
@@ -60,26 +52,6 @@ def main(*args):
     data = pd.read_csv(inp.data, sep="  ", header=None, \
         skiprows=2, dtype=np.float64, engine="python")
     data.columns = inp.columns
-    data['X_O2'] = 1. - data['X_O']
-
-    fig = plt.figure()
-    for col in inp.columns:
-        if col.startswith('X'):
-            # name = col.split('_')[-1]
-            # inp.mixture['species'][name] = data[col].to_numpy()[0]
-            plt.plot(data[col])
-    plt.show()
-
-    # Read input file
-    # if inp not in args:
-    #     if len(sys.argv) != 2:
-    #         utils.raise_value_err(
-    #             "Define the input file. Usage:\n"
-    #             "$ python3 <application> <path_to_input>"
-    #         )
-    #     else:
-    #         utils.print_main("Reading input file")
-    #         inp = sys.argv[1]
 
     # Initilizing thermophysical models =======================================
     # Thermodynamic quantities
@@ -104,11 +76,7 @@ def main(*args):
 
     # Computing conserved flow quantities
     utils.print_main("Computing conserved flow quantities")
-    # cons = conserved(mix, **inp.freestream)
-    cons = conserved(mix, *data[['p', 'T', 'u']].values[0])
-    print('Pred H [J/kg]:', cons[-1])
-    print('True H [J/kg]:', data['H'][0])
-    input('==============================')
+    cons = conserved(mix, **inp.freestream)
 
     # Space-marching solution
     utils.print_main("Solving")
