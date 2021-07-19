@@ -6,6 +6,7 @@
 # -----------------------------------------------------------------------------
 hypernet = '/home/zanardi/WORKSPACE/CFD/HyperNet/hypernet/'
 databases = hypernet + 'hypernet/databases/'
+postprocess = './postprocessing/'
 
 # Thermo
 # -----------------------------------------------------------------------------
@@ -55,7 +56,7 @@ algorithm = {
 
     'dx': {
         'min': 1.e-7,
-        'max': 1.e-3,
-        'str': 1.01e0
+        'max': 1.e-1,
+        'str': 5.e0
     }
 }

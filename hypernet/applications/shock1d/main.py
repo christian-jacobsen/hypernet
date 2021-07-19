@@ -1,12 +1,14 @@
+import os
 import sys
 import numpy as np
 import pandas as pd
-import inputs.chemistryModel as inp_chem
+import inputs.chemistry as inp_chem
 import inputs.case as inp_case
 # Remove the following line if you install `hypernet` as a Python package -----
 sys.path.append(inp_case.hypernet)
 # import hypernet as hy
 
+from matplotlib import pyplot as plt
 from hypernet.src.general import const
 from hypernet.src.general import utils
 from hypernet.src.algorithms import root
@@ -14,7 +16,8 @@ from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixture_
 from hypernet.src.thermophysicalModels.chemistryModel import surrogate as surrogate_module
 
 
-# Solver methods ##############################################################
+# Solver methods
+###############################################################################
 def fun(y, *args):
     cons, mix, chem = args
     # Conserved quantities
@@ -40,7 +43,8 @@ def update_args(x, *args):
     mix.update(chem.update(x))
     return cons, mix, chem
 
-# Thermo methods ##############################################################
+# Thermo methods
+###############################################################################
 def X_to_Y(mix, X):
     n = X.shape[0]    
     m_sp = []
@@ -61,7 +65,71 @@ def conserved(mix, p, T, u):
     H = M * (mix.h(T) + 0.5 * u**2)
     return M, Q, H
 
-# Main function ###############################################################
+# Plotting methods
+###############################################################################
+def plot_test(
+    path,
+    x_true,
+    x_pred,
+    y_true,
+    y_pred,
+    var_name,
+    title=None,
+    labels=[None, None],
+    scales=['log', 'linear'],
+    data_val=None
+    ):
+    """Variable plotting."""
+
+    fig = plt.figure()
+    plt.grid()
+
+    if title:
+        plt.title(title)
+
+    x_label, y_label = labels
+    x_scale, y_scale = scales
+
+    # X axis
+    if x_label is not None:
+        plt.xlabel(x_label)
+    if x_scale is not None:
+        plt.xscale(x_scale)
+    if x_scale != 'log':
+        plt.xlim([min(x_true), max(x_true)])
+
+    # Y axis
+    if y_label is not None:
+        plt.ylabel(y_label)
+    if y_scale == 'log':
+        plt.yscale(y_scale)
+        plt.ylim([np.amin(y_true)*5.e-1, np.amax(y_true)*5.e+0])
+    else:
+        delta = np.amax(y_true)*0.1
+        plt.ylim([np.amin(y_true)-delta, np.amax(y_true)+delta])
+
+    # Plotting
+    lin = ['-', '--']
+    col = ['k', 'r', 'g', 'b', 'tab:purple', 'tab:brown', 'tab:pink', \
+           'tab:blue', 'tab:red', 'tab:green', 'tab:orange']
+    marker_style = dict(marker='^', fillstyle='none', markersize=5)#, markevery=y_true.shape[0]//20)
+
+    # Solution
+    for d in range(y_true.shape[1]):
+
+        name = 'True ' + var_name[d]
+        plt.plot(x_true, y_true[:, d], c=col[d], ls=lin[0], lw=1, label=name)
+
+        name = 'Pred ' + var_name[d]
+        plt.plot(x_pred, y_pred[:, d], c=col[d+1], ls=lin[1], lw=1, label=name, **marker_style)
+
+    plt.legend(fontsize='x-small')
+    fig.savefig(path)
+    plt.close()
+
+
+# Main function
+###############################################################################
 @utils.main_decorator
 def main(*args):
 
@@ -119,8 +187,28 @@ def main(*args):
 
     # Space-marching solution
     utils.print_main("Solving")
-    y0 = data[['T','u']].values[0]
-    x, y = solver.solve(y0, cons, mix, chem)
+    x_true = np.expand_dims(data['x'].values, axis=-1)
+    y_true = data[['T','u']]
+    y0 = y_true.values[0]
+    x_pred, y_pred = solver.solve(y0, cons, mix, chem)
+    y_pred = pd.DataFrame(data=y_pred, index=None, columns=['T','u'])
+
+    # Postprocessing ==========================================================
+    utils.print_main("Postprocessing solution")
+    if not os.path.exists(inp_case.postprocess):
+        os.makedirs(inp_case.postprocess)
+    for var in ['T','u']:
+        unit = 'K' if var == 'T' else 'm/s'
+        plot_test(
+            inp_case.postprocess+var+'.pdf',
+            x_true,
+            x_pred,
+            np.expand_dims(y_true[var].values, axis=-1),
+            np.expand_dims(y_pred[var].values, axis=-1),
+            var_name=[var],
+            labels=[r'$x\quad[m]$', r'$%s\quad[%s]$' % (var, unit)],
+            scales=['log', 'linear']
+        )
 
 
 if __name__ == "__main__":
