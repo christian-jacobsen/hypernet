@@ -16,8 +16,7 @@ class DeepNet(Surrogate):
         inputs,
         train=None,
         valid=None,
-        test=None,
-        verbose=1
+        test=None
     ):
         super(DeepNet, self).__init__(mixture)
         self.inp = inputs
@@ -31,9 +30,6 @@ class DeepNet(Surrogate):
             training=self.inp.train_flg,
             **self.inp.data['args']
         )
-        print(len(self.data.train))
-        print(self.data.train[0].shape)
-        print(self.data.train[0])
 
         # Network =============================================================
         self.net = utils.get_class(pro.networks, self.inp.net['architecture'])(
@@ -52,7 +48,7 @@ class DeepNet(Surrogate):
 
         # Build Model ---------------------------------------------------------
         self.model.build(
-            self.net.inp_dim, verbose=verbose, load_net=self.inp.load_flg, \
+            self.net.inp_dim, verbose=self.inp.verbose, load_net=self.inp.load_flg, \
             visualize_graph=False
         )
 
@@ -98,12 +94,14 @@ class DeepNet(Surrogate):
                         test_i, path=path, scales=['log', 'log'], **plot_style
                     )
 
-    def update(self, ic, x):
-        x = [ic, x]
-        if not isinstance(self.net.inp_dim, (list,tuple)):
-            x = tf.concat(x, axis=1)
-        Y = np.squeeze(self.net.predict(x).numpy())
+    def update(self, x, ic=None):
+        x = utils.convert_to_array(x)
+        if ic:
+            x = [ic, x]
+            if not isinstance(self.net.inp_dim, (list,tuple)):
+                x = tf.concat(x, axis=1)
+        Y = np.squeeze(self.net.predict(x))
         new_mix = {}
-        for specie in self.mixture:
+        for specie in self.species:
             new_mix[specie] = Y[self.sp_to_Y[specie]]
-        self.mixture.update(new_mix)
+        return new_mix

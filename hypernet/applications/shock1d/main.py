@@ -16,6 +16,7 @@ from hypernet.src.thermophysicalModels.chemistryModel import surrogate as surrog
 
 # Solver methods ##############################################################
 def fun(y, *args):
+    cons, mix, chem = args
     # Conserved quantities
     M, Q, H = cons
     # Variables
@@ -26,6 +27,7 @@ def fun(y, *args):
     ])
 
 def jac(y, *args):
+    cons, mix, chem = args
     # Variables
     T, u = y[0], y[1]
     return np.array([
@@ -33,8 +35,9 @@ def jac(y, *args):
         [ mix.cp(T), u ]
     ])
 
-def update_args(self, x, *args):
-    chem.update(x)
+def update_args(x, *args):
+    cons, mix, chem = args
+    mix.update(chem.update(x))
     return cons, mix, chem
 
 # Thermo methods ##############################################################
@@ -91,21 +94,20 @@ def main(*args):
     utils.print_main("Initializing chemistry")
     # >> Define IC: [M, rho, T, Y]
     x = np.expand_dims(data['x'], axis=-1)
-    ic = np.tile(np.array(
-        [data['rho'][0]*data['u'][0], data['rho'][0], data['T'][0], *Y[0]]), \
-            (x.shape[0], 1)
-    )
-    train = [np.hstack((ic,x)), Y]
+    # ic = np.tile(np.array(
+    #     [data['rho'][0]*data['u'][0], data['rho'][0], data['T'][0], *Y[0]]), \
+    #         (x.shape[0], 1)
+    # )
+    # train = [np.hstack((ic,x)), Y]
+    train = [x, Y]
     chem = surrogate_module.DeepNet(
-        mix,
+        mix.mixture,
         inp_chem,
         train=train,
-        test=train
+        test=[train]
     )
-    
-    chem.fit()
-
-    input('===============================')
+    if inp_chem.train_flg:
+        chem.fit()
 
     # Solving =================================================================
     # Set up solver
@@ -117,7 +119,7 @@ def main(*args):
 
     # Space-marching solution
     utils.print_main("Solving")
-    y0 = np.array(list(inp_case.freestream.values()))
+    y0 = data[['T','u']].values[0]
     x, y = solver.solve(y0, cons, mix, chem)
 
 

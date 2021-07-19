@@ -30,7 +30,7 @@ class Root(object):
     # Methods
     ###########################################################################
     @utils.timing
-    def solve(self, y0, args):
+    def solve(self, y0, *args):
         # Initilize Data
         X = np.array([[self.x_st]])
         Y = np.expand_dims(y0,0)
@@ -39,9 +39,9 @@ class Root(object):
         x = self.x_st + dx
         while x <= self.x_end:
             # Update arguments
-            args = self.update_args(x, args)
+            args = self.update_args(x, *args)
             # Find the solution
-            y = self.step(y0, args)
+            y = self.step(y0, *args)
             # Collect data
             X = np.vstack((X, np.expand_dims(x,0)))
             Y = np.vstack((Y, np.expand_dims(y,0)))
