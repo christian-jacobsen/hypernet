@@ -63,7 +63,7 @@ limit_y  = False
 
 # Data
 # -----------------------------------------------------------------------------
-path_to_data = './dataGen/output_shock/shock.dat'
+path_to_data = './dataGenerator/output_shock/shock.dat'
 columns = ['x', 'X_O', 'X_O2_1', 'X_O2_2', 'X_O2_3', 'u', 'T', 'rho', 'p', 'nd', 'H', 'Mf']
 data = {
     'type': 'DataSet',
