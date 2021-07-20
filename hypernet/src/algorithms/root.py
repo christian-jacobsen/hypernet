@@ -4,6 +4,8 @@ from scipy import optimize
 from hypernet.src.general import const
 from hypernet.src.general import utils
 
+from profilehooks import profile
+
 
 class Root(object):
 
@@ -29,6 +31,7 @@ class Root(object):
         
     # Methods
     ###########################################################################
+    # @profile
     @utils.timing
     def solve(self, y0, *args):
         # Initilize Data

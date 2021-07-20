@@ -77,7 +77,7 @@ def plot_test(
     title=None,
     labels=[None, None],
     scales=['log', 'linear'],
-    data_val=None
+    x_lim=[1.e-9, 1.e-2]
     ):
     """Variable plotting."""
 
@@ -95,8 +95,7 @@ def plot_test(
         plt.xlabel(x_label)
     if x_scale is not None:
         plt.xscale(x_scale)
-    if x_scale != 'log':
-        plt.xlim([min(x_true), max(x_true)])
+    plt.xlim(x_lim)
 
     # Y axis
     if y_label is not None:
@@ -126,7 +125,6 @@ def plot_test(
     plt.legend(fontsize='x-small')
     fig.savefig(path)
     plt.close()
-
 
 # Main function
 ###############################################################################
