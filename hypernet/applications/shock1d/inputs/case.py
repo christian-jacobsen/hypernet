@@ -57,6 +57,6 @@ algorithm = {
     'dx': {
         'min': 1.e-7,
         'max': 1.e-1,
-        'str': 5.e0
+        'str': 1.5e0
     }
 }

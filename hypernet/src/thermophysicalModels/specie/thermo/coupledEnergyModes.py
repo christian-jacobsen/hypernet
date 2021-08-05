@@ -79,6 +79,19 @@ class CoupledEnergyModes(object):
         else:
             return 0.
 
+    # Ro-Vibrational levels ---------------------------------------------------
+    def n_g_E_lev(self, T):
+        # [J/mol]
+        if self.specie.n_at > 1:
+            q_, Q_ = self.q(T), self.Q(T)
+            n_lev, g_lev, E_lev = [], [], []
+            for bin_i in range(self.specie.n_bins):
+                mask = self.specie.lev_to_bin == bin_i
+                n_lev.append(self.specie.n[bin_i] * q_[mask] / Q_[bin_i])
+                g_lev.append(self.specie.rv_lev['g'][mask])
+                E_lev.append(self.specie.rv_lev['E'][mask]*1./const.EH_to_J)
+            return n_lev, g_lev, E_lev
+
     # Partition functions
     def z(self, T):
         return - self.specie.rv_lev['E'] / (T * const.UKB)

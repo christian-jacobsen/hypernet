@@ -8,12 +8,14 @@ import inputs.case as inp_case
 sys.path.append(inp_case.hypernet)
 # import hypernet as hy
 
+from matplotlib.lines import Line2D
 from matplotlib import pyplot as plt
 from hypernet.src.general import const
 from hypernet.src.general import utils
 from hypernet.src.algorithms import root
 from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixture_module
 from hypernet.src.thermophysicalModels.chemistryModel import surrogate as surrogate_module
+from postprocess import plot_Y, plot_var, plot_levels
 
 
 # Solver methods
@@ -64,67 +66,6 @@ def conserved(mix, p, T, u):
     Q = p + M * u
     H = M * (mix.h(T) + 0.5 * u**2)
     return M, Q, H
-
-# Plotting methods
-###############################################################################
-def plot_test(
-    path,
-    x_true,
-    x_pred,
-    y_true,
-    y_pred,
-    var_name,
-    title=None,
-    labels=[None, None],
-    scales=['log', 'linear'],
-    x_lim=[1.e-9, 1.e-2]
-    ):
-    """Variable plotting."""
-
-    fig = plt.figure()
-    plt.grid()
-
-    if title:
-        plt.title(title)
-
-    x_label, y_label = labels
-    x_scale, y_scale = scales
-
-    # X axis
-    if x_label is not None:
-        plt.xlabel(x_label)
-    if x_scale is not None:
-        plt.xscale(x_scale)
-    plt.xlim(x_lim)
-
-    # Y axis
-    if y_label is not None:
-        plt.ylabel(y_label)
-    if y_scale == 'log':
-        plt.yscale(y_scale)
-        plt.ylim([np.amin(y_true)*5.e-1, np.amax(y_true)*5.e+0])
-    else:
-        delta = np.amax(y_true)*0.1
-        plt.ylim([np.amin(y_true)-delta, np.amax(y_true)+delta])
-
-    # Plotting
-    lin = ['-', '--']
-    col = ['k', 'r', 'g', 'b', 'tab:purple', 'tab:brown', 'tab:pink', \
-           'tab:blue', 'tab:red', 'tab:green', 'tab:orange']
-    marker_style = dict(marker='^', fillstyle='none', markersize=5)#, markevery=y_true.shape[0]//20)
-
-    # Solution
-    for d in range(y_true.shape[1]):
-
-        name = 'True ' + var_name[d]
-        plt.plot(x_true, y_true[:, d], c=col[d], ls=lin[0], lw=1, label=name)
-
-        name = 'Pred ' + var_name[d]
-        plt.plot(x_pred, y_pred[:, d], c=col[d+1], ls=lin[1], lw=1, label=name, **marker_style)
-
-    plt.legend(fontsize='x-small')
-    fig.savefig(path)
-    plt.close()
 
 # Main function
 ###############################################################################
@@ -186,8 +127,7 @@ def main(*args):
     # Space-marching solution
     utils.print_main("Solving")
     x_true = np.expand_dims(data['x'].values, axis=-1)
-    y_true = data[['T','u']]
-    y0 = y_true.values[0]
+    y0 = data[['T','u']].values[0]
     x_pred, y_pred = solver.solve(y0, cons, mix, chem)
     y_pred = pd.DataFrame(data=y_pred, index=None, columns=['T','u'])
 
@@ -195,18 +135,54 @@ def main(*args):
     utils.print_main("Postprocessing solution")
     if not os.path.exists(inp_case.postprocess):
         os.makedirs(inp_case.postprocess)
-    for var in ['T','u']:
-        unit = 'K' if var == 'T' else 'm/s'
-        plot_test(
-            inp_case.postprocess+var+'.pdf',
-            x_true,
-            x_pred,
-            np.expand_dims(y_true[var].values, axis=-1),
-            np.expand_dims(y_pred[var].values, axis=-1),
-            var_name=[var],
-            labels=[r'$x\quad[m]$', r'$%s\quad[%s]$' % (var, unit)],
-            scales=['log', 'linear']
-        )
+
+    # Plot `T` and `u`
+    var = ['T','u']
+    plot_var(
+        inp_case.postprocess+'T_u.pdf',
+        x_true,
+        x_pred,
+        data[var].values,
+        y_pred[var].values,
+        var_name=var,
+        x_label=r'$x\quad[m]$',
+        y_label=[r'$T\quad[K]$', r'$u\quad[m/s]$'],
+        scales=['log', 'linear']
+    )
+
+    # Plot `Y`
+    Y_pred = chem.net.predict(x_pred)
+    Y_pred[0], x_pred[0] = Y[1], x_true[1]
+    O2_names = [ r'$O_2^{({%s})}$' % (i+1) for i in range(3) ]
+    y_scale = 'linear'
+    plot_Y(
+        inp_case.postprocess+'Y_'+y_scale+'.pdf',
+        x_true,
+        x_pred,
+        Y,
+        Y_pred,
+        O2_names+[r'$O$'],
+        labels=[r'$x\quad[m]$', r'$Y$'],
+        scales=['log', y_scale]
+    )
+
+    # Plot `n` levels
+    x_ref = 1.e-5
+    idx = np.argmin(np.absolute(x_pred-x_ref), axis=0)
+    idx = np.argmin(np.absolute(x_true-x_pred[idx]), axis=0)
+
+    T, rho = np.squeeze(data[['T', 'rho']].values[idx]).tolist()
+    mix.n_i(rho=rho)
+    n_lev, g_lev, E_lev = mix.mixture['O2'].n_g_E_lev(T)
+
+    plot_levels(
+        inp_case.postprocess+'levels.pdf',
+        n_lev,
+        E_lev,
+        g_lev,
+        O2_names,
+        title='Bins population at x = %.3e m' % x_true[idx] #+ r'$x\/=\/%.3e\/m$' % x_true[idx]
+    )
 
 
 if __name__ == "__main__":
