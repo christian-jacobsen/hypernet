@@ -8,9 +8,9 @@ UC0         = 1.e0/np.sqrt(UEPS0*UMU0)              # Speed of light
 # Global constants ------------------------------------------------------------
 UKB         = 1.380649e-23                          # Boltzmann's constant [J/K]
 UNA         = 6.02214076e23                         # Avogadro's number [1/mol]
-URG         = UKB*UNA                               # Universal gas constant [J/(mol x K)]
-UH          = 6.62607015e-34                        # Planck's constant [J x s]
-UHT         = UH/(2.e0*np.pi)                       # Reduced Plancks's constant [J x s]
+URG         = UKB*UNA                               # Universal gas constant [J/(mol K)]
+UH          = 6.62607015e-34                        # Planck's constant [J s]
+UHT         = UH/(2.e0*np.pi)                       # Reduced Plancks's constant [J s]
 UAMU        = 1.66053906660e-27                     # Atomic mass unit [kg]
 
 # Electron constants ----------------------------------------------------------
@@ -18,9 +18,9 @@ UE          = 1.602176634e-19                       # Charge [C]
 GEM         = 2.e0                                  # Spin
 UME         = 9.1093837015e-31                      # Mass [kg]
 UMME        = UME*UNA                               # Molar mass [kg/mol]
-R_EM        = URG/UMME                              # Specific gas constant [J/(kg x K)]
-CV_EM       = 1.5e0*R_EM                            # Constant volume specific heat [J/(kg x K)]
-CP_EM       = (CV_EM + R_EM)                        # Constant pressure specific heat  [J/(kg x K)]
+R_EM        = URG/UMME                              # Specific gas constant [J/(kg K)]
+CV_EM       = 1.5e0*R_EM                            # Constant volume specific heat [J/(kg K)]
+CP_EM       = (CV_EM + R_EM)                        # Constant pressure specific heat  [J/(kg K)]
 UALPHA      = UE**2/(2.e0*UH*UC0*UEPS0)             # Fine structure constant
 
 # Conversion factors ----------------------------------------------------------

@@ -1,6 +1,6 @@
 #---------------------------
 # Path to data and mixture, reaction, transfer files
-PATH     = /home/zanardi/WORKSPACE/CFD/HyperNet/hypernet/hypernet/applications/shock1d/dataGen/database/grouping/O2/
+PATH     = /home/zanardi/WORKSPACE/CFD/HyperNet/hypernet/hypernet/applications/shock1d/dataGenerator/database/grouping/O2/
 MIXTURE  = oxygen_3g
 REACTION = O3_CBM3
 TRANSFER = empty

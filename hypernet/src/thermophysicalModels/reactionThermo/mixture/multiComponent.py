@@ -22,7 +22,6 @@ class MultiComponent(object):
             self.mixture[name] = utils.get_class(thermo_module, thermo)(
                 specie_module.Specie(name, *args, **kwargs)
             )
-
         
     # Methods
     ###########################################################################
@@ -70,13 +69,13 @@ class MultiComponent(object):
         return self.mix_quantity('e_tr',T)
 
     # Ro-Vibrational Internal Energy ------------------------------------------
-    def cv_rv(self,T):
+    def cv_int(self,T):
         # [J/(kg K)]
-        return self.mix_quantity('cv_rv',T)
+        return self.mix_quantity('cv_int',T)
 
-    def e_rv(self,T):
+    def e_int(self,T):
         # [J/kg]
-        return self.mix_quantity('e_rv',T)
+        return self.mix_quantity('e_int',T)
 
     # Mixture properties ======================================================
     def m_(self, var='Y'):

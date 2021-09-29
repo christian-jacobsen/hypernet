@@ -43,12 +43,12 @@ class Specie(object):
         self.read_properties(thermo_path + name)
 
         # Read specie electronic levels =======================================
-        self.el_lev, g_e = self.read_elec_levels(thermo_path + name)
+        self.el_lev, self.g_e = self.read_elec_levels(thermo_path + name)
 
         # Read specie ro-vibrational levels ===================================
         if self.n_at > 1:
             self.rv_lev = self.read_rovib_levels(
-                grouping[name]['path']['rovib_levels'], g_e
+                grouping[name]['path']['rovib_levels']
             )
             self.lev_to_bin, self.n_bins = self.read_grouping(
                 grouping[name]['path']['lev_to_bin'], grouping[name]['name']
@@ -135,15 +135,13 @@ class Specie(object):
                 en.append(float(E) * const.EH_to_J)
         db['g'] = deg
         db['E'] = en
+        g_e = deg[0]
 
-        return db, deg[0]
+        return db, g_e
 
     # Molecular ro-vibrational levels =========================================
-    def read_rovib_levels(self, file, g_e):
-        '''Retrieve all the ro-vib levels.
-        g_e: electronic ground state degeneracy
-
-        '''
+    def read_rovib_levels(self, file):
+        '''Retrieve all the ro-vib levels.'''
         # Initilize input_file
         db = {}
         # Initilize input_file
@@ -151,9 +149,9 @@ class Specie(object):
         vqn = np.array(data[0])                     # Vibrational Q.N.
         jqn = np.array(data[1])                     # Rotational  Q.N.
         db['num'] = len(vqn)
-        db['g'] = g_e/2.0*(2.0*jqn+1.0)             # Degeneracies
+        db['g'] = self.g_e/2.0*(2.0*jqn+1.0)             # Degeneracies
         E = np.array(data[2]) * const.EH_to_J       # Energy [J]
-        db['E'] = E #- E[0]
+        db['E'] = E
         return db
 
     # Grouping ================================================================
