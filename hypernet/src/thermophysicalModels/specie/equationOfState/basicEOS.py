@@ -1,9 +1,7 @@
-import numpy as np
-
-from hypernet.src.specie.equationOfState.basicEOS import EOS
+import abc
 
 
-class PerfectGas(EOS):
+class EOS(object):
 
     # Initialization
     ###########################################################################
@@ -13,12 +11,15 @@ class PerfectGas(EOS):
         *args,
         **kwargs
     ):
-        super(PerfectGas, self).__init__(specie)
+        # Specie Properties ===================================================
+        self.specie = specie
 
     # Methods
     ###########################################################################
+    @abc.abstractmethod
     def p(self, T):
-        return self.rho*self.specie.R*T
+        pass
 
+    @abc.abstractmethod
     def psi(self, T):
-        return 1./(self.specie.R*T)
+        pass

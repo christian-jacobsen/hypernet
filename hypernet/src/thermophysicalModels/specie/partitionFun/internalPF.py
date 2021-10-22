@@ -1,5 +1,3 @@
-# TODO: add electronic partition function calculations
-
 import numpy as np
 
 from hypernet.src.general import const
@@ -13,7 +11,6 @@ class Internal(PartitionFun):
     def __init__(
         self,
         specie,
-        electronic=False, # TODO
         *args,
         **kwargs
     ):
@@ -32,23 +29,23 @@ class Internal(PartitionFun):
     def dq_dT(self, T):
         return self.q(T) * self.dz_dT(T)
 
-    def Q(self, T):
+    def Q_(self, T):
         if self.specie.n_at > 1:
-            q_ = self.q(T)
-            Q_ = np.zeros(self.specie.n_bins)
+            _q = self.q(T)
+            _Q = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
                 mask = self.specie.lev_to_bin == bin_i
-                Q_[bin_i] = np.sum(q_[self.specie.lev_to_bin == bin_i])
-            return Q_
+                _Q[bin_i] = np.sum(_q[self.specie.lev_to_bin == bin_i])
+            return _Q
         else:
-            return self.specie.g_e
+            return np.ones(1)*self.specie.g_e
 
-    def dQ_dT(self, T):
+    def dQ_dT_(self, T):
         if self.specie.n_at > 1:
-            dq_dT_ = self.dq_dT(T)
-            dQ_dT_ = np.zeros(self.specie.n_bins)
+            _dq_dT = self.dq_dT(T)
+            _dQ_dT = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
-                dQ_dT_[bin_i] = np.sum(dq_dT_[self.specie.lev_to_bin == bin_i])
-            return dQ_dT_
+                _dQ_dT[bin_i] = np.sum(_dq_dT[self.specie.lev_to_bin == bin_i])
+            return _dQ_dT
         else:
-            return 0.
+            return np.zeros(1)

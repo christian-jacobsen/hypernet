@@ -4,6 +4,10 @@ import pandas as pd
 from hypernet.src.general import const
 from hypernet.src.general import utils
 
+import prode.physics.database as db
+thermo_db = os.path.dirname(db.__file__) + '/air/thermo/'
+grouping_db = os.path.dirname(db.__file__) + '/air/grouping/'
+
 
 class Specie(object):
 
@@ -12,8 +16,9 @@ class Specie(object):
     def __init__(
         self,
         name,
-        thermo_path,
-        grouping=None
+        rovib=None,
+        *args,
+        **kwargs
     ):
         # Read specie properties ==============================================
         self.properties = {
@@ -40,12 +45,25 @@ class Specie(object):
             'THETA_ROT': [float, 'theta_r'],    # Characteristic rotational temperature [K]
             'THETA_VIB': [float, 'theta_v']     # Characteristic vibrational temperature(s) [K]
         }
-        self.read_properties(thermo_path + name)
+        self.read_properties(thermo_db + name)
 
         # Read specie electronic levels =======================================
-        self.el_lev, self.g_e = self.read_elec_levels(thermo_path + name)
+        self.el_lev, self.g_e = self.read_elec_levels(thermo_db + name)
 
         # Read specie ro-vibrational levels ===================================
+        self.rovib = rovib
+        if self.n_at > 1 and self.rovib is not None:
+            path = grouping_db + self.rovib['system'] + '_' \
+                + self.rovib['PES'] + '/' + name + '/'
+            # Retrieve ro-vib levels
+            self.rv_lev = self.read_rovib_levels(path + '/levels.inp')
+            # Retrieve ro-vib level to bin mapping
+            map_file = path + '/LevelsMap_' + rovib['grouping'] + '.csv' \
+                if self.rovib['grouping'] else None
+            self.lev_to_bin, self.n_bins = self.read_grouping(
+                map_file, self.rovib['grouping']
+            )
+
         if self.n_at > 1:
             self.rv_lev = self.read_rovib_levels(
                 grouping[name]['path']['rovib_levels']
@@ -94,7 +112,10 @@ class Specie(object):
             setattr(self, var, val)
 
         # Specific gas constant R [J/(kg K)]
-        self.R = const.URG / self.m
+        self.R = const.URG / self.M
+
+        # Mass [kg]
+        self.m = self.M / const.UNA
 
         # Conversions ---------------------------------------------------------
         if self.D:
@@ -134,7 +155,7 @@ class Specie(object):
                 deg.append(float(g))
                 en.append(float(E) * const.EH_to_J)
         db['g'] = deg
-        db['E'] = en
+        db['E'] = en - en[0]
         g_e = deg[0]
 
         return db, g_e
@@ -149,9 +170,9 @@ class Specie(object):
         vqn = np.array(data[0])                     # Vibrational Q.N.
         jqn = np.array(data[1])                     # Rotational  Q.N.
         db['num'] = len(vqn)
-        db['g'] = self.g_e/2.0*(2.0*jqn+1.0)             # Degeneracies
+        db['g'] = self.g_e/2.0*(2.0*jqn+1.0)        # Degeneracies
         E = np.array(data[2]) * const.EH_to_J       # Energy [J]
-        db['E'] = E
+        db['E'] = E - E[0]
         return db
 
     # Grouping ================================================================

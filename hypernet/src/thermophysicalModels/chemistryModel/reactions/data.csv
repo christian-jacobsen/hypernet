@@ -1,0 +1,10 @@
+#type,index,reaction,A,beta,Ta
+microReversibleArrhenius,2,O2(1)+O=3O,4.3353e-11,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,2,O2(2)+O=3O,1.9545e-10,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,2,O2(3)+O=3O,1.7262e-09,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,5,O2(2)+O=O2(1)+O,1.2436e-10,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,5,O2(3)+O=O2(1)+O,1.0027e-11,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,5,O2(3)+O=O2(2)+O,1.1176e-10,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,6,O2(2)+O=O2(1)+O,4.4402e-11,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,6,O2(3)+O=O2(1)+O,1.8119e-11,+0.0000E+00,+0.0000E+00
+microReversibleArrhenius,6,O2(3)+O=O2(2)+O,1.1102e-10,+0.0000E+00,+0.0000E+00

@@ -1,26 +1,24 @@
-# TODO: add electronic partition function calculations
-
 import numpy as np
 
 from hypernet.src.general import const
 from hypernet.src.general import utils
-from hypernet.src.specie.partitionFun.intPFernal import Internal
+from hypernet.src.specie.thermo.basicThermo import Thermo
 
 
-class CoupledEnergyModes(object):
+class CoupledEnergyModes(Thermo):
 
     # Initialization
     ###########################################################################
     def __init__(
         self,
         specie,
-        electronic=False, # TODO
+        internalPF,
         *args,
         **kwargs
     ):
         # Specie Properties ===================================================
-        self.specie = specie
-        self.intPF = Internal(specie)
+        super(CoupledEnergyModes, self).__init__(specie)
+        self.intPF = internalPF
 
     # Methods
     ###########################################################################
@@ -33,7 +31,7 @@ class CoupledEnergyModes(object):
         # [J/mol]
         return self.e(T) + const.URG*T
 
-    # Internal Energy =========================================================
+    # Energy ==================================================================
     def cv(self, T):
         # [J/(mol K)]
         return self.cv_tr() + self.cv_int(T)
@@ -42,12 +40,7 @@ class CoupledEnergyModes(object):
         # [J/mol]
         return self.e_tr(T) + self.e_int(T) + self.e_f()
 
-    # Energy of formation -----------------------------------------------------
-    def e_f(self):
-        # [J/mol]
-        return self.specie.Ef
-
-    # Translational Internal Energy -------------------------------------------
+    # Translational Energy ----------------------------------------------------
     def cv_tr(self):
         # [J/(mol K)]
         return 3./2.*const.URG
@@ -56,7 +49,7 @@ class CoupledEnergyModes(object):
         # [J/mol]
         return 3./2.*const.URG*T
 
-    # Internal Internal Energy ------------------------------------------------
+    # Ro-vibrational Energy ---------------------------------------------------
     def cv_int(self, T):
         # [J/(mol K)]
         if self.specie.n_at > 1:
