@@ -20,23 +20,47 @@ class MicroReversibleReaction(object):
         self.reacIndex = reacIndex
         self.species = species
 
-    # Master Equation matrices
+
+    def update(self, T):
+        for name, thSp_ in self.thSp.items():
+            thSp_.intPF.update(T)
+            thSp_.transPF.update(T)
+        self.kf = self.kf_(T)
+        self.dkfdT = self.dkfdT_(T)
+
+    # Properties --------------------------------------------------------------
+    @property
+    def kf(self):
+        return self._kf
+    @kf.setter
+    def kf(self, value):
+        self._kf = value
+
+    @property
+    def dkfdT(self):
+        return self._dkfdT
+    @dkfdT.setter
+    def dkfdT(self, value):
+        self._dkfdT = value
+
+
+    # Reaction rates
     ###########################################################################
-    def kf(self, T):
+    def kf_(self, T):
         return self.reactionRate.k(T)
 
-    def dkfdT(self, T):
+    def dkfdT_(self, T):
         return self.reactionRate.dkdT(T)
 
-    def kr(self, T, reacType, indeces=None, Q=None):
+    def kr(self, reacType, indeces=None):
         if self.reacType == 2:
-            return self.kf(T) / self.Keq(T)
+            return self.kf / self.Keq(reacType, indeces)
         else:
             l, r = indeces
-            Q_ = self.thSp['O2'].Q(T)
-            return self.kf(T) * Q[l] / Q[r]
+            Q_ = self.thSp['O2'].Q
+            return self.kf * Q[l] / Q[r]
 
-    def dkrdT(self, T, reacType):
+    def dkrdT(self, reacType, indeces=None):
         if self.reacIndex == 2:
             dkrdT_ = self.dkfdT(T) / self.Keq(T)
             dkrdT_ -= self.dkfdT(T) / self.Keq(T)**2 * self.dKeqdT(T)
@@ -45,13 +69,12 @@ class MicroReversibleReaction(object):
 
             return 
 
-                rates[i,j] = rates[j,i] * Q_bins[j] / Q_bins[i]
 
-    def Keq(self, T):
+    def Keq(self, reacType, indeces=None):
         '''Diss.-Recomb. equilibrium constants matrix'''
         PFdot = {
-            name: np.sum(ts.intPF.Q(T) * ts.transPF.Q(T)) \
-                for name, ts in self.thSp.items()
+            name: np.sum(t.intPF.Q * t.transPF.Q) \
+                for name, t in self.thSp.items()
             }
         K = PFdot['O']**2 / PFdot['O2']
         return K
@@ -59,19 +82,30 @@ class MicroReversibleReaction(object):
     def dKeqdT(self, T):
         '''Diss.-Recomb. equilibrium constants matrix'''
         PFdot = {
-            name: np.sum(ts.intPF.Q(T) * ts.transPF.Q(T)) \
-                for name, ts in self.thSp.items()
+            name: np.sum(t.intPF.Q * t.transPF.Q) \
+                for name, t in self.thSp.items()
             }
 
         dPFdotdT = {
-            name: np.sum(ts.intPF.dQdT(T) * ts.transPF.Q(T) \
-                + ts.intPF.Q(T) * ts.transPF.dQdT(T)) \
-                for name, ts in self.thSp.items()
+            name: np.sum(t.intPF.dQdT * t.transPF.Q \
+                + t.intPF.Q * t.transPF.dQdT) \
+                for name, t in self.thSp.items()
             }
 
         K = 2*PFdot['O']*dPFdotdT['O']
         K -= self.Keq(T)*dPFdotdT['O2']
         return K/dPFdotdT['O2']
+
+
+
+
+
+
+
+
+
+
+
 
 
 
