@@ -1,10 +1,11 @@
+import os
 import numpy as np
 import pandas as pd
 
 from hypernet.src.general import const
 from hypernet.src.general import utils
 
-import prode.physics.database as db
+import hypernet.database as db
 thermo_db = os.path.dirname(db.__file__) + '/air/thermo/'
 grouping_db = os.path.dirname(db.__file__) + '/air/grouping/'
 
@@ -23,7 +24,7 @@ class Specie(object):
         # Read specie properties ----------------------------------------------
         self.properties = {
             'NAME': [str, 'name'],              # Specie name
-            'MOLAR_MASS': [float, 'm'],         # Molecular mass [kg/mol]
+            'MOLAR_MASS': [float, 'M'],         # Molecular mass [kg/mol]
             'NB_ATOMS': [int, 'n_at'],          # Number of atoms
             'ELEM_NAME': [str, 'elem_name'],    # Chemical elements (symbols)
             'ELEM_QUANT': [int, 'elem_num'],    # Chemical elements (quantities)
@@ -62,14 +63,6 @@ class Specie(object):
                 if self.rovib['grouping'] else None
             self.lev_to_bin, self.n_bins = self.read_grouping(
                 map_file, self.rovib['grouping']
-            )
-
-        if self.n_at > 1:
-            self.rv_lev = self.read_rovib_levels(
-                grouping[name]['path']['rovib_levels']
-            )
-            self.lev_to_bin, self.n_bins = self.read_grouping(
-                grouping[name]['path']['lev_to_bin'], grouping[name]['name']
             )
 
     # Properties
@@ -155,8 +148,8 @@ class Specie(object):
                 g, E = l.strip().split("  ")
                 deg.append(float(g))
                 en.append(float(E) * const.EH_to_J)
-        db['g'] = deg
-        db['E'] = en - en[0]
+        db['g'] = np.array(deg)
+        db['E'] = np.array(en) - en[0]
         g_e = deg[0]
 
         return db, g_e

@@ -13,20 +13,22 @@ from hypernet.config import headers
 
 # Printing functions
 ###############################################################################
-def print_main(text, *args, **kwargs):
-    print(headers['main'] + text, *args, **kwargs)
+def print_main(text, start='\n', verbose=True, *args, **kwargs):
+    if verbose:
+        print(start + headers['main'] + text, *args, **kwargs)
 
-def print_submain(text, *args, **kwargs):
-    print(headers['submain'] + text, *args, **kwargs)
+def print_submain(text, start='', verbose=True, *args, **kwargs):
+    if verbose:
+        print(start + headers['main'] + '  ' + text, *args, **kwargs)
 
-def input_main(text, *args, **kwargs):
-    return input(headers['main'] + text, *args, **kwargs)
+def input_main(text, start='', *args, **kwargs):
+    return input(start + headers['main'] + text, *args, **kwargs)
 
-def input_submain(text, *args, **kwargs):
-    return input(headers['submain'] + text, *args, **kwargs)
+def input_submain(text, start='', *args, **kwargs):
+    return input(start + headers['main'] + '  ' + text, *args, **kwargs)
 
-def warning(text, *args, **kwargs):
-    print(headers['warning'] + text, *args, **kwargs)
+def warning(text, start='', *args, **kwargs):
+    print(start + headers['warning'] + text, *args, **kwargs)
 
 def raise_value_err(text):
     message = ''.join([headers['val_err'], text])
@@ -57,6 +59,56 @@ def timing(f):
         return result
     return wrapper
 
+# Decorator for applications --------------------------------------------------
+LEN = 98
+
+def compose(text='', start='', between=' '):
+    end = ''.join(reversed(start))
+    l = len(text)
+    return start + between*int((LEN-len(start)*2-l)/2) \
+        + text + between*int((LEN-len(start)*2-l)/2) + end
+
+def app_decorator(name=None):
+    def dec(fun):
+        @wraps(fun)
+        def wrapper(name=name, *args, **kwargs):
+            ts = time.time()
+            start = '# '
+            print(
+                "\n" + compose(start='# ', between='*') +
+                "\n" + compose(text='PrODE ', start='# ') +
+                "\n" + compose(start='# ', between='-') +
+                "\n" + compose(
+                    text='Machine-Learning-Based Approximators', start='# '
+                ) +
+                "\n" + compose(
+                    text='for Ordinary Differential Equations (ODEs)',
+                    start='# '
+                ) +
+                "\n" + compose(start='# ') +
+                "\n" + compose(start='# ', between='*')
+            )
+            print_main('App `{}` starts\n'.format(name) + "="*LEN + "\n")
+            result = fun(*args, **kwargs)
+            te = time.time()
+            delta = datetime.timedelta(seconds=(te - ts))
+            if not name:
+                name = fun.__name__
+            print(app_epilog(name=name, delta=delta))
+            # print("\n" + "=" * LEN)
+            # print_main('App `{}` terminates'.format(name), start='')
+            # print_submain(">> It took {}\n".format(delta))
+            return result
+        return wrapper
+    return dec
+
+def app_epilog(name=None, delta=None):
+    s = '\n'+'='*LEN+'\n'+headers['main']+'App `{}` terminates\n'.format(name)
+    if delta:
+        return s + headers['main'] + '  ' + '>> It took {}\n'.format(delta)
+    else:
+        return s + ' '
+
 # Handling data types
 ###############################################################################
 def get_class(module, name):
@@ -64,7 +116,9 @@ def get_class(module, name):
     for name_i, obj_i in inspect.getmembers(module, inspect.isclass):
         if name_i == name:
             return obj_i
-    raise_value_err("Class `{}` not found in module `{}`.".format(name, module.__name__))
+    raise_value_err(
+        "Class `{}` not found in module `{}`.".format(name, module.__name__)
+    )
 
 def get_class_name(cls):
     """Return the class name."""
@@ -84,7 +138,9 @@ def list_to_str(nums, precision=2):
         return ""
     if not isinstance(nums, (list, tuple, np.ndarray)):
         return "{:.{}e}".format(nums, precision)
-    return "[{:s}]".format(", ".join(["{:.{}e}".format(x, precision) for x in nums]))
+    return "[{:s}]".format(
+        ", ".join(["{:.{}e}".format(x, precision) for x in nums])
+    )
 
 def get_num_args(func):
     """Get the number of arguments of a Python function."""

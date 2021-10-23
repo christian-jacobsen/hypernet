@@ -1,9 +1,17 @@
-### Configuration file
+# *************************************************************************** #
+#                                    PrODE                                    #
+# --------------------------------------------------------------------------- #
+#                     Machine-Learning-Based Approximators                    #
+#                  for Ordinary Differential Equations (ODEs)                 #
+#                                                                             #
+# *************************************************************************** #
 
-# PrODE
+# --------------------------- CONFIGURATION FILE ---------------------------- #
+
+
+# HyperNet --------------------------------------------------------------------
 headers = {
-    'main':    '\n[HyperNet]: ',
-    'submain': '[HyperNet]:   ',
+    'main':    '[HyperNet]: ',
     'warning': '[HyperNet]:   WARNING! ',
-    'val_err': 'from HyperNet\n'
+    'val_err': 'from HyperNet\n>>> '
 }

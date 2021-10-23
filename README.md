@@ -1,2 +1,2 @@
 # HyperNet
-A deep learning-based CFD solver for hypersonic flows
+A deep learning-based library for modeling of multi-component non-equilibrium thermochemical processes.

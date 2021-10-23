@@ -1,9 +1,0 @@
-#     Ritz          Aki      Acc.      Ei           Ek           Lower level          Upper level       gi   gk  Type
-#  Wavelength      s^-1             eV         eV     ------------------------------------------               
-#   Vac nm                                                 Conf.   Term  J    Conf.   Term  J                  
-       29.2140  6.9e+09     C      0.000000    42.4400    3s2.3p  2Pstar   0.5  3s2.4s  2S    0.5    2 2       
-       29.4036  1.36e+10    C      0.273742    42.4400    3s2.3p  2Pstar   1.5  3s2.4s  2S    0.5    4 2       
-       75.4930  2.8e+09     E      0.000000    16.42328   3s2.3p  2Pstar   0.5  3s.3p2  2D    1.5    2 4       
-       76.7066  3.3e+09     E      0.273742    16.43717   3s2.3p  2Pstar   1.5  3s.3p2  2D    2.5    4 6       
-       76.7726  5.4e+08     E      0.273742    16.42328   3s2.3p  2Pstar   1.5  3s.3p2  2D    1.5    4 4       
-     4529.2     9.7e-02     A      0.000000     0.273742  3s2.3p  2Pstar   0.5  3s2.3p  2Pstar   1.5    2 4    M1 
