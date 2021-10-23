@@ -1,14 +1,11 @@
 # *************************************************************************** #
-#                                    PrODE                                    #
-# --------------------------------------------------------------------------- #
-#                     Machine-Learning-Based Approximators                    #
-#                  for Ordinary Differential Equations (ODEs)                 #
+#                                   HyperNet                                  #
 #                                                                             #
 # *************************************************************************** #
 
-# -------------------------------- EXEC FILE -------------------------------- #
+# -------------------------------- INPUT FILE ------------------------------- #
 # Description:
-# >> Build a ML-based approximator for ODEs
+# >> Fit reactions rates following the Arrhenius law.
 # --------------------------------------------------------------------------- #
 
 
@@ -194,9 +191,6 @@ def main():
     path = kinetic_db + inp_gen.reacReader['path']+'/reactions.csv'
     reactions.to_csv(path, float_format='{:e}'.format)
 
-    print(reactions)
-    input('=============================')
-
     # Plot fitted rates
     ###########################################################################
     if opts.plot:
@@ -272,8 +266,3 @@ def main():
                 labels=inp_post.labels,
                 scales=inp_post.scales
             )
-
-
-
-if __name__ == "__main__":
-    main()
