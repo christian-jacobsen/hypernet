@@ -39,9 +39,27 @@ class Basic(object):
             **kwargs
         )
 
+        # Variables
+        self.n_var = self.chemModel.nSpecies + 1
+        self.varIndeces = [self.n_var-1, self.n_var]
+        self.varNames = self.get_names()
+
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
     @abc.abstractmethod
     def update(self, *args, **kwargs):
         pass
+
+    # Variables ---------------------------------------------------------------
+    def get_names(self):
+        varNames = []
+        for name, spTh_ in self.spTh.values():
+            if spTh_.specie.n_at > 1:
+                varNames.extend(
+                    [ name+'('+str(b+1)+')' for b in range(n_bins) ]
+                )
+            else:
+                varNames.append(name)
+        varNames.append('T')
+        return varNames

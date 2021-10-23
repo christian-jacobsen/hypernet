@@ -33,58 +33,48 @@ class ChemistryModel(Basic):
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
-    def update(self, r, T, mass):
+    def update(self, t, y, mass):
+        r, T = np.split(y, self.varIndeces)
         # Update chemistry model
         self.chemModel.update(T)
         # Update mixture
         self.mixture.update(
-            {name: np.take(r, idx)/mass for idx in self.chem.specieIndeces}
+            {name: np.take(r, idx)/mass for idx in self.chemModel.specieIndeces}
         )
 
     # Function ----------------------------------------------------------------
-    def function(self, r, T, mass):
-
+    def function(self, t, y, mass):
+        r, T = np.split(y, self.varIndeces)
         # Evaluate contributions from reactions
         drdt = self.wr(r)
-
         # Evaluate the effect on the thermodynamic system
         dTdt = self.wT(drdt, T, mass)
-
         return np.concatenate(tuple([drdt, dTdt]))
 
     def wr(self, r):
-
         # Get Master Equation matrices
-        Ke, Kd, Kr = self.chem.K
-
+        Ke, Kd, Kr = self.chemModel.K
         # Evaluate contributions from each process
         wr_ = np.matmul(Ke, r) * r[-1]
         wr_ += np.matmul(Kd, r) * r[-1]
         wr_ += np.squeeze(Kr) * r[-1]**3
-
         return wr_
 
     def wT(self, drdt, T, mass):
-
         # Get mass fractions derivative
         dYdt = {name: np.take(drdt, idx)/mass for idx in self.specieIndeces}
-
         # Evaluate source term
         wT_ = - self.dehdY(T, dYdt) / self.cvp(T)
-
         return wT_
 
     # Jacobian ----------------------------------------------------------------
-    @tf.function
-    def jacobian(self, r, T, mass):
-        x = np.concatenate(tuple([r, T]))
-        n = x.shape[0]-1
+    # @tf.function
+    def jacobian(self, t, y, mass):
         with tf.GradientTape() as g:
-            g.watch(x)
-            x = np.split(x, [n-1, n])
-            dydt = self.function(x, mass)
-        ddydtdx = g.jacobian(dydt, x)
-        return ddydtdx.numpy()
+            g.watch(y)
+            w = self.function(y, mass)
+        dwdy = g.jacobian(w, y)
+        return dwdy.numpy()
 
 
     # def jacobian(self, r, T, mass):
@@ -109,10 +99,10 @@ class ChemistryModel(Basic):
 
     # def dwrdr(self, r):
     #     # Get Master Equation matrices
-    #     Ke, Kd, Kr = self.chem.K
+    #     Ke, Kd, Kr = self.chemModel.K
 
     #     # Get Master Equation matrices
-    #     I = np.array([[0]*self.chem.spTh['O2'].n_bins+[1]])
+    #     I = np.array([[0]*self.chemModel.spTh['O2'].n_bins+[1]])
     #     wr_ = np.expand_dims(self.wr(r), 1)
 
     #     dwrdr_ = r[-1] * (Ke + Kd)
@@ -123,7 +113,7 @@ class ChemistryModel(Basic):
     # def dwrdT(self, r):
 
     #     # Get Master Equation matrices
-    #     dKedT, dKddT, dKrdT = self.chem.dKdT
+    #     dKedT, dKddT, dKrdT = self.chemModel.dKdT
 
     #     # Evaluate contributions from each process
     #     dwrdT_ = np.matmul(dKedT, r) * r[-1]
@@ -136,7 +126,7 @@ class ChemistryModel(Basic):
 
     # def domegaYdY(self, Y, T):
     #     # Get Master Equation matrices
-    #     K_e, K_d, K_r = self.chem.K
+    #     K_e, K_d, K_r = self.chemModel.K
 
     # def jac(self, t, y, arg):
     #     '''Jacobian calculation: jac[i,j] = df[i] / dy[j].'''
