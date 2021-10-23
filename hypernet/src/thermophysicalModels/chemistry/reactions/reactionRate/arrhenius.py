@@ -1,20 +1,20 @@
 import numpy as np
 
-from hypernet.src.thermophysicalModels.chemistryModel.reactions.reactionRate import BasicReactionRate
+from hypernet.src.thermophysicalModels.chemistry.reactions.reactionRate import Basic
 
 
-class ArrheniusReactionRate(BasicReactionRate):
+class Arrhenius(Basic):
 
     # Initialization
     ###########################################################################
     def __init__(
         self,
-        reactionsDataFrame,
+        reactionsDatabase,
         *args,
         **kwargs
     ):
         super(ArrheniusReactionRate, self).__init__(
-            reactionsDataFrame,
+            reactionsDatabase,
             *args,
             **kwargs
         )
@@ -22,8 +22,9 @@ class ArrheniusReactionRate(BasicReactionRate):
         self.beta = self.reacDB['beta']
         self.Ta = self.reacDB['Ta']
 
-    # Master Equation matrices
+    # Methods
     ###########################################################################
+    # Forward reaction rates --------------------------------------------------
     def k_(self, T=0.):
         _k = self.A
         if T > 0.:

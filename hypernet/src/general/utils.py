@@ -32,7 +32,6 @@ def raise_value_err(text):
     message = ''.join([headers['val_err'], text])
     raise ValueError(message)
 
-
 # Decorators
 ###############################################################################
 def main_decorator(f):
@@ -57,7 +56,6 @@ def timing(f):
         sys.stdout.flush()
         return result
     return wrapper
-
 
 # Handling data types
 ###############################################################################
@@ -119,7 +117,6 @@ def check_format(data_type, string):
         return string.replace("d", "e")
     else:
         return string
-
 
 # Others
 ###############################################################################
