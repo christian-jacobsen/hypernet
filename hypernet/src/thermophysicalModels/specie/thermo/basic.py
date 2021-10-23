@@ -1,7 +1,9 @@
 import abc
 
+from hypernet.src.general import const
 
-class Thermo(object):
+
+class Basic(object):
 
     # Initialization
     ###########################################################################
@@ -11,23 +13,23 @@ class Thermo(object):
         *args,
         **kwargs
     ):
-        # Specie Properties ===================================================
+        # Specie Properties
         self.specie = specie
 
     # Methods
     ###########################################################################
-    # Enthalpy ================================================================
+    # Enthalpy ----------------------------------------------------------------
     @abc.abstractmethod
     def cp(self, T):
         # [J/(mol K)]
-        pass
+        return self.cv(T) + const.URG
 
     @abc.abstractmethod
     def h(self, T):
         # [J/mol]
-        pass
+        return self.e(T) + const.URG*T
 
-    # Energy ==================================================================
+    # Energy ------------------------------------------------------------------
     @abc.abstractmethod
     def cv(self, T):
         # [J/(mol K)]

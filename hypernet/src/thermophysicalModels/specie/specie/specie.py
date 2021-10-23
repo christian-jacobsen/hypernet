@@ -20,7 +20,7 @@ class Specie(object):
         *args,
         **kwargs
     ):
-        # Read specie properties ==============================================
+        # Read specie properties ----------------------------------------------
         self.properties = {
             'NAME': [str, 'name'],              # Specie name
             'MOLAR_MASS': [float, 'm'],         # Molecular mass [kg/mol]
@@ -47,10 +47,10 @@ class Specie(object):
         }
         self.read_properties(thermo_db + name)
 
-        # Read specie electronic levels =======================================
+        # Read specie electronic levels ---------------------------------------
         self.el_lev, self.g_e = self.read_elec_levels(thermo_db + name)
 
-        # Read specie ro-vibrational levels ===================================
+        # Read specie ro-vibrational levels -----------------------------------
         self.rovib = rovib
         if self.n_at > 1 and self.rovib is not None:
             path = grouping_db + self.rovib['system'] + '_' \
@@ -72,9 +72,8 @@ class Specie(object):
                 grouping[name]['path']['lev_to_bin'], grouping[name]['name']
             )
 
-    # Methods
+    # Properties
     ###########################################################################
-    # Thermodynamic properties ================================================
     @property
     def Y(self):
         return self._Y
@@ -103,9 +102,9 @@ class Specie(object):
     def rho(self, value):
         self._rho = value
 
-    # Reading methods
+    # Methods
     ###########################################################################
-    # Global properties =======================================================
+    # Global properties -------------------------------------------------------
     def read_properties(self, file):
         for name, (data_type, var) in self.properties.items():
             val = self.read_property(file, name, data_type)
@@ -117,7 +116,7 @@ class Specie(object):
         # Mass [kg]
         self.m = self.M / const.UNA
 
-        # Conversions ---------------------------------------------------------
+        # Conversions
         if self.D:
             # Dissociation energy: [eV] -> [J]
             self.D = self.D * const.EV_to_J
@@ -133,13 +132,15 @@ class Specie(object):
             if " " in v:
                 v = v.split(" ")
             if isinstance(v, (list,tuple)):
-                return [ data_type(utils.check_format(data_type, i)) for i in v ]
+                return [
+                    data_type(utils.check_format(data_type, i)) for i in v
+                ]
             else:
                 return data_type(utils.check_format(data_type, v))
         else:
             return None
 
-    # Electronic levels =======================================================
+    # Electronic levels -------------------------------------------------------
     def read_elec_levels(self, file):
         '''Retrieve all the electronic levels.'''
         # Initilize input_file
@@ -160,13 +161,15 @@ class Specie(object):
 
         return db, g_e
 
-    # Molecular ro-vibrational levels =========================================
+    # Molecular ro-vibrational levels -----------------------------------------
     def read_rovib_levels(self, file):
         '''Retrieve all the ro-vib levels.'''
         # Initilize input_file
         db = {}
         # Initilize input_file
-        data = pd.read_csv(file, header=None, skiprows=15, delim_whitespace=True)
+        data = pd.read_csv(
+            file, header=None, skiprows=15, delim_whitespace=True
+        )
         vqn = np.array(data[0])                     # Vibrational Q.N.
         jqn = np.array(data[1])                     # Rotational  Q.N.
         db['num'] = len(vqn)
@@ -175,7 +178,7 @@ class Specie(object):
         db['E'] = E - E[0]
         return db
 
-    # Grouping ================================================================
+    # Grouping ----------------------------------------------------------------
     def read_grouping(self, file, name):
         '''Retrieve mapping of each rot-vib level to the respective bin.'''
         if name is not None:

@@ -1,10 +1,10 @@
 import numpy as np
 
 from hypernet.src.general import const
-from hypernet.src.specie.partitionFun.basicPF import PartitionFun
+from hypernet.src.thermophysicalModels.specie.partitionFun import Basic
 
 
-class Translational(PartitionFun):
+class Translational(Basic):
 
     # Initialization
     ###########################################################################
@@ -15,9 +15,11 @@ class Translational(PartitionFun):
         **kwargs
     ):
         super(Translational, self).__init__(specie)
+        # Constant basis
         self.basis = 2.*np.pi*const.UKB*self.specie.m/const.UH**2
 
-    # Translational partition functions ---------------------------------------
+    # Methods
+    ###########################################################################
     def Q_(self, T):
         return np.ones(1)*np.power(self.basis*T, 3./2.)
 

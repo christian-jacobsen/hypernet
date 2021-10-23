@@ -2,10 +2,10 @@ import numpy as np
 
 from hypernet.src.general import const
 from hypernet.src.general import utils
-from hypernet.src.specie.thermo.basicThermo import Thermo
+from hypernet.src.thermophysicalModels.specie.thermo import Basic
 
 
-class CoupledEnergyModes(Thermo):
+class CoupledEnergyModes(Basic):
 
     # Initialization
     ###########################################################################
@@ -16,22 +16,12 @@ class CoupledEnergyModes(Thermo):
         *args,
         **kwargs
     ):
-        # Specie Properties ===================================================
         super(CoupledEnergyModes, self).__init__(specie)
         self.intPF = internalPF
 
     # Methods
     ###########################################################################
-    # Enthalpy ================================================================
-    def cp(self, T):
-        # [J/(mol K)]
-        return self.cv(T) + const.URG
-
-    def h(self, T):
-        # [J/mol]
-        return self.e(T) + const.URG*T
-
-    # Energy ==================================================================
+    # Energy ------------------------------------------------------------------
     def cv(self, T):
         # [J/(mol K)]
         return self.cv_tr() + self.cv_int(T)
@@ -40,7 +30,7 @@ class CoupledEnergyModes(Thermo):
         # [J/mol]
         return self.e_tr(T) + self.e_int(T) + self.e_f()
 
-    # Translational Energy ----------------------------------------------------
+    # Translational Energy
     def cv_tr(self):
         # [J/(mol K)]
         return 3./2.*const.URG
@@ -49,7 +39,7 @@ class CoupledEnergyModes(Thermo):
         # [J/mol]
         return 3./2.*const.URG*T
 
-    # Ro-vibrational Energy ---------------------------------------------------
+    # Ro-vibrational Energy
     def cv_int(self, T):
         # [J/(mol K)]
         if self.specie.n_at > 1:

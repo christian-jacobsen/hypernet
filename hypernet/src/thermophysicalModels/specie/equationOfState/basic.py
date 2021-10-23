@@ -1,7 +1,7 @@
 import abc
 
 
-class EOS(object):
+class Basic(object):
 
     # Initialization
     ###########################################################################
@@ -11,7 +11,7 @@ class EOS(object):
         *args,
         **kwargs
     ):
-        # Specie Properties ===================================================
+        # Specie Properties
         self.specie = specie
 
     # Methods

@@ -1,9 +1,9 @@
 import numpy as np
 
-from hypernet.src.specie.equationOfState.basicEOS import EOS
+from hypernet.src.thermophysicalModels.specie.equationOfState import Basic
 
 
-class PerfectGas(EOS):
+class PerfectGas(Basic):
 
     # Initialization
     ###########################################################################
@@ -18,7 +18,7 @@ class PerfectGas(EOS):
     # Methods
     ###########################################################################
     def p(self, T):
-        return self.rho*self.specie.R*T
+        return self.specie.rho * self.specie.R * T
 
     def psi(self, T):
-        return 1./(self.specie.R*T)
+        return 1. / (self.specie.R * T)

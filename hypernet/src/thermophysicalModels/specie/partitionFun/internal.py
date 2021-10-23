@@ -1,10 +1,10 @@
 import numpy as np
 
 from hypernet.src.general import const
-from hypernet.src.specie.partitionFun.basicPF import PartitionFun
+from hypernet.src.thermophysicalModels.specie.partitionFun import Basic
 
 
-class Internal(PartitionFun):
+class Internal(Basic):
 
     # Initialization
     ###########################################################################
@@ -16,22 +16,23 @@ class Internal(PartitionFun):
     ):
         super(Internal, self).__init__(specie)
 
-    # Internal partition functions --------------------------------------------
-    def z(self, T):
+    # Methods
+    ###########################################################################
+    def z_(self, T):
         return - self.specie.rv_lev['E'] / (T * const.UKB)
 
-    def dz_dT(self, T):
-        return - self.z(T) / T
+    def dzdT_(self, T):
+        return - self.z_(T) / T
 
-    def q(self, T):
-        return self.specie.rv_lev['g'] * np.exp(self.z(T))
+    def q_(self, T):
+        return self.specie.rv_lev['g'] * np.exp(self.z_(T))
 
-    def dq_dT(self, T):
-        return self.q(T) * self.dz_dT(T)
+    def dqdT_(self, T):
+        return self.q_(T) * self.dzdT_(T)
 
     def Q_(self, T):
         if self.specie.n_at > 1:
-            _q = self.q(T)
+            _q = self.q_(T)
             _Q = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
                 mask = self.specie.lev_to_bin == bin_i
@@ -42,7 +43,7 @@ class Internal(PartitionFun):
 
     def dQ_dT_(self, T):
         if self.specie.n_at > 1:
-            _dq_dT = self.dq_dT(T)
+            _dq_dT = self.dqdT_(T)
             _dQ_dT = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
                 _dQ_dT[bin_i] = np.sum(_dq_dT[self.specie.lev_to_bin == bin_i])
