@@ -1,7 +1,7 @@
-from hypernet.src.thermophysicalModels.chemistryModel.surrogate.deepNet import DeepNet
-from hypernet.src.thermophysicalModels.chemistryModel.surrogate.surrogate import Surrogate
+from hypernet.src.thermophysicalModels.chemistrySolver.surrogate.basic import basic
+from hypernet.src.thermophysicalModels.chemistrySolver.surrogate.deepNet import DeepNet
 
 __all__ = [
-    "DeepNet",
-    "Surrogate"
+    "Basic",
+    "DeepNet"
 ]

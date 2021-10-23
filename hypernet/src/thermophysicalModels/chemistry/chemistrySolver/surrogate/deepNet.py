@@ -3,10 +3,10 @@ import prode as pro
 
 from hypernet.src.general import const
 from hypernet.src.general import utils
-from hypernet.src.thermophysicalModels.chemistryModel.surrogate.surrogate import Surrogate
+from hypernet.src.thermophysicalModels.chemistrySolver.surrogate import Basic
 
 
-class DeepNet(Surrogate):
+class DeepNet(Basic):
 
     # Initialization
     ###########################################################################

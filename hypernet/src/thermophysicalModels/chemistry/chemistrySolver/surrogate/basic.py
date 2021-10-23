@@ -1,7 +1,7 @@
 import abc
 
 
-class Surrogate(object):
+class Basic(object):
 
     # Initialization
     ###########################################################################

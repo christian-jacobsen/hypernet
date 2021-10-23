@@ -4,7 +4,6 @@ import pandas as pd
 
 from hypernet.src.general import const
 from hypernet.src.general import utils
-
 from hypernet.src.thermophysicalModels.chemistry.reactions import reactionRate as reacRateMdl
 from hypernet.src.thermophysicalModels.chemistry.reactions import reactionType as reacTypeMdl
 

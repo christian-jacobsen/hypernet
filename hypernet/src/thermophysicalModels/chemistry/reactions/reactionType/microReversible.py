@@ -15,7 +15,7 @@ class MicroReversible(Basic):
         *args,
         **kwargs
     ):
-        super(MicroReversibleReaction, self).update(
+        super(MicroReversibleReaction, self).__init__(
             specieThermos,
             reactionRate,
             processIndeces,
