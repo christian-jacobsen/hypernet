@@ -1,0 +1,27 @@
+#---------------------------
+# Path to data and mixture, reaction, transfer files
+PATH     = /home/zanardi/WORKSPACE/CFD/HyperNet/hypernet/hypernet/applications/shock1d/dataGenerator/database/grouping/O2/
+MIXTURE  = oxygen_3g
+REACTION = O3_CBM3
+TRANSFER = empty
+
+#---------------------------
+#Free-strem conditions (pressure, temperature, velocity and mole fractions)
+P_OO  = 500.d0
+T_OO  = 300.d0
+U_OO  = 5000.d0
+COMP_OO = O O2_1
+XC_OO   = 0.05d0 0.95d0
+
+#---------------------------
+#Space-grid parameters
+XS = 0.d0
+XE = 0.3d0
+DX_MAX = 1.d-4 
+DX_MIN = 1.d-14 
+SF = 1.01d0
+
+#---------------------------
+#ODE solver settings
+ATOL = 1.d-12
+RTOL = 1.d-9

@@ -1,0 +1,20 @@
+#----------------------------
+#Mixture file for oxygen_2g
+#----------------------------
+
+#----------------------------
+#Elements (names and mole fractions)
+#----------------------------
+ELEM = O
+ELEM_FRAC = 1.d0
+
+#--------------------------
+#Components
+#--------------------------
+COMP = O O2_1 O2_2
+
+#----------------------
+# Interpolation type
+#----------------------
+
+GROUP_INTERP_TYPE = SPLINE
