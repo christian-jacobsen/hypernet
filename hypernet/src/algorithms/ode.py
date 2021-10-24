@@ -36,7 +36,7 @@ class ODE(Basic):
         return norm
 
     # @profile
-    @utils.timing
+    # @utils.timing
     def solve(self, y0, args=(), jac_norm=False):
         '''Solving the ODE.'''
 
@@ -58,7 +58,7 @@ class ODE(Basic):
             J = self.jac_norm(self.t_st, y0, *args)
 
         # Integrate
-        dx = self.dt_min
+        dt = self.dt_min
         while r.successful() and r.t <= self.t_end:
             r.integrate(r.t+dt)
             if jac_norm:

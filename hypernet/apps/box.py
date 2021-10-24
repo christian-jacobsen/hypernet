@@ -23,6 +23,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from hypernet.src.general import utils
 
+from hypernet.src.algorithms.ode import ODE
 from hypernet.src.thermophysicalModels import specie as specieMdl
 from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixMdl
 from hypernet.src.thermophysicalModels import chemistry as chemMdl
@@ -97,9 +98,6 @@ def main():
         ) for name, info in inp_gen.specie.items()
     }
 
-    print(spTh)
-    input('================')
-
     # Mixture -----------------------------------------------------------------
     utils.print_main("Initializing mixture ...", verbose=opts.verbose)
     mix = utils.get_class(mixMdl, inp_gen.mixture['name'])(spTh)
@@ -110,12 +108,6 @@ def main():
     utils.print_submain("Get mass of the mixture ...", verbose=opts.verbose)
     rho = mix.rho_(**inp_gen.ambient)
     mix.rho_i(rho=rho)
-
-    print(mix)
-    print(rho)
-    print(mix.spTh['O2'].specie.X)
-    print(mix.spTh['O2'].specie.Y)
-    input('================')
 
     # Chemistry ---------------------------------------------------------------
     utils.print_main("Initializing chemistry ...", verbose=opts.verbose)
@@ -128,23 +120,25 @@ def main():
         constPV=inp_gen.chemistry['constPV'],
     )
 
-    print(chem)
+    # Initilizing solver ======================================================
+    utils.print_main("Initializing ODE solver ...", verbose=opts.verbose)
+    solver = ODE(
+        inp_gen.ode,
+        function=chem.function,
+        jacobian=None#chem.jacobian
+    )
 
+    # Solving =================================================================
+    # Time-marching solution
+    utils.print_submain("Solving ...", verbose=opts.verbose)
+    T = utils.convert_to_array(inp_gen.ambient['T'])
+    y0 = np.concatenate(
+        tuple([mix.spTh['O2'].specie.rho, mix.spTh['O'].specie.rho, T])
+    )
+    T, Y = solver.solve(y0, args=(rho,))
 
-    # # Solving =================================================================
-    # # Set up solver
-    # utils.print_main("Setting up solver")
-    # solver = root.Root(inp_case.algorithm)
-    # solver.fun = fun
-    # solver.jac = jac
-    # solver.update_args = update_args
+    print(Y)
 
-    # # Space-marching solution
-    # utils.print_main("Solving")
-    # x_true = np.expand_dims(data['x'].values, axis=-1)
-    # y0 = data[['T','u']].values[0]
-    # x_pred, y_pred = solver.solve(y0, cons, mix, chem)
-    # y_pred = pd.DataFrame(data=y_pred, index=None, columns=['T','u'])
 
     # # Postprocessing ==========================================================
     # utils.print_main("Postprocessing solution ...")

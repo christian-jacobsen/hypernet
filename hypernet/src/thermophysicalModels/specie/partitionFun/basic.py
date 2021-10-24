@@ -17,7 +17,7 @@ class Basic(object):
         self.specie = specie
 
         self.Q = 1.
-        self.dQ_dT = 0.
+        self.dQdT = 0.
 
     # Properties
     ###########################################################################
@@ -29,18 +29,18 @@ class Basic(object):
         self._Q = value
 
     @property
-    def dQ_dT(self):
-        return self._dQ_dT
-    @dQ_dT.setter
-    def dQ_dT(self, value):
-        self._dQ_dT = value
+    def dQdT(self):
+        return self._dQdT
+    @dQdT.setter
+    def dQdT(self, value):
+        self._dQdT = value
 
     # Methods
     ###########################################################################
     # Update ------------------------------------------------------------------
     def update(self, T):
         self.Q = self.Q_(T)
-        self.dQ_dT = self.dQ_dT_(T)
+        self.dQdT = self.dQdT_(T)
 
     # Partition functions -----------------------------------------------------
     @abc.abstractmethod
@@ -48,5 +48,5 @@ class Basic(object):
         pass
 
     @abc.abstractmethod
-    def dQ_dT_(self, T):
+    def dQdT_(self, T):
         pass

@@ -59,7 +59,7 @@ class MicroReversible(Basic):
     ###########################################################################
     # Update method -----------------------------------------------------------
     def update(self, T):
-        super(MicroReversibleReaction, self).update(T)
+        super(MicroReversible, self).update(T)
         # Evaluate partition functions products
         self.PFdot = self.PFdot_()
         self.dPFdotdT = self.dPFdotdT_()

@@ -23,5 +23,5 @@ class Translational(Basic):
     def Q_(self, T):
         return np.ones(1)*np.power(self.basis*T, 3./2.)
 
-    def dQ_dT_(self, T):
+    def dQdT_(self, T):
         return np.ones(1)*3./2.*self.basis*np.power(self.basis*T, 1./2.)

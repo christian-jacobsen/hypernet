@@ -18,23 +18,21 @@ class Arrhenius(Basic):
             *args,
             **kwargs
         )
-        self.A = self.reacDB['A']
-        self.beta = self.reacDB['beta']
-        self.Ta = self.reacDB['Ta']
+        self.A = self.reacDB['A'].to_numpy()
+        self.beta = self.reacDB['beta'].to_numpy()
+        self.Ta = self.reacDB['Ta'].to_numpy()
 
     # Methods
     ###########################################################################
     # Forward reaction rates --------------------------------------------------
-    def k_(self, T=0.):
+    def k_(self, T):
         _k = self.A
-        if T > 0.:
-            _k *= np.power(T, self.beta)
-            _k *= np.exp(-self.Ta / T)
+        _k *= np.power(T, self.beta)
+        _k *= np.exp(-self.Ta / T)
         return _k
 
-    def dkdT_(self, T=0.):
-        _dkdT = self.k(T)
-        if T > 0.:
-            _dkdT *= self.beta / T
-            _dkdT *= self.Ta / T**2
+    def dkdT_(self, T):
+        _dkdT = self.beta / T
+        _dkdT += self.Ta / T**2
+        _dkdT *= self.k
         return _dkdT

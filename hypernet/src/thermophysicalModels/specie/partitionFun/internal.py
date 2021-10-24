@@ -41,12 +41,12 @@ class Internal(Basic):
         else:
             return np.ones(1)*self.specie.g_e
 
-    def dQ_dT_(self, T):
+    def dQdT_(self, T):
         if self.specie.n_at > 1:
-            _dq_dT = self.dqdT_(T)
-            _dQ_dT = np.zeros(self.specie.n_bins)
+            _dqdT = self.dqdT_(T)
+            _dQdT = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
-                _dQ_dT[bin_i] = np.sum(_dq_dT[self.specie.lev_to_bin == bin_i])
-            return _dQ_dT
+                _dQdT[bin_i] = np.sum(_dqdT[self.specie.lev_to_bin == bin_i])
+            return _dQdT
         else:
             return np.zeros(1)

@@ -44,12 +44,12 @@ class CoupledEnergyModes(Basic):
         # [J/(mol K)]
         if self.specie.n_at > 1:
             q_, Q_ = self.intPF.q(T), self.intPF.Q(T)
-            dq_dT_, dQ_dT_ = self.intPF.dq_dT(T), self.intPF.dQ_dT(T)
+            dqdT_, dQdT_ = self.intPF.dqdT(T), self.intPF.dQdT(T)
             cv_int_ = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
                 mask = self.specie.lev_to_bin == bin_i
                 f1 = self.specie.rv_lev['E'][mask] / Q_[bin_i]
-                f2 = dq_dT_[mask] - q_[mask] * dQ_dT_[bin_i] / Q_[bin_i]
+                f2 = dqdT_[mask] - q_[mask] * dQdT_[bin_i] / Q_[bin_i]
                 cv_int_[bin_i] = np.sum(f1 * f2)
             return cv_int_ * const.UNA
         else:

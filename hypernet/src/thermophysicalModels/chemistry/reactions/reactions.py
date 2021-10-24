@@ -29,8 +29,6 @@ class Reactions(object):
         # Reactions database
         self.reacDB = self.get_reacDB(pd.read_csv(reactList, index_col=0))
 
-        print(self.reacDB)
-
         # Reaction rates
         reactRate = 'Arrhenius' #if 'Arrhenius' in self.reacDB['description']
         self.reacRate = utils.get_class(reacRateMdl, reactRate)(self.reacDB)
