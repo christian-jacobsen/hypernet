@@ -58,7 +58,7 @@ class Reactions(object):
                     K['kr'][i], K['dkfdT'][i], row['reacIndex'], row['indices']
                 )
             )
-        K = {k: np.array(v) for k, v in K}
+        K = {k: np.array(v) for k, v in K.items()}
         return pd.concat([self.reacDB, pd.DataFrame.from_dict(K)], axis=1)
 
     # Manipulate reactions database -------------------------------------------

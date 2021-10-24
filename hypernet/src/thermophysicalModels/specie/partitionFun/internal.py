@@ -16,8 +16,31 @@ class Internal(Basic):
     ):
         super(Internal, self).__init__(specie)
 
+    # Properties
+    ###########################################################################
+    @property
+    def q(self):
+        return self._q
+    @q.setter
+    def q(self, value):
+        self._q = value
+
+    @property
+    def dqdT(self):
+        return self._dqdT
+    @dqdT.setter
+    def dqdT(self, value):
+        self._dqdT = value
+
     # Methods
     ###########################################################################
+    # Update ------------------------------------------------------------------
+    def update(self, T):
+        super(Internal, self).update(T)
+        self.q = self.q_(T)
+        self.dqdT = self.dqdT_(T)
+
+    # Partition functions -----------------------------------------------------
     def z_(self, T):
         return - self.specie.rv_lev['E'] / (T * const.UKB)
 
@@ -25,10 +48,16 @@ class Internal(Basic):
         return - self.z_(T) / T
 
     def q_(self, T):
-        return self.specie.rv_lev['g'] * np.exp(self.z_(T))
+        if self.specie.n_at > 1:
+            return self.specie.rv_lev['g'] * np.exp(self.z_(T))
+        else:
+            return np.zeros(1)
 
     def dqdT_(self, T):
-        return self.q_(T) * self.dzdT_(T)
+        if self.specie.n_at > 1:
+            return self.q_(T) * self.dzdT_(T)
+        else:
+            return np.zeros(1)
 
     def Q_(self, T):
         if self.specie.n_at > 1:

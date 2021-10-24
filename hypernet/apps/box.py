@@ -135,9 +135,19 @@ def main():
     y0 = np.concatenate(
         tuple([mix.spTh['O2'].specie.rho, mix.spTh['O'].specie.rho, T])
     )
-    T, Y = solver.solve(y0, args=(rho,))
 
-    print(Y)
+    # chem.chemModel.update(T)
+    # y0 = np.concatenate(
+    #     tuple([mix.spTh['O2'].specie.rho, mix.spTh['O'].specie.rho])
+    # )
+    t, y = solver.solve(y0, args=(rho,))
+
+    # print(Y)
+    plt.semilogx(t, y[:,:-1]/rho)
+    plt.show()
+
+    plt.semilogx(t, y[:,-1])
+    plt.show()
 
 
     # # Postprocessing ==========================================================

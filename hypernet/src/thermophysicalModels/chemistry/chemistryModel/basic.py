@@ -41,8 +41,11 @@ class Basic(object):
                 + molecule.rovib['system'] + '_' + molecule.rovib['PES'] \
                 + '/' + molecule.rovib['grouping'] + '/reactions.csv'
             utils.warning("No specific `reactionsList` have been provided to "
-                "the chemistry model. The following one will be taken:\n"
-                "`{}`.".format(os.path.normpath(self.reactionsList)))
+                "the chemistry model.")
+            utils.print_submain("The following one will be taken:")
+            utils.print_submain(
+                "`{}`".format(os.path.normpath(self.reactionsList))
+            )
 
         self.reactions = Reactions(
             self.spTh,
@@ -77,7 +80,6 @@ class Basic(object):
     # Update method -----------------------------------------------------------
     def update(self, T):
         reac = self.reactions.update(T)
-        print(reac)
         self.K = self.K_(reac)
         self.dKdT = self.dKdT_(reac)
 

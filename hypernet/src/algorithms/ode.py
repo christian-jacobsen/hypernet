@@ -15,6 +15,7 @@ class ODE(Basic):
         setup,
         function=None,
         jacobian=None,
+        update_args=None,
         *args,
         **kwargs
     ):
@@ -22,6 +23,7 @@ class ODE(Basic):
             setup,
             function=function,
             jacobian=jacobian,
+            update_args=update_args,
             *args,
             **kwargs
         )
@@ -54,6 +56,7 @@ class ODE(Basic):
         # Initilize Data
         T = np.array([[self.t_st]])
         Y = np.expand_dims(y0,0)
+        # J_ = self.jac(self.t_st, y0, args)
         if jac_norm:
             J = self.jac_norm(self.t_st, y0, *args)
 
@@ -64,14 +67,15 @@ class ODE(Basic):
             if jac_norm:
                 J = np.vstack((J,self.jac_norm(self.t_st, y0, *args)))
             # Collect data
-            T  = np.vstack((t, np.expand_dims(r.t,0)))
-            Y  = np.vstack((y, np.expand_dims(r.y,0)))
+            T  = np.vstack((T, np.expand_dims(r.t,0)))
+            Y  = np.vstack((Y, np.expand_dims(r.y,0)))
+            print(Y.shape[0])
             # Update step
-            dt = min(dt*self.dt_st, self.dt_max)
-        assert (y > 0.).all()
+            dt = min(dt*self.dt_str, self.dt_max)
+        assert (Y > 0.).all()
 
         # Return outputs
-        out = [t, y]
+        out = [T, Y]
         if jac_norm:
             out.append(J)
 

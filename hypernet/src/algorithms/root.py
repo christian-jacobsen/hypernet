@@ -15,6 +15,7 @@ class Root(Basic):
         setup,
         function=None,
         jacobian=None,
+        update_args=None,
         *args,
         **kwargs
     ):
@@ -22,6 +23,7 @@ class Root(Basic):
             setup,
             function=function,
             jacobian=jacobian,
+            update_args=update_args,
             *args,
             **kwargs
         )

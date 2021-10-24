@@ -35,34 +35,60 @@ class MultiComponent(Basic):
         # [J/(kg K)]
         return self.mix_quantity('cp', T)
 
+    def cp_i(self, T):
+        # [J/(kg K)]
+        _cp_i = self.quantity_i('cp', T)
+        _cp_i = np.concatenate(tuple(_cp_i))
+        return _cp_i
+
     def h(self, T):
         # [J/kg]
         return self.mix_quantity('h', T)
+        
+    def h_i(self, T):
+        # [J/(kg K)]
+        _h_i = self.quantity_i('h', T)
+        _h_i = np.concatenate(tuple(_h_i))
+        return _h_i
 
     def dhdY(self, T, dY):
         # [J/kg]
-        dhdY_ = []
-        for name, spTh_ in self.spTh.values():
-            sp, th = spTh_.specie, spTh_.thermo
-            dhdY_.append(dY[name] / sp.M * th.h(T))
-        return np.sum(np.concatenate(tuple(dhdY_)))
+        dhdY_ = 0.
+        for name, spTh_ in self.spTh.items():
+            dhdY_ = dhdY_ + np.sum(
+                dY[name] / spTh_.specie.M * spTh_.thermo.h(T)
+            )
+        return dhdY_
 
     # Energy ------------------------------------------------------------------
     def cv(self, T):
         # [J/(kg K)]
         return self.mix_quantity('cv', T)
 
+    def cv_i(self, T):
+        # [J/(kg K)]
+        _cv_i = self.quantity_i('cv', T)
+        _cv_i = np.concatenate(tuple(_cv_i))
+        return _cv_i
+
     def e(self, T):
         # [J/kg]
         return self.mix_quantity('e', T)
+        
+    def e_i(self, T):
+        # [J/(kg K)]
+        _e_i = self.quantity_i('e', T)
+        _e_i = np.concatenate(tuple(_e_i))
+        return _e_i
 
     def dedY(self, T, dY):
         # [J/kg]
-        dedY_ = []
-        for name, spTh_ in self.spTh.values():
-            sp, th = spTh_.specie, spTh_.thermo
-            dedY_.append(dY[name] / sp.M * th.e(T))
-        return np.sum(np.concatenate(tuple(dedY_)))
+        dedY_ = 0.
+        for name, spTh_ in self.spTh.items():
+            dedY_ = dedY_ + np.sum(
+                dY[name] / spTh_.specie.M * spTh_.thermo.e(T)
+            )
+        return dedY_
 
     # Energy of formation
     def e_f(self):
@@ -102,7 +128,12 @@ class MultiComponent(Basic):
 
     def R_(self):
         # [J/(kg K)]
-        self.R = self.mix_quantity(const.URG)
+        _R = 0.
+        for spTh_ in self.spTh.values():
+            _R = _R + np.sum(
+                spTh_.specie.Y / spTh_.specie.M * const.URG
+            )
+        self.R = _R
 
     def p_(self, rho, T):
         return rho*self.R*T
@@ -140,11 +171,14 @@ class MultiComponent(Basic):
     # Utils -------------------------------------------------------------------
     def mix_quantity(self, quantity, *args):
         var = []
-        for spTh_ in self.spTh.values():
-            sp, th = spTh_.specie, spTh_.thermo
-            if isinstance(quantity, str):
-                var_ = getattr(th, quantity)(*args)
-            else:
-                var_ = quantity
-            var.append(sp.Y / sp.M * var_)
+        var_i = self.quantity_i(quantity, *args)
+        for i, spTh_ in enumerate(self.spTh.values()):
+            var.append(spTh_.specie.Y * var_i[i])
         return np.sum(np.concatenate(tuple(var)))
+
+    def quantity_i(self, quantity, *args):
+        var = []
+        for spTh_ in self.spTh.values():
+            var_ = getattr(spTh_.thermo, quantity)(*args)
+            var.append(var_ / spTh_.specie.M)
+        return var

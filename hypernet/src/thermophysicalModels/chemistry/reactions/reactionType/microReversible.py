@@ -70,7 +70,7 @@ class MicroReversible(Basic):
     # Partition functions products --------------------------------------------
     def PFdot_(self):
         return {
-            name: np.sum(spTh_.intPF.Q * spTh_.transPF.Q) \
+            name: spTh_.intPF.Q * spTh_.transPF.Q \
                 for name, spTh_ in self.spTh.items()
         }
 
@@ -87,14 +87,15 @@ class MicroReversible(Basic):
 
     def dKeqdT_(self):
         dKeqdT = 2 * self.PFdot['O'] * self.dPFdotdT['O']
-        dKeqdT -= self.Keq * self.dPFdotdT['O2']
-        dKeqdT /= self.dPFdotdT['O2']
+        dKeqdT = dKeqdT - self.Keq * self.dPFdotdT['O2']
+        dKeqdT = dKeqdT / self.dPFdotdT['O2']
         return dKeqdT
 
     # Reverse reaction rates --------------------------------------------------
     def kr_(self, kf, reacIndex, indices=None):
         if reacIndex in self.processIndices['diss']:
-            Keq_ = self.Keq
+            i = indices[0]
+            Keq_ = self.Keq[i]
         else:
             l, r = indices
             Q_ = self.spTh['O2'].intPF.Q
@@ -103,12 +104,14 @@ class MicroReversible(Basic):
 
     def dkrdT_(self, kr, dkfdT, reacIndex, indices=None):
         if reacIndex in self.processIndices['diss']:
-            dkrdT_ = dkfdT / self.Keq
-            dkrdT_ -= dkfdT / self.Keq**2 * self.dKeqdT
+            i = indices[0]
+            dkrdT_ = dkfdT / self.Keq[i]
+            dkrdT_ = dkrdT_ - dkfdT / self.Keq[i]**2 * self.dKeqdT[i]
             return dkrdT_
         else:
+            l, r = indices
             Q_ = self.spTh['O2'].intPF.Q
             dQdT_ = self.spTh['O2'].intPF.dQdT
             dkrdT_ = dkfdT * Q_[l] / Q_[r]
-            dkrdT_ += kr * ( dQdT_[l] / Q_[l] - dQdT_[r] / Q_[r] )
+            dkrdT_ = dkrdT_ + kr * ( dQdT_[l] / Q_[l] - dQdT_[r] / Q_[r] )
             return dkrdT_

@@ -34,7 +34,7 @@ class Standard(Basic):
         }
         Ke = self.Ke_(self.processFlags['excit'], reac, labels) / self.m_
         Kd = self.Kd_(self.processFlags['diss'], reac, labels) / self.m_
-        Kr = self.Kr_(self.processFlags['diss'], reac, labels) / self.m_**2 * 2
+        Kr = self.Kr_(self.processFlags['diss'], reac, labels) / self.m_**2*2
         return Ke, Kd, Kr
 
     # Rates matrices derivatives ----------------------------------------------
@@ -45,7 +45,7 @@ class Standard(Basic):
         }
         dKedT = self.Ke_(self.processFlags['excit'], reac, labels) / self.m_
         dKddT = self.Kd_(self.processFlags['diss'], reac, labels) / self.m_
-        dKrdT = self.Kr_(self.processFlags['diss'], reac, labels) / self.m_**2 * 2
+        dKrdT = self.Kr_(self.processFlags['diss'], reac, labels) / self.m_**2*2
         return dKedT, dKddT, dKrdT
 
     # Porcesses matrices ------------------------------------------------------
@@ -57,13 +57,13 @@ class Standard(Basic):
 
         if mask:
             # Get excitation/relaxation rates
-            reac = reac.loc[reac['reacIndex'].isin(self.reacIndices['excit'])]
+            reac = reac.loc[reac['reacIndex'].isin(self.processIndices['excit'])]
 
             # Fill matrix
             for i, row in reac.iterrows():
                 l, r = row['indices']
-                K[l,r] += row[labels['f']].to_numpy(dtype=np.float64)
-                K[r,l] += row[labels['r']].to_numpy(dtype=np.float64)
+                K[l,r] = K[l,r] + row[labels['f']]
+                K[r,l] = K[r,l] + row[labels['r']]
 
             # Manipulate matrix
             K = -np.diag(np.sum(K, axis=1)) + np.transpose(K)
@@ -78,7 +78,7 @@ class Standard(Basic):
 
         if mask:
             # Get dissociation rates
-            reac = reac.loc[reac['reacIndex'].isin(self.reacIndices['diss'])]
+            reac = reac.loc[reac['reacIndex'].isin(self.processIndices['diss'])]
             reac.sort_values(by=['indices'])
 
             # Extract forward rates
@@ -98,7 +98,7 @@ class Standard(Basic):
 
         if mask:
             # Get Recombination rates
-            reac = reac.loc[reac['reacIndex'].isin(self.reacIndices['diss'])]
+            reac = reac.loc[reac['reacIndex'].isin(self.processIndices['diss'])]
             reac.sort_values(by=['indices'])
 
             # Extract reverse rates

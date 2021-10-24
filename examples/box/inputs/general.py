@@ -20,7 +20,7 @@ mixture = {
     'var': 'X',
     'name': 'MultiComponent',
     'composition': {
-        'O2':   [0.95, 0., 0.],
+        'O2':   [0.75, 0.1, 0.1],
         'O':    0.05
     }
 }

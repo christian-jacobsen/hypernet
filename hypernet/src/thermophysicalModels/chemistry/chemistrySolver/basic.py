@@ -28,10 +28,14 @@ class Basic(object):
         # Constant pressure/volume process
         if constPV == 'P':
             self.cvp = self.mixture.cp
-            self.dehdY = self.mixture.dhdY
+            self.cvp_i = self.mixture.cp_i
+            self.eh = self.mixture.h
+            self.eh_i = self.mixture.h_i
         else:
             self.cvp = self.mixture.cv
-            self.dehdY = self.mixture.dedY
+            self.cvp_i = self.mixture.cv_i
+            self.eh = self.mixture.e
+            self.eh_i = self.mixture.e_i
 
         # Chemistry model
         self.chemModel = utils.get_class(chemMdl, chemistryModel)(

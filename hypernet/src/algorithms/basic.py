@@ -10,6 +10,7 @@ class Basic(object):
         setup,
         function=None,
         jacobian=None,
+        update_args=None,
         *args,
         **kwargs
     ):
@@ -25,6 +26,9 @@ class Basic(object):
         # Integrand function/jacobian
         self.fun = function
         self.jac = jacobian
+
+        # Function for updating function/jacobian arguments
+        self.update_args = update_args
         
     # Methods
     ###########################################################################

@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
+from hypernet.src.general import utils
 from hypernet.src.thermophysicalModels.chemistry.chemistrySolver import Basic
 
 
@@ -33,17 +34,23 @@ class Standard(Basic):
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
-    # def update(self, t, y, mass):
     def update(self, r, T, mass):
-        # r, T = np.split(y, self.varIndices)
         # Update chemistry model
         self.chemModel.update(T)
         # Update mixture
         self.mixture.update(
-            {name: np.take(r, idx)/mass for idx in self.chemModel.specieIndices}
+            {name: np.take(r, idx)/mass \
+                for name, idx in self.chemModel.specieIndices.items()}
         )
 
     # Function ----------------------------------------------------------------
+    # def function(self, t, y, mass, T):
+    #     # Call update method
+    #     # self.update(y, T, mass)
+    #     # Evaluate contributions from reactions
+    #     drdt = self.wr(y)
+    #     return drdt
+
     def function(self, t, y, mass):
         # Split variables into `rho` vector and `T`
         r, T = np.split(y, self.varIndices)
@@ -60,112 +67,67 @@ class Standard(Basic):
         Ke, Kd, Kr = self.chemModel.K
         # Evaluate contributions from each process
         wr_ = np.matmul(Ke, r) * r[-1]
-        wr_ += np.matmul(Kd, r) * r[-1]
-        wr_ += np.squeeze(Kr) * r[-1]**3
+        wr_ = wr_ + np.matmul(Kd, r) * r[-1]
+        wr_ = wr_ + np.squeeze(Kr) * r[-1]**3
         return wr_
 
     def wT(self, drdt, T, mass):
         # Get mass fractions derivative
-        dYdt = {name: np.take(drdt, idx)/mass for idx in self.specieIndices}
+        dYdt = {
+            name: np.take(drdt, idx)/mass \
+                for name, idx in self.chemModel.specieIndices.items()
+        }
         # Evaluate source term
         wT_ = - self.dehdY(T, dYdt) / self.cvp(T)
-        return wT_
+        return utils.convert_to_array(wT_)
 
     # Jacobian ----------------------------------------------------------------
     # @tf.function
-    def jacobian(self, t, y, mass):
-        with tf.GradientTape() as g:
-            g.watch(y)
-            w = self.function(y, mass)
-        dwdy = g.jacobian(w, y)
-        return dwdy.numpy()
+    # def jacobian(self, t, y, mass):
+    #     y = tf.constant(y)
+    #     with tf.GradientTape() as g:
+    #         g.watch(y)
+    #         w = self.function(t, y, mass)
+    #     dwdy = g.jacobian(w, y)
+    #     return dwdy.numpy()
 
 
-    # def jacobian(self, r, T, mass):
-    #     Y, T = y[:-1], y[-1]
-
-    #     # Evaluate contributions from reactions
-    #     dYdt = self.omega(Y, T)
-
-    #     # Evaluate the effect on the thermodynamic system
-    #     # >> Update mixture
-    #     self.mixture.update(
-    #         {name: np.take(Y, idx) for idx in self.specieIndices}
-    #     )
-    #     # >> Evaluate mixture Cv
-    #     cv_ = self.cvp(T)
-    #     # >> Evaluate dTdt
-    #     dYdt_ = {name: np.take(omega_, idx) for idx in self.specieIndices}
-    #     dedY_ = self.mixture.dedY(T, dYdt_)
-    #     dTdt = - dedY_ / self.cvp(T)
-    #     return excit + diss + recom
+    # def jacobian(self, t, y, mass, T):
+    #     return self.dwrdr(y)
 
 
-    # def dwrdr(self, r):
-    #     # Get Master Equation matrices
-    #     Ke, Kd, Kr = self.chemModel.K
+    def dwrdr(self, r):
+        # Get Master Equation matrices
+        Ke, Kd, Kr = self.chemModel.K
+        # Evaluate sources
+        I = np.array([[0]*self.chemModel.spTh['O2'].specie.n_bins+[1]])
+        wr_ = np.expand_dims(self.wr(r), 1)
+        dwrdr_ = r[-1] * (Ke + Kd)
+        dwrdr_ = dwrdr_ + np.matmul(wr_ + 2*r[-1]**3*Kr, I) / r[-1]
+        return dwrdr_
 
-    #     # Get Master Equation matrices
-    #     I = np.array([[0]*self.chemModel.spTh['O2'].n_bins+[1]])
-    #     wr_ = np.expand_dims(self.wr(r), 1)
+    def dwrdT(self, r):
+        # Get Master Equation matrices
+        dKedT, dKddT, dKrdT = self.chemModel.dKdT
+        # Evaluate contributions from each process
+        dwrdT_ = np.matmul(dKedT, r) * r[-1]
+        dwrdT_ = dwrdT_ + np.matmul(dKddT, r) * r[-1]
+        dwrdT_ = dwrdT_ + np.squeeze(dKrdT) * r[-1]**3
+        return dwrdT_
 
-    #     dwrdr_ = r[-1] * (Ke + Kd)
-    #     dwrdr_ += np.matmul(wr_ + 2*r[-1]**3*Kr, I) / r[-1]
+    def dwTdr(self, r, drdt, T, mass):
+        # Get needed thermo quantities
+        eh_i_ = np.expand_dims(self.eh_i(T), 0)
+        cvp_i_ = np.expand_dims(self.cvp_i(T), 0)
+        # Get needed source terms
+        dwrdr_ = self.dwrdr(r)
+        wT_ = self.wT(drdt, T, mass)
+        # Evaluate source term
+        dwTdr_ = - np.matmul(eh_i_, dwrdr_)
+        dwTdr_ = dwTdr_ + wT_ * cvp_i_
+        dwTdr_ = dwTdr_ / ( self.cvp(T) * mass )
+        return dwTdr_
 
-    #     return dwrdr_
-
-    # def dwrdT(self, r):
-
-    #     # Get Master Equation matrices
-    #     dKedT, dKddT, dKrdT = self.chemModel.dKdT
-
-    #     # Evaluate contributions from each process
-    #     dwrdT_ = np.matmul(dKedT, r) * r[-1]
-    #     dwrdT_ += np.matmul(dKddT, r) * r[-1]
-    #     dwrdT_ += np.squeeze(dKrdT) * r[-1]**3
-
-    #     return dwrdT_
-
-
-
-    # def domegaYdY(self, Y, T):
-    #     # Get Master Equation matrices
-    #     K_e, K_d, K_r = self.chemModel.K
-
-    # def jac(self, t, y, arg):
-    #     '''Jacobian calculation: jac[i,j] = df[i] / dy[j].'''
-    #     d = np.shape(y)[0]
-    #     J = np.zeros((d,d), dtype=np.float64)
-    #     J[:,:-1] = (arg[0][:,:-1] + arg[1][:,:-1]) * y[-1]
-    #     J[:, -1] = np.matmul(arg[0][:,:-1], y[:-1]) \
-    #         + np.matmul(arg[1][:,:-1], y[:-1]) \
-    #         + 3*np.squeeze(arg[2])*np.power(y[-1], 2)
-    #     return J
-
-
-
-    #     # Evaluate contributions from each process
-    #     excit = np.matmul(K_e, Y) * Y[-1]
-    #     diss = np.matmul(K_d, Y) * Y[-1]
-    #     recom = np.squeeze(K_r) * np.power(Y[-1], 3)
-
-    #     return excit + diss + recom
-
-    # def domegaYdT(self, Y, dYdt, T):
-    #     dYdt = {name: np.take(dYdt, idx) for idx in self.specieIndices}
-    #     return - self.dehdY(T, dYdt) / self.cvp(T)
-
-    # def domegaTdY(self, Y, T):
-    #     # Get Master Equation matrices
-    #     K_e, K_d, K_r = self.matrices(T)
-
-    #     # Evaluate contributions from each process
-    #     excit = np.matmul(K_e, Y) * Y[-1]
-    #     diss = np.matmul(K_d, Y) * Y[-1]
-    #     recom = np.squeeze(K_r) * np.power(Y[-1], 3)
-
-    #     return excit + diss + recom
-
-    # def domegaTdT(self, Y, dYdt, T):
-    #     dYdt = {name: np.take(dYdt, idx) for idx in self.specieIndices}
-    #     return - self.dehdY(T, dYdt) / self.cvp(T)
+    def dwTdT(self, drdt, T, mass):
+        dwTdr_ = 0.
+        return dwTdT_
