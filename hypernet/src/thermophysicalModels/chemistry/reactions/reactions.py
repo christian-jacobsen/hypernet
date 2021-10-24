@@ -27,7 +27,7 @@ class Reactions(object):
         self.spTh = specieThermos
 
         # Reactions database
-        self.reacDB = self.get_reacDB(pd.read_csv(reactList, index_col=0))
+        self.reacDB = self.get_reacDB(pd.read_csv(reactList))
 
         # Reaction rates
         reactRate = 'Arrhenius' #if 'Arrhenius' in self.reacDB['description']
@@ -49,12 +49,12 @@ class Reactions(object):
         )
         for i, row in self.reacDB.iterrows():
             K['kr'].append(
-                self.reacType.kr(
+                self.reacType.kr_(
                     K['kf'][i], row['reacIndex'], row['indices']
                 )
             )
             K['dkrdT'].append(
-                self.reacType.kr(
+                self.reacType.dkrdT_(
                     K['kr'][i], K['dkfdT'][i], row['reacIndex'], row['indices']
                 )
             )

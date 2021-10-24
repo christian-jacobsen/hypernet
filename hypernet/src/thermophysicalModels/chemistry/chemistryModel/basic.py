@@ -77,6 +77,7 @@ class Basic(object):
     # Update method -----------------------------------------------------------
     def update(self, T):
         reac = self.reactions.update(T)
+        print(reac)
         self.K = self.K_(reac)
         self.dKdT = self.dKdT_(reac)
 
