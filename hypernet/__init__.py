@@ -2,6 +2,17 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+# TensorFlow 
+###############################################################################
+import os
+import hypernet
+from hypernet.config import tf_setup
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = tf_setup['TF_CPP_MIN_LOG_LEVEL']
+import tensorflow as tf
+tf.get_logger().setLevel('ERROR')
+tf.keras.backend.set_floatx(tf_setup['DTYPE'])
+tf.keras.backend.set_epsilon(tf_setup['EPSILON'])
+
 # HyperNet
 ###############################################################################
 __author__  = "Ivan Zanardi"

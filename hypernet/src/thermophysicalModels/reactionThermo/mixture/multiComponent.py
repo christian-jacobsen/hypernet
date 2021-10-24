@@ -23,7 +23,7 @@ class MultiComponent(Basic):
     def update(self, mixture, var='Y'):
         for name, value in mixture.items():
             setattr(self.spTh[name].specie, var, utils.convert_to_array(value))
-        self.m_(var=var)
+        self.M_(var=var)
         if var == 'Y':
             self.X_i()
         elif var == 'X':
@@ -88,7 +88,7 @@ class MultiComponent(Basic):
         return self.mix_quantity('e_int', T)
 
     # Mixture properties ------------------------------------------------------
-    def m_(self, var='Y'):
+    def M_(self, var='Y'):
         # [kg/mol]
         M_ = []
         if var == 'Y':
@@ -105,10 +105,10 @@ class MultiComponent(Basic):
         self.R = self.mix_quantity(const.URG)
 
     def p_(self, rho, T):
-        return rho*self.R()*T
+        return rho*self.R*T
 
     def rho_(self, p, T):
-        return p/(self.R()*T)
+        return p/(self.R*T)
 
     # Species properties ------------------------------------------------------
     def Y_i(self):

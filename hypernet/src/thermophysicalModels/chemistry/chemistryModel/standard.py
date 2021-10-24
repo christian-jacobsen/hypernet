@@ -10,15 +10,15 @@ class Standard(Basic):
     def __init__(
         self,
         specieThermos,
-        reactionsList,
         processFlags,
+        reactionsList=None,
         *args,
         **kwargs
     ):
         super(Standard, self).__init__(
             specieThermos,
-            reactionsList,
             processFlags,
+            reactionsList=reactionsList,
             *args,
             **kwargs
         )

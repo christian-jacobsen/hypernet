@@ -19,8 +19,9 @@ import pandas as pd
 
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
-from dataGenerator import DataGenerator
+
 from hypernet.src.general import utils
+from hypernet.apps.fitRates.dataGenerator import DataGenerator
 from hypernet.src.thermophysicalModels.specie.specie import Specie
 
 import hypernet.database as db
@@ -116,8 +117,9 @@ def plot_rates(
     for d in range(y_true.shape[1]):
 
         name = 'True ' + var_name[d]
-        marker_style = dict(marker='x', lw=0.5, \
-                            linestyle='none', fillstyle='none', markersize=5)
+        marker_style = dict(
+            marker='x', lw=0.5, linestyle='none', fillstyle='none', markersize=5
+        )
         plt.plot(
             x_true,
             y_true[:,d],
@@ -186,10 +188,10 @@ def main():
             param = np.vstack((param, np.array(param_j)))
 
     # Write coefficient =======================================================
-    paramDB = pd.DataFrame(param, columns=['A', 'n', 'Ta'])
+    paramDB = pd.DataFrame(param, columns=['A', 'beta', 'Ta'])
     reactions = pd.concat([dataGen.reacDB, paramDB], axis=1)
     path = kinetic_db + inp_gen.reacReader['path']+'/reactions.csv'
-    reactions.to_csv(path, float_format='{:e}'.format)
+    reactions.to_csv(path, float_format='{:e}'.format, index=False)
 
     # Plot fitted rates
     ###########################################################################

@@ -4,27 +4,27 @@ import tensorflow as tf
 from hypernet.src.thermophysicalModels.chemistry.chemistrySolver import Basic
 
 
-class ChemistryModel(Basic):
+class Standard(Basic):
 
     # Initialization
     ###########################################################################
     def __init__(
         self,
         mixture,
-        chemistryModel,
         specieThermos,
-        reactionsList,
+        chemistryModel,
         processFlags,
+        reactionsList=None,
         constPV='V',
         *args,
         **kwargs
     ):
         super(Standard, self).__init__(
             mixture,
-            chemistryModel,
             specieThermos,
-            reactionsList,
-            processFlags,
+            chemistryModel,
+            reactionsList=reactionsList,
+            processFlags=processFlags,
             constPV=constPV,
             *args,
             **kwargs
@@ -33,8 +33,9 @@ class ChemistryModel(Basic):
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
-    def update(self, t, y, mass):
-        r, T = np.split(y, self.varIndeces)
+    # def update(self, t, y, mass):
+    def update(self, r, T, mass):
+        # r, T = np.split(y, self.varIndeces)
         # Update chemistry model
         self.chemModel.update(T)
         # Update mixture
@@ -44,7 +45,10 @@ class ChemistryModel(Basic):
 
     # Function ----------------------------------------------------------------
     def function(self, t, y, mass):
+        # Split variables into `rho` vector and `T`
         r, T = np.split(y, self.varIndeces)
+        # Call update method
+        self.update(r, T, mass)
         # Evaluate contributions from reactions
         drdt = self.wr(r)
         # Evaluate the effect on the thermodynamic system

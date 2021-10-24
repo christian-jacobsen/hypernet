@@ -11,8 +11,8 @@ class Basic(object):
     def __init__(
         self,
         mixture,
-        chemistryModel,
         specieThermos,
+        chemistryModel,
         reactionsList=None,
         processFlags=None,
         constPV='V',
@@ -21,6 +21,9 @@ class Basic(object):
     ):
         # Mixture
         self.mixture = mixture
+
+        # Thermodynamic specie properties
+        self.spTh = specieThermos
 
         # Constant pressure/volume process
         if constPV == 'P':
@@ -32,9 +35,9 @@ class Basic(object):
 
         # Chemistry model
         self.chemModel = utils.get_class(chemMdl, chemistryModel)(
-            specieThermos,
-            reactionsList,
+            self.spTh,
             processFlags,
+            reactionsList=reactionsList,
             *args,
             **kwargs
         )
@@ -54,10 +57,10 @@ class Basic(object):
     # Variables ---------------------------------------------------------------
     def get_names(self):
         varNames = []
-        for name, spTh_ in self.spTh.values():
+        for name, spTh_ in self.spTh.items():
             if spTh_.specie.n_at > 1:
                 varNames.extend(
-                    [ name+'('+str(b+1)+')' for b in range(n_bins) ]
+                    [ name+'('+str(b+1)+')' for b in range(spTh_.specie.n_bins) ]
                 )
             else:
                 varNames.append(name)

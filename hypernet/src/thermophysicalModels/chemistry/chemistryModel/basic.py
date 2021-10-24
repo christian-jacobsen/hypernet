@@ -1,6 +1,11 @@
+import os
 import abc
 
-from hypernet.src.thermophysicalModels.chemistry.reactions import Reactions
+from hypernet.src.general import utils
+from hypernet.src.thermophysicalModels.chemistry.reactions.reactions import Reactions
+
+import hypernet.database as db
+kinetic_db = os.path.dirname(db.__file__) + '/air/kinetics/'
 
 
 class Basic(object):
@@ -10,8 +15,8 @@ class Basic(object):
     def __init__(
         self,
         specieThermos,
-        reactionsList,
         processFlags,
+        reactionsList=None,
         *args,
         **kwargs
     ):
@@ -27,6 +32,18 @@ class Basic(object):
 
         # Reactions
         self.reactionsList = reactionsList
+        if self.reactionsList is None:
+            for spTh_ in self.spTh.values():
+                if spTh_.specie.n_at > 1:
+                    molecule = spTh_.specie
+                break
+            self.reactionsList = kinetic_db + '/' \
+                + molecule.rovib['system'] + '_' + molecule.rovib['PES'] \
+                + '/' + molecule.rovib['grouping'] + '/reactions.csv'
+            utils.warning("No specific `reactionsList` have been provided to "
+                "the chemistry model. The following one will be taken:\n"
+                "`{}`.".format(os.path.normpath(self.reactionsList)))
+
         self.reactions = Reactions(
             self.spTh,
             self.reactionsList,
@@ -66,7 +83,7 @@ class Basic(object):
     # Species details ---------------------------------------------------------
     def species(self):
         nSpecies, specieIndeces = 0, {}
-        for name, spTh_ in self.spTh.values():
+        for name, spTh_ in self.spTh.items():
             if spTh_.specie.n_at > 1:
                 n = spTh_.specie.n_bins
             else:

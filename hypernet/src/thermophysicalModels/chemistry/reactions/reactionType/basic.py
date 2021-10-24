@@ -1,7 +1,7 @@
 import abc
 
 
-class BasicReactionType(object):
+class Basic(object):
 
     # Initialization
     ###########################################################################

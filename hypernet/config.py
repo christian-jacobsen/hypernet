@@ -15,3 +15,11 @@ headers = {
     'warning': '[HyperNet]:   WARNING! ',
     'val_err': 'from HyperNet\n>>> '
 }
+
+# TensorFlow ------------------------------------------------------------------
+tf_setup = {
+    'EPSILON':              1.e-15,
+    'DTYPE':                'float64',
+    'NUM_THREADS':          16,
+    'TF_CPP_MIN_LOG_LEVEL': '3'
+}

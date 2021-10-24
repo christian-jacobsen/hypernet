@@ -13,7 +13,7 @@ class Arrhenius(Basic):
         *args,
         **kwargs
     ):
-        super(ArrheniusReactionRate, self).__init__(
+        super(Arrhenius, self).__init__(
             reactionsDatabase,
             *args,
             **kwargs

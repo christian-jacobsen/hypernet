@@ -21,10 +21,11 @@ class SpecieThermos(object):
         *args,
         **kwargs
     ):
-        self.specie = specieMdl.Specie(name, rovib)
+        self.specie = specieMdl.Specie(name, **rovib) \
+            if rovib != None else specieMdl.Specie(name)
 
-        self.intPF = PFMdl.internalPF.Internal(self.specie)
-        self.transPF = PFMdl.translationalPF.Translational(self.specie)
+        self.intPF = PFMdl.internal.Internal(self.specie)
+        self.transPF = PFMdl.translational.Translational(self.specie)
 
         self.thermo = utils.get_class(thermoMdl, thermo)(
             self.specie, self.intPF

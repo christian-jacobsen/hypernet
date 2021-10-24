@@ -12,7 +12,7 @@
 # --------------------------------------------------------------------------- #
 
 
-NAME = 'fitRates'
+NAME = 'box'
 
 import os
 import sys
@@ -21,10 +21,11 @@ import numpy as np
 import pandas as pd
 
 from matplotlib import pyplot as plt
-from scipy.optimize import curve_fit
-from dataGenerator import DataGenerator
 from hypernet.src.general import utils
-from hypernet.src.thermophysicalModels.specie.specie import Specie
+
+from hypernet.src.thermophysicalModels import specie as specieMdl
+from hypernet.src.thermophysicalModels.reactionThermo import mixture as mixMdl
+from hypernet.src.thermophysicalModels import chemistry as chemMdl
 
 import hypernet.database as db
 kinetic_db = os.path.dirname(db.__file__) + '/air/kinetics/'
@@ -46,7 +47,7 @@ def get_opts():
     parser = argparse.ArgumentParser(
         prog=NAME,
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="Fit reactions rates following the Arrhenius law.",
+        description="Solve 0D chemical reactor process.",
         epilog=utils.app_epilog(name=NAME)
     )
     parser.add_argument('-d', '--dir',
@@ -58,7 +59,7 @@ def get_opts():
         type=int,
         default=1,
         choices=[0,1],
-        help='plot fitted rates.'
+        help='plot results.'
     )
     parser.add_argument('-v', '--verbose',
         type=int,
@@ -67,80 +68,6 @@ def get_opts():
         help='verbose mode'
     )
     return parser.parse_args()
-
-# Arrhenius Law
-###############################################################################
-def log_arrhenius_law(T, a_log, b, c):
-    # a_log = np.log(a)
-    return a_log + b*np.log(T) - c/T
-
-def modified_arrhenius_inv(T_inv, a, b, c):
-    # T_inv = 1/T
-    return a * np.power(1/T_inv,b) * np.exp(-c*T_inv)
-
-# Plot rates
-###############################################################################
-def plot_rates(
-    fig_name,
-    x_true,
-    x_pred,
-    y_true,
-    y_pred,
-    var_name,
-    title,
-    labels=[None, None],
-    scales=['log', 'linear']):
-    """Variable plotting."""
-
-    fig = plt.figure()
-    plt.grid()
-    plt.title(title)
-
-    x_label, y_label = labels
-    x_scale, y_scale = scales
-
-    # X axis
-    if x_label is not None:
-        plt.xlabel(x_label)
-    if x_scale is not None:
-        plt.xscale(x_scale)
-
-    # Y axis
-    if y_label is not None:
-        plt.ylabel(y_label)
-    if y_scale == 'log':
-        plt.yscale(y_scale)
-        plt.ylim([np.amin(y_true[y_true!=0.])*1.e-1, np.amax(y_true)*1.e+1])
-    else:
-        delta = np.amax(y_true)*0.1
-        plt.ylim([np.amin(y_true)-delta, np.amax(y_true)+delta])
-
-    # Solution
-    for d in range(y_true.shape[1]):
-
-        name = 'True ' + var_name[d]
-        marker_style = dict(marker='x', lw=0.5, \
-                            linestyle='none', fillstyle='none', markersize=5)
-        plt.plot(
-            x_true,
-            y_true[:,d],
-            **marker_style,
-            label=name
-        )
-
-        name = 'Pred ' + var_name[d]
-        plt.plot(
-            x_pred,
-            y_pred[:,d],
-            c=plt.gca().lines[-1].get_color(),
-            ls='--',
-            lw=1,
-            label=name
-        )
-
-    plt.legend(fontsize='x-small')
-    fig.savefig(fig_name)
-    plt.close()
 
 # Main
 ###############################################################################
@@ -154,126 +81,104 @@ def main():
     # Input module ------------------------------------------------------------
     sys.path.append(opts.dir)
     from inputs import general as inp_gen
-    from inputs import postprocessing as inp_post
+    # from inputs import postprocessing as inp_post
 
-    # Initialize species ------------------------------------------------------
-    utils.print_main("Initializing species ...", verbose=opts.verbose)
-    species = {
-        sp: Specie(sp, **info) if info != None else Specie(sp) \
-            for sp, info in inp_gen.species.items()
+    # Initilizing thermophysical models =======================================
+    # Species thermo ----------------------------------------------------------
+    utils.print_main("Initializing species thermo ...", verbose=opts.verbose)
+    thermo = inp_gen.thermo if hasattr(inp_gen, 'thermo') else 'CoupledEnergyModes'
+    EOS = inp_gen.EOS if hasattr(inp_gen, 'EOS') else 'PerfectGas'
+    spTh = {
+        name: specieMdl.specieThermos.SpecieThermos(
+            name,
+            info,
+            thermo=thermo,
+            EOS=EOS,
+        ) for name, info in inp_gen.specie.items()
     }
 
-    # Generate Data ===========================================================
-    utils.print_main('Generating data ...', verbose=opts.verbose)
-    dataGen = DataGenerator(
-        species,
-        inp_gen.T,
-        inp_gen.reacReader,
-        inp_gen.reacWriter,
-        verbose=opts.verbose
+    print(spTh)
+    input('================')
+
+    # Mixture -----------------------------------------------------------------
+    utils.print_main("Initializing mixture ...", verbose=opts.verbose)
+    mix = utils.get_class(mixMdl, inp_gen.mixture['name'])(spTh)
+    # Mixture mass/molar fractions
+    utils.print_submain("Update initial composition ...", verbose=opts.verbose)
+    mix.update(inp_gen.mixture['composition'], var=inp_gen.mixture['var'])
+    # Mass
+    utils.print_submain("Get mass of the mixture ...", verbose=opts.verbose)
+    rho = mix.rho_(**inp_gen.ambient)
+    mix.rho_i(rho=rho)
+
+    print(mix)
+    print(rho)
+    print(mix.spTh['O2'].specie.X)
+    print(mix.spTh['O2'].specie.Y)
+    input('================')
+
+    # Chemistry ---------------------------------------------------------------
+    utils.print_main("Initializing chemistry ...", verbose=opts.verbose)
+    chem = utils.get_class(chemMdl.chemistrySolver, inp_gen.chemistry['solver'])(
+        mixture=mix,
+        specieThermos=spTh,
+        chemistryModel=inp_gen.chemistry['model'],
+        reactionsList=inp_gen.chemistry['reactionsList'],
+        processFlags=inp_gen.chemistry['processFlags'],
+        constPV=inp_gen.chemistry['constPV'],
     )
-    T, K = dataGen.training_data()
 
-    # Fit Data ================================================================
-    utils.print_main('Fitting rates ...', verbose=opts.verbose)
-    for j in range(K.shape[1]):
-        K_log_j = np.log( K[:,j][ K[:,j] != 0. ] )
-        T_j     = T[:,0][ K[:,j] != 0. ]
-
-        param_j, _ = curve_fit(log_arrhenius_law, T_j, K_log_j, \
-            p0=[1,1,1.e4], method='trf')
-        param_j[0] = np.exp(param_j[0])
-        if j == 0:
-            param = np.array(param_j)
-        else:
-            param = np.vstack((param, np.array(param_j)))
-
-    # Write coefficient =======================================================
-    paramDB = pd.DataFrame(param, columns=['A', 'n', 'Ta'])
-    reactions = pd.concat([dataGen.reacDB, paramDB], axis=1)
-    path = kinetic_db + inp_gen.reacReader['path']+'/reactions.csv'
-    reactions.to_csv(path, float_format='{:e}'.format)
-
-    print(reactions)
-    input('=============================')
-
-    # Plot fitted rates
-    ###########################################################################
-    if opts.plot:
-        utils.print_main('Plotting rates ...', verbose=opts.verbose)
-        x_true = np.reciprocal(np.array(inp_gen.T))
-        y_true = K
-
-        n = 1000
-        x_pred = np.reciprocal(
-            np.linspace(1000.0e0, max(inp_gen.T), n, dtype=np.float64)
-        )
-        y_pred = np.zeros((n, dataGen.n_reac), dtype=np.float64)
-        for i, param_i in enumerate(param):
-            y_pred[:,i] = modified_arrhenius_inv(x_pred, *param_i)
-
-        path = opts.dir + '/plots/'
-        if not os.path.exists(path):
-            os.makedirs(path)
-
-        # Dissociation
-        start = 0
-        end = dataGen.n_diss
-        if y_pred.shape[1] >= end:
-            y_true_diss = y_true[:,start:end]
-            y_pred_diss = y_pred[:,start:end]
-            fig_name = path + 'dissociation.pdf'
-            plot_rates(
-                fig_name,
-                x_true,
-                x_pred,
-                y_true_diss,
-                y_pred_diss,
-                inp_post.var_names['diss'],
-                'Dissociation Rates',
-                labels=inp_post.labels,
-                scales=inp_post.scales
-            )
-
-        # Exchange
-        start = dataGen.n_diss
-        end = dataGen.n_diss + dataGen.n_excit
-        if y_pred.shape[1] >= end:
-            y_true_exch = y_true[:,start:end]
-            y_pred_exch = y_pred[:,start:end]
-            fig_name = path + 'exchange.pdf'
-            plot_rates(
-                fig_name,
-                x_true,
-                x_pred,
-                y_true_exch,
-                y_pred_exch,
-                inp_post.var_names['excit'],
-                'Exchange Rates',
-                labels=inp_post.labels,
-                scales=inp_post.scales
-            )
-
-        # Inelastic
-        start = dataGen.n_diss + dataGen.n_excit
-        end = dataGen.n_diss + dataGen.n_excit * 2
-        if y_pred.shape[1] >= end:
-            y_true_inel = y_true[:,start:end]
-            y_pred_inel = y_pred[:,start:end]
-            fig_name = path + 'inelastic.pdf'
-            plot_rates(
-                fig_name,
-                x_true,
-                x_pred,
-                y_true_inel,
-                y_pred_inel,
-                inp_post.var_names['excit'],
-                'Inelastic Rates',
-                labels=inp_post.labels,
-                scales=inp_post.scales
-            )
+    print(chem)
 
 
+    # # Solving =================================================================
+    # # Set up solver
+    # utils.print_main("Setting up solver")
+    # solver = root.Root(inp_case.algorithm)
+    # solver.fun = fun
+    # solver.jac = jac
+    # solver.update_args = update_args
 
-if __name__ == "__main__":
-    main()
+    # # Space-marching solution
+    # utils.print_main("Solving")
+    # x_true = np.expand_dims(data['x'].values, axis=-1)
+    # y0 = data[['T','u']].values[0]
+    # x_pred, y_pred = solver.solve(y0, cons, mix, chem)
+    # y_pred = pd.DataFrame(data=y_pred, index=None, columns=['T','u'])
+
+    # # Postprocessing ==========================================================
+    # utils.print_main("Postprocessing solution ...")
+    # if not os.path.exists(inp_case.postprocess):
+    #     os.makedirs(inp_case.postprocess)
+
+    # # Plot `T` and `u`
+    # var = ['T','u']
+    # plot_var(
+    #     inp_case.postprocess+'T_u.pdf',
+    #     x_true,
+    #     x_pred,
+    #     data[var].values,
+    #     y_pred[var].values,
+    #     var_name=var,
+    #     x_label=r'$x\quad[m]$',
+    #     y_label=[r'$T\quad[K]$', r'$u\quad[m/s]$'],
+    #     scales=['log', 'linear']
+    # )
+
+    # # Plot `Y`
+    # Y_pred = chem.net.predict(x_pred)
+    # Y_pred[0], x_pred[0] = Y[1], x_true[1]
+    # O2_names = [ r'$O_2^{({%s})}$' % (i+1) for i in range(3) ]
+    # y_scale = 'linear'
+    # plot_Y(
+    #     inp_case.postprocess+'Y_'+y_scale+'.pdf',
+    #     x_true,
+    #     x_pred,
+    #     Y,
+    #     Y_pred,
+    #     O2_names+[r'$O$'],
+    #     labels=[r'$x\quad[m]$', r'$Y$'],
+    #     scales=['log', y_scale]
+    # )
+
+

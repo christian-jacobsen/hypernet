@@ -29,6 +29,8 @@ class Reactions(object):
         # Reactions database
         self.reacDB = self.get_reacDB(pd.read_csv(reactList, index_col=0))
 
+        print(self.reacDB)
+
         # Reaction rates
         reactRate = 'Arrhenius' #if 'Arrhenius' in self.reacDB['description']
         self.reacRate = utils.get_class(reacRateMdl, reactRate)(self.reacDB)
@@ -75,6 +77,6 @@ class Reactions(object):
         indeces = re.findall(r"\((.*?)\)",reacStr)
         indeces = [int(i)-1 for i in indeces]
         if reacIndex == self.processIndeces['diss']:
-            return *indeces
+            return indeces[0]
         else:
             return indeces
