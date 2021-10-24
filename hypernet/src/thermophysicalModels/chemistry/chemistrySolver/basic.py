@@ -44,7 +44,7 @@ class Basic(object):
 
         # Variables
         self.n_var = self.chemModel.nSpecies + 1
-        self.varIndeces = [self.n_var-1, self.n_var]
+        self.varIndices = [self.n_var-1, self.n_var]
         self.varNames = self.get_names()
 
     # Methods

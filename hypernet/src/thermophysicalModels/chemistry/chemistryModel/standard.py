@@ -57,11 +57,11 @@ class Standard(Basic):
 
         if mask:
             # Get excitation/relaxation rates
-            reac = reac.loc[reac['reacIndex'].isin(self.reacIndeces['excit'])]
+            reac = reac.loc[reac['reacIndex'].isin(self.reacIndices['excit'])]
 
             # Fill matrix
             for i, row in reac.iterrows():
-                l, r = row['indeces']
+                l, r = row['indices']
                 K[l,r] += row[labels['f']].to_numpy(dtype=np.float64)
                 K[r,l] += row[labels['r']].to_numpy(dtype=np.float64)
 
@@ -78,8 +78,8 @@ class Standard(Basic):
 
         if mask:
             # Get dissociation rates
-            reac = reac.loc[reac['reacIndex'].isin(self.reacIndeces['diss'])]
-            reac.sort_values(by=['indeces'])
+            reac = reac.loc[reac['reacIndex'].isin(self.reacIndices['diss'])]
+            reac.sort_values(by=['indices'])
 
             # Extract forward rates
             rates = reac[labels['f']].to_numpy(dtype=np.float64)
@@ -98,8 +98,8 @@ class Standard(Basic):
 
         if mask:
             # Get Recombination rates
-            reac = reac.loc[reac['reacIndex'].isin(self.reacIndeces['diss'])]
-            reac.sort_values(by=['indeces'])
+            reac = reac.loc[reac['reacIndex'].isin(self.reacIndices['diss'])]
+            reac.sort_values(by=['indices'])
 
             # Extract reverse rates
             rates = reac[labels['r']].to_numpy(dtype=np.float64)

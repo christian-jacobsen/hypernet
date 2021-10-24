@@ -129,7 +129,7 @@ class DataGenerator(object):
             self.compose_reacStr(bins_idx, process)
         )
         reacDB['reacIndex'].append(
-            self.reacWriter['indeces'][process]
+            self.reacWriter['indices'][process]
         )
         return reacDB
 

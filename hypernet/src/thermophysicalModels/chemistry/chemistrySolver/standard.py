@@ -35,18 +35,18 @@ class Standard(Basic):
     # Update method -----------------------------------------------------------
     # def update(self, t, y, mass):
     def update(self, r, T, mass):
-        # r, T = np.split(y, self.varIndeces)
+        # r, T = np.split(y, self.varIndices)
         # Update chemistry model
         self.chemModel.update(T)
         # Update mixture
         self.mixture.update(
-            {name: np.take(r, idx)/mass for idx in self.chemModel.specieIndeces}
+            {name: np.take(r, idx)/mass for idx in self.chemModel.specieIndices}
         )
 
     # Function ----------------------------------------------------------------
     def function(self, t, y, mass):
         # Split variables into `rho` vector and `T`
-        r, T = np.split(y, self.varIndeces)
+        r, T = np.split(y, self.varIndices)
         # Call update method
         self.update(r, T, mass)
         # Evaluate contributions from reactions
@@ -66,7 +66,7 @@ class Standard(Basic):
 
     def wT(self, drdt, T, mass):
         # Get mass fractions derivative
-        dYdt = {name: np.take(drdt, idx)/mass for idx in self.specieIndeces}
+        dYdt = {name: np.take(drdt, idx)/mass for idx in self.specieIndices}
         # Evaluate source term
         wT_ = - self.dehdY(T, dYdt) / self.cvp(T)
         return wT_
@@ -90,12 +90,12 @@ class Standard(Basic):
     #     # Evaluate the effect on the thermodynamic system
     #     # >> Update mixture
     #     self.mixture.update(
-    #         {name: np.take(Y, idx) for idx in self.specieIndeces}
+    #         {name: np.take(Y, idx) for idx in self.specieIndices}
     #     )
     #     # >> Evaluate mixture Cv
     #     cv_ = self.cvp(T)
     #     # >> Evaluate dTdt
-    #     dYdt_ = {name: np.take(omega_, idx) for idx in self.specieIndeces}
+    #     dYdt_ = {name: np.take(omega_, idx) for idx in self.specieIndices}
     #     dedY_ = self.mixture.dedY(T, dYdt_)
     #     dTdt = - dedY_ / self.cvp(T)
     #     return excit + diss + recom
@@ -152,7 +152,7 @@ class Standard(Basic):
     #     return excit + diss + recom
 
     # def domegaYdT(self, Y, dYdt, T):
-    #     dYdt = {name: np.take(dYdt, idx) for idx in self.specieIndeces}
+    #     dYdt = {name: np.take(dYdt, idx) for idx in self.specieIndices}
     #     return - self.dehdY(T, dYdt) / self.cvp(T)
 
     # def domegaTdY(self, Y, T):
@@ -167,5 +167,5 @@ class Standard(Basic):
     #     return excit + diss + recom
 
     # def domegaTdT(self, Y, dYdt, T):
-    #     dYdt = {name: np.take(dYdt, idx) for idx in self.specieIndeces}
+    #     dYdt = {name: np.take(dYdt, idx) for idx in self.specieIndices}
     #     return - self.dehdY(T, dYdt) / self.cvp(T)

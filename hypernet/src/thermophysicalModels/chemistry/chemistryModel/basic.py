@@ -25,7 +25,7 @@ class Basic(object):
 
         # Reactive processes
         self.processFlags = processFlags
-        self.processIndeces = {
+        self.processIndices = {
             'diss':  [2],
             'excit': [5, 6]
         }
@@ -47,13 +47,13 @@ class Basic(object):
         self.reactions = Reactions(
             self.spTh,
             self.reactionsList,
-            self.processIndeces,
+            self.processIndices,
             *args,
             **kwargs
         )
 
         # Species
-        self.nSpecies, self.specieIndeces = self.species()
+        self.nSpecies, self.specieIndices = self.species()
 
     # Properties
     ###########################################################################
@@ -82,15 +82,15 @@ class Basic(object):
 
     # Species details ---------------------------------------------------------
     def species(self):
-        nSpecies, specieIndeces = 0, {}
+        nSpecies, specieIndices = 0, {}
         for name, spTh_ in self.spTh.items():
             if spTh_.specie.n_at > 1:
                 n = spTh_.specie.n_bins
             else:
                 n = 1
-            specieIndeces[name] = list(range(nSpecies, nSpecies+n))
+            specieIndices[name] = list(range(nSpecies, nSpecies+n))
             nSpecies += n
-        return nSpecies, specieIndeces
+        return nSpecies, specieIndices
 
     # Rates matrices ----------------------------------------------------------
     @abc.abstractmethod

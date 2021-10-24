@@ -11,14 +11,14 @@ class MicroReversible(Basic):
         self,
         specieThermos,
         reactionRate,
-        processIndeces,
+        processIndices,
         *args,
         **kwargs
     ):
         super(MicroReversible, self).__init__(
             specieThermos,
             reactionRate,
-            processIndeces,
+            processIndices,
             *args,
             **kwargs
         )
@@ -92,17 +92,17 @@ class MicroReversible(Basic):
         return dKeqdT
 
     # Reverse reaction rates --------------------------------------------------
-    def kr_(self, kf, reacIndex, indeces=None):
-        if reacIndex in self.processIndeces['diss']:
+    def kr_(self, kf, reacIndex, indices=None):
+        if reacIndex in self.processIndices['diss']:
             Keq_ = self.Keq
         else:
-            l, r = indeces
+            l, r = indices
             Q_ = self.spTh['O2'].intPF.Q
             Keq_ = Q_[r] / Q_[l]
         return kf / Keq_
 
-    def dkrdT_(self, kr, dkfdT, reacIndex, indeces=None):
-        if reacIndex in self.processIndeces['diss']:
+    def dkrdT_(self, kr, dkfdT, reacIndex, indices=None):
+        if reacIndex in self.processIndices['diss']:
             dkrdT_ = dkfdT / self.Keq
             dkrdT_ -= dkfdT / self.Keq**2 * self.dKeqdT
             return dkrdT_

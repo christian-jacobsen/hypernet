@@ -9,13 +9,13 @@ class Basic(object):
         self,
         specieThermos,
         reactionRate,
-        processIndeces,
+        processIndices,
         *args,
         **kwargs
     ):
         self.spTh = specieThermos
         self.reacRate = reactionRate
-        self.processIndeces = processIndeces
+        self.processIndices = processIndices
 
     # Properties
     ###########################################################################

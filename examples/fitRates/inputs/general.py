@@ -53,7 +53,7 @@ reacReader = {
 }
 
 reacWriter = {
-    'indeces': {
+    'indices': {
         'diss': 2,
         'exch': 5,
         'inel': 6

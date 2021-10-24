@@ -16,12 +16,12 @@ class Reactions(object):
         self,
         specieThermos,
         reactList,
-        processIndeces,
+        processIndices,
         *args,
         **kwargs
     ):
-        # Processes indeces
-        self.processIndeces = processIndeces
+        # Processes indices
+        self.processIndices = processIndices
 
         # Species thermos
         self.spTh = specieThermos
@@ -38,7 +38,7 @@ class Reactions(object):
         # Reaction types
         reacType = 'MicroReversible' #if 'MicroReversible' in self.reacDB['description']
         self.reacType = utils.get_class(reacTypeMdl, reacType)(
-            self.spTh, self.reacRate, self.processIndeces
+            self.spTh, self.reacRate, self.processIndices
         )
 
     # Methods
@@ -52,12 +52,12 @@ class Reactions(object):
         for i, row in self.reacDB.iterrows():
             K['kr'].append(
                 self.reacType.kr(
-                    K['kf'][i], row['reacIndex'], row['indeces']
+                    K['kf'][i], row['reacIndex'], row['indices']
                 )
             )
             K['dkrdT'].append(
                 self.reacType.kr(
-                    K['kr'][i], K['dkfdT'][i], row['reacIndex'], row['indeces']
+                    K['kr'][i], K['dkfdT'][i], row['reacIndex'], row['indices']
                 )
             )
         K = {k: np.array(v) for k, v in K}
@@ -65,18 +65,18 @@ class Reactions(object):
 
     # Manipulate reactions database -------------------------------------------
     def get_reacDB(self, reacDB):
-        indeces = []
+        indices = []
         for i, row in reacDB.iterrows():
-            indeces.append(
-                self.read_indeces(row['reactStr'], row['reacIndex'])
+            indices.append(
+                self.read_indices(row['reactStr'], row['reacIndex'])
             )
-        reacDB['indeces'] = indeces
+        reacDB['indices'] = indices
         return reacDB
 
-    def read_indeces(self, reacStr, reacIndex):
-        indeces = re.findall(r"\((.*?)\)",reacStr)
-        indeces = [int(i)-1 for i in indeces]
-        if reacIndex == self.processIndeces['diss']:
-            return indeces[0]
+    def read_indices(self, reacStr, reacIndex):
+        indices = re.findall(r"\((.*?)\)",reacStr)
+        indices = [int(i)-1 for i in indices]
+        if reacIndex == self.processIndices['diss']:
+            return indices[0]
         else:
-            return indeces
+            return indices
