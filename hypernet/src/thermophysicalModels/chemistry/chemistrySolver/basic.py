@@ -29,12 +29,16 @@ class Basic(object):
         if constPV == 'P':
             self.cvp = self.mixture.cp
             self.cvp_i = self.mixture.cp_i
+            self.dcvp_idT = self.mixture.dcp_idT
             self.eh = self.mixture.h
+            self.dehdY = self.mixture.dhdY
             self.eh_i = self.mixture.h_i
         else:
             self.cvp = self.mixture.cv
             self.cvp_i = self.mixture.cv_i
+            self.dcvp_idT = self.mixture.dcv_idT
             self.eh = self.mixture.e
+            self.dehdY = self.mixture.dedY
             self.eh_i = self.mixture.e_i
 
         # Chemistry model

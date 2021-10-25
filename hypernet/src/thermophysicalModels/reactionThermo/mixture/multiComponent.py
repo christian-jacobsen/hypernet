@@ -41,6 +41,12 @@ class MultiComponent(Basic):
         _cp_i = np.concatenate(tuple(_cp_i))
         return _cp_i
 
+    def dcp_idT(self, T):
+        # [J/(kg K)]
+        _dcp_idT = self.quantity_i('dcpdT', T)
+        _dcp_idT = np.concatenate(tuple(_dcp_idT))
+        return _dcp_idT
+
     def h(self, T):
         # [J/kg]
         return self.mix_quantity('h', T)
@@ -70,6 +76,12 @@ class MultiComponent(Basic):
         _cv_i = self.quantity_i('cv', T)
         _cv_i = np.concatenate(tuple(_cv_i))
         return _cv_i
+
+    def dcv_idT(self, T):
+        # [J/(kg K)]
+        _dcv_idT = self.quantity_i('dcvdT', T)
+        _dcv_idT = np.concatenate(tuple(_dcv_idT))
+        return _dcv_idT
 
     def e(self, T):
         # [J/kg]
@@ -180,5 +192,6 @@ class MultiComponent(Basic):
         var = []
         for spTh_ in self.spTh.values():
             var_ = getattr(spTh_.thermo, quantity)(*args)
+            var_ = utils.convert_to_array(var_)
             var.append(var_ / spTh_.specie.M)
         return var

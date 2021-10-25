@@ -125,7 +125,7 @@ def main():
     solver = ODE(
         inp_gen.ode,
         function=chem.function,
-        jacobian=None#chem.jacobian
+        jacobian=chem.jacobian
     )
 
     # Solving =================================================================
