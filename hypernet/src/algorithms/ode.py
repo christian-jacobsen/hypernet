@@ -1,7 +1,7 @@
 import numpy as np
 
 from scipy.integrate import ode
-# from profilehooks import profile
+from profilehooks import profile
 from hypernet.src.general import utils
 from hypernet.src.algorithms import Basic
 
@@ -37,8 +37,8 @@ class ODE(Basic):
         norm = np.linalg.norm(J)
         return norm
 
-    # @profile
-    # @utils.timing
+    @profile
+    @utils.timing
     def solve(self, y0, args=(), jac_norm=False):
         '''Solving the ODE.'''
 

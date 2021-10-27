@@ -135,7 +135,6 @@ def main():
     y0 = np.concatenate(
         tuple([mix.spTh['O2'].specie.rho, mix.spTh['O'].specie.rho, T])
     )
-
     # chem.chemModel.update(T)
     # y0 = np.concatenate(
     #     tuple([mix.spTh['O2'].specie.rho, mix.spTh['O'].specie.rho])

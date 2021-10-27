@@ -78,6 +78,7 @@ class Basic(object):
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
+    @utils.timing
     def update(self, T):
         reac = self.reactions.update(T)
         self.K = self.K_(reac)

@@ -21,8 +21,9 @@ class MultiComponent(Basic):
     ###########################################################################
     # Mixture mass fractions --------------------------------------------------
     def update(self, mixture, var='Y'):
-        for name, value in mixture.items():
-            setattr(self.spTh[name].specie, var, utils.convert_to_array(value))
+        for name, val in mixture.items():
+            val = utils.check_XY(utils.convert_to_array(val))
+            setattr(self.spTh[name].specie, var, val)
         self.M_(var=var)
         if var == 'Y':
             self.X_i()

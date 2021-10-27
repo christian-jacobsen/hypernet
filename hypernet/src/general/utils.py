@@ -8,30 +8,30 @@ import numpy as np
 
 from varname import nameof
 from functools import wraps
-from hypernet.config import headers
+from hypernet import config as conf
 
 
 # Printing functions
 ###############################################################################
 def print_main(text, start='\n', verbose=True, *args, **kwargs):
     if verbose:
-        print(start + headers['main'] + text, *args, **kwargs)
+        print(start + conf.headers['main'] + text, *args, **kwargs)
 
 def print_submain(text, start='', verbose=True, *args, **kwargs):
     if verbose:
-        print(start + headers['main'] + '  ' + text, *args, **kwargs)
+        print(start + conf.headers['main'] + '  ' + text, *args, **kwargs)
 
 def input_main(text, start='', *args, **kwargs):
-    return input(start + headers['main'] + text, *args, **kwargs)
+    return input(start + conf.headers['main'] + text, *args, **kwargs)
 
 def input_submain(text, start='', *args, **kwargs):
-    return input(start + headers['main'] + '  ' + text, *args, **kwargs)
+    return input(start + conf.headers['main'] + '  ' + text, *args, **kwargs)
 
 def warning(text, start='', *args, **kwargs):
-    print(start + headers['warning'] + text, *args, **kwargs)
+    print(start + conf.headers['warning'] + text, *args, **kwargs)
 
 def raise_value_err(text):
-    message = ''.join([headers['val_err'], text])
+    message = ''.join([conf.headers['val_err'], text])
     raise ValueError(message)
 
 # Decorators
@@ -103,9 +103,9 @@ def app_decorator(name=None):
     return dec
 
 def app_epilog(name=None, delta=None):
-    s = '\n'+'='*LEN+'\n'+headers['main']+'App `{}` terminates\n'.format(name)
+    s = '\n'+'='*LEN+'\n'+conf.headers['main']+'App `{}` terminates\n'.format(name)
     if delta:
-        return s + headers['main'] + '  ' + '>> It took {}\n'.format(delta)
+        return s + conf.headers['main'] + '  ' + '>> It took {}\n'.format(delta)
     else:
         return s + ' '
 
@@ -179,3 +179,10 @@ def check_format(data_type, string):
 def kill_process():
     """Send terminating signal to job `pid`."""
     os.kill(os.getpid(), signal.SIGTERM)
+
+def check_XY(XY):
+    XY_ = np.clip(XY, conf.values['SMALL'], 1.)
+    if np.sum(XY_) > 1:
+        XY_[np.argmax(XY_)] = 1. - np.sum(np.delete(XY_, idx))
+    # print(XY_)
+    return XY_
