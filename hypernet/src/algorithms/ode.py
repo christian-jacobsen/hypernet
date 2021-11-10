@@ -37,7 +37,7 @@ class ODE(Basic):
         norm = np.linalg.norm(J)
         return norm
 
-    @profile
+    # @profile
     @utils.timing
     def solve(self, y0, args=(), jac_norm=False):
         '''Solving the ODE.'''
