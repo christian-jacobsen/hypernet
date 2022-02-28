@@ -79,7 +79,7 @@ def app_decorator(name=None):
                 "\n" + compose(text='HyperNet', start='# ') +
                 "\n" + compose(start='# ', between='-') +
                 "\n" + compose(
-                    text='Machine-Learning-Based library for modeling ', start='# '
+                    text='Machine Learning-Based library for modeling ', start='# '
                 ) +
                 "\n" + compose(
                     text='multi-component non-equilibrium thermochemical processes',

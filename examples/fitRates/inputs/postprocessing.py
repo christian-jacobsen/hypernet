@@ -25,5 +25,5 @@ var_names = {
 }
 
 # Axis ------------------------------------------------------------------------
-labels = [r'$1/T\quad[$K$^{-1}]$', r'$K\quad[$m$^3/$s$]$']  # x, y labels
+labels = [r'$1/T$ [K$^{-1}$]', r'$K$']  # x, y labels
 scales = ['log', 'log']                                     # x, y scales

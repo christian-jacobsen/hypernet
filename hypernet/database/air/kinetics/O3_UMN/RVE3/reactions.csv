@@ -1,0 +1,10 @@
+description,reactStr,reacIndex,A,beta,Ta
+MicroReversibleArrhenius,O2(1)+O=3O,2,1.033856e-14,-1.538684e-01,6.998349e+04
+MicroReversibleArrhenius,O2(2)+O=3O,2,3.004975e-16,2.401228e-01,2.696776e+04
+MicroReversibleArrhenius,O2(3)+O=3O,2,6.890985e-20,1.061805e+00,-4.653676e+02
+MicroReversibleArrhenius,O2(2)+O=O2(1)+O,5,6.082489e-17,2.499343e-02,1.267958e+03
+MicroReversibleArrhenius,O2(3)+O=O2(1)+O,5,2.810119e-18,2.785516e-01,8.211931e+02
+MicroReversibleArrhenius,O2(3)+O=O2(2)+O,5,9.878941e-17,1.183878e-01,4.451185e+02
+MicroReversibleArrhenius,O2(2)+O=O2(1)+O,6,9.725905e-16,-2.136592e-01,4.694120e+02
+MicroReversibleArrhenius,O2(3)+O=O2(1)+O,6,4.614205e-21,7.540581e-01,1.223771e+02
+MicroReversibleArrhenius,O2(3)+O=O2(2)+O,6,1.630196e-17,2.338879e-01,-3.174084e+02

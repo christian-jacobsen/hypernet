@@ -1,7 +1,7 @@
 # *************************************************************************** #
 #                                   HyperNet                                  #
 # --------------------------------------------------------------------------- #
-#                 Machine-Learning-Based library for modeling                 #
+#                 Machine Learning-Based library for modeling                 #
 #           multi-component non-equilibrium thermochemical processes          #
 #                                                                             #
 # *************************************************************************** #
@@ -61,7 +61,7 @@ chemistry = {
                                         # If `None`, it will recover the rates
                                         #   from the grouping information given
                                         #   in `specie` above.
-    'heatBath': 'adiabatic'             # 'adiabatic' or 'isothermal'
+    'heatBath': 'isothermal'            # 'adiabatic' or 'isothermal'
 }
 
 # ODE parameters

@@ -11,7 +11,7 @@ with open("requirements.txt", "r") as f:
 setup(
     name="hypernet",
     version="0.0.1",
-    description="Machine-Learning-Based library for modeling multi-component "
+    description="Machine Learning-Based library for modeling multi-component "
         "non-equilibrium thermochemical processes.",
     long_description=long_description,
     long_description_content_type="text/markdown",

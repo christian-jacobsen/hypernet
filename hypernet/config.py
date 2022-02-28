@@ -1,7 +1,7 @@
 # *************************************************************************** #
 #                                   HyperNet                                  #
 # --------------------------------------------------------------------------- #
-#                 Machine-Learning-Based library for modeling                 #
+#                 Machine Learning-Based library for modeling                 #
 #           multi-component non-equilibrium thermochemical processes          #
 #                                                                             #
 # *************************************************************************** #
