@@ -8,23 +8,26 @@ Written in Python, HyperNet has been designed to model multi-component non-equil
 
 ## Workflow
 
-1) save a copy of the level-to-bin mapping file in `hypernet/database/air/grouping` [from USER + before installation];
-2) create bin-avaraged rates from state-to-state one at fixed temperatures (use app `avarageRates`);
-3) fit bin-avaraged rates as a function of temperature (use app `fitRates`);
-4) run the 0D master equations for the reduced system and the state-to-state one (use app `box`);
+1) save a copy of the level-to-bin mapping file in `hypernet/database/air/grouping` [from USER + before installation]
+2) create bin-avaraged rates from state-to-state one at fixed temperatures (use app `avarageRates` [MISSING])
+3) fit bin-avaraged rates as a function of temperature (use app `fitRates`)
+4) run the 0D master equations for the reduced system and the state-to-state one (use app `box`)
 
 ## Features
 
 HyperNet (currently) supports
 
-- [x] symmetric 3-atomic systems [O3 (tested) and N3];
-- [x] isothermal 0D chemical reactor;
-- [ ] adiabatic 0D chemical reactor;
-- [x] one-temperature model (only translational temperature);
-- [ ] multi-temperature model (translational + internal bins temperatures);
-- [x] useful techniques, such as dropout and batch normalization;
-- [x] callbacks to monitor the internal states and statistics of the model during training;
-- [x] enables the user code to be compact, resembling closely the mathematical formulation.
+- [x] symmetric 3-atomic systems [O3 (tested) and N3]
+- [x] isothermal 0D chemical reactor
+- [ ] adiabatic 0D chemical reactor
+- [x] one-temperature model (only translational temperature)
+- [ ] multi-temperature model (translational + internal bins temperatures)
+- [ ] state-to-state system
+
+Coming soon:
+1) app `avarageRates`
+2) adiabatic 0D chemical reactor
+3) multi-temperature model
 
 ## Installation
 
