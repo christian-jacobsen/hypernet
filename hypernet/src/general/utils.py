@@ -6,7 +6,6 @@ import inspect
 import datetime
 import numpy as np
 
-from varname import nameof
 from functools import wraps
 from hypernet import config
 
@@ -158,7 +157,7 @@ def convert_to_array(arg):
                 arg = arg.reshape(1)
         except:
             raise_value_err(
-                "`{}` can't be converted into an array.".format(nameof(x))
+                "Conversion to array is not possible."
             )
     return arg
 
