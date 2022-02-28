@@ -1,34 +1,44 @@
 # HyperNet
-**Machine Learning-Based library for modeling multi-component non-equilibrium thermochemical processes.**
+**Machine Learning-Based library for modeling multi-component non-equilibrium thermochemical processes**
 
 [![Build Status](https://travis-ci.org/ivanZanardi/hypernet.svg?branch=main)](https://travis-ci.org/github/ivanZanardi/hypernet)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/ivanZanardi/prode/hypernet/main/LICENSE)
 
-HyperNet has been designed to 
-- solve forward and inverse ordinary differential equations (ODEs) via physics-informed neural network (PINN);
-- approximate nonlinear operators via deep operator network (DeepONet);
-- approximate functions from a dataset.
+Written in Python, HyperNet has been designed to model multi-component non-equilibrium thermochemical processes with common numerical techniques and/or ML-based surrogate models.
+
+## Workflow
+
+1) save a copy of the level-to-bin mapping file in `hypernet/database/air/grouping` [from USER + before installation];
+2) create bin-avaraged rates from state-to-state one at fixed temperatures (use app `avarageRates`);
+3) fit bin-avaraged rates as a function of temperature (use app `fitRates`);
+4) run the 0D master equations for the reduced system and the state-to-state one (use app `box`);
 
 ## Features
 
-HyperNet supports
+HyperNet (currently) supports
 
-- two types of neural networks: unstacked fully connected neural network, and residual neural network;
-- many different losses, metrics, optimizers, learning rate schedules, initializations, regularizations, etc.;
-- useful techniques, such as dropout and batch normalization;
-- callbacks to monitor the internal states and statistics of the model during training;
-- enables the user code to be compact, resembling closely the mathematical formulation.
-
-All the components of PrODE are loosely coupled, and thus PrODE is well-structured and highly configurable. It is easy to customize PrODE to meet new demands.
+- [x] symmetric 3-atomic systems [O3 (tested) and N3];
+- [x] isothermal 0D chemical reactor;
+- [ ] adiabatic 0D chemical reactor;
+- [x] one-temperature model (only translational temperature);
+- [ ] multi-temperature model (translational + internal bins temperatures);
+- [x] useful techniques, such as dropout and batch normalization;
+- [x] callbacks to monitor the internal states and statistics of the model during training;
+- [x] enables the user code to be compact, resembling closely the mathematical formulation.
 
 ## Installation
 
-To install PrODE simply type the following commands in your Unix shell:
+To install HyperNet simply type the following commands in your Linux/Unix shell:
 
 ```
-$ git clone https://github.com/ivanZanardi/prode.git
-$ cd prode
-$ ./install -a install
+$ git clone https://github.com/ivanZanardi/hypernet.git
+$ cd hypernet
+$ ./installer -a install
+```
+For more details, type:
+
+```
+$ ./installer -h
 ```
 
 - Dependencies
@@ -43,6 +53,11 @@ $ ./install -a install
 ## Explore more
 
 - [Examples](https://github.com/ivanZanardi/HyperNet/tree/main/examples)
+
+To run an example, just type the name of the app you want to use in your Linux/Unix shell inside the working folder. For more details, type:
+```
+$ <app-name> -h
+```
 
 ## License
 
