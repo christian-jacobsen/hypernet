@@ -8,7 +8,7 @@ Written in Python, HyperNet has been designed to model multi-component non-equil
 
 ## Workflow
 
-1) save a copy of the level-to-bin mapping file in `hypernet/database/air/grouping` [from USER + before installation]
+1) save a copy of the level-to-bin mapping file in `hypernet/src/database/air/grouping` [from USER + before installation]
 2) create bin-avaraged rates from state-to-state one at fixed temperatures (use app `avarageRates` [MISSING])
 3) fit bin-avaraged rates as a function of temperature (use app `fitRates`)
 4) run the 0D master equations for the reduced system and the state-to-state one (use app `box`)
@@ -17,7 +17,7 @@ Written in Python, HyperNet has been designed to model multi-component non-equil
 
 HyperNet (currently) supports
 
-- [x] symmetric 3-atomic systems [O3 (tested) and N3]
+- [x] symmetric 3-atomic systems (O3 [TESTED] and N3)
 - [x] isothermal 0D chemical reactor
 - [ ] adiabatic 0D chemical reactor
 - [x] one-temperature model (only translational temperature)
@@ -25,8 +25,8 @@ HyperNet (currently) supports
 - [ ] state-to-state system
 
 Coming soon:
+1) adiabatic 0D chemical reactor [ONGOING]
 1) app `avarageRates`
-2) adiabatic 0D chemical reactor
 3) multi-temperature model
 
 ## Installation
@@ -60,6 +60,10 @@ $ ./installer -h
 To run an example, just type the name of the app you want to use in your Linux/Unix shell inside the working folder. For more details, type:
 ```
 $ <app-name> -h
+```
+For example, copy `hypernet/examples/box` case in a folder and type
+```
+$ box
 ```
 
 ## License
