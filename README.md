@@ -1,4 +1,4 @@
-# PrODE
+# HyperNet
 **Machine Learning-Based library for modeling multi-component non-equilibrium thermochemical processes modeling.**
 
 [![Build Status](https://travis-ci.org/ivanZanardi/hypernet.svg?branch=main)](https://travis-ci.org/github/ivanZanardi/hypernet)
