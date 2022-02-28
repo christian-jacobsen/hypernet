@@ -26,13 +26,7 @@ class Arrhenius(Basic):
     ###########################################################################
     # Forward reaction rates --------------------------------------------------
     def k_(self, T):
-        _k = self.A
-        _k = _k * np.power(T, self.beta)
-        _k = _k * np.exp(-self.Ta / T)
-        return _k
+        return self.A * np.power(T, self.beta) * np.exp(-self.Ta / T)
 
     def dkdT_(self, T):
-        _dkdT = self.beta / T
-        _dkdT = _dkdT + self.Ta / T**2
-        _dkdT = _dkdT * self.k
-        return _dkdT
+        return (self.beta + self.Ta / T) * self.k  / T

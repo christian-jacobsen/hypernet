@@ -13,9 +13,19 @@ class Basic(object):
         *args,
         **kwargs
     ):
+        # Thermodynamic specie properties
         self.spTh = specieThermos
-        self.reacRate = reactionRate
+        for name, spTh in self.spTh.items():
+            if spTh.specie.n_at > 1:
+                self.molecule = name
+            else:
+                self.atom = name
+
+        # Reactive processes
         self.processIndices = processIndices
+
+        # Reaction rate
+        self.reacRate = reactionRate
 
     # Properties
     ###########################################################################
@@ -38,10 +48,6 @@ class Basic(object):
     ###########################################################################
     # Update method -----------------------------------------------------------
     def update(self, T):
-        # Update partition functions
-        for name, spTh_ in self.spTh.items():
-            spTh_.intPF.update(T)
-            spTh_.transPF.update(T)
         # Update reactions
         self.reacRate.update(T)
         # Get forward reactions rates

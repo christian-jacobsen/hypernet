@@ -22,7 +22,7 @@ class Standard(Basic):
             *args,
             **kwargs
         )
-        self.m_ = self.spTh['O'].specie.m
+        self.m = self.spTh[self.atom].specie.m
 
     # Methods
     ###########################################################################
@@ -32,9 +32,9 @@ class Standard(Basic):
             'f': 'kf',
             'r': 'kr',
         }
-        Ke = self.Ke_(self.processFlags['excit'], reac, labels) / self.m_
-        Kd = self.Kd_(self.processFlags['diss'], reac, labels) / self.m_
-        Kr = self.Kr_(self.processFlags['diss'], reac, labels) / self.m_**2*2
+        Ke = self.Ke_(self.processFlags['excit'], reac, labels) / self.m
+        Kd = self.Kd_(self.processFlags['diss'], reac, labels) / self.m
+        Kr = self.Kr_(self.processFlags['diss'], reac, labels) / self.m**2*2
         return Ke, Kd, Kr
 
     # Rates matrices derivatives ----------------------------------------------
@@ -43,9 +43,9 @@ class Standard(Basic):
             'f': 'dkfdT',
             'r': 'dkrdT',
         }
-        dKedT = self.Ke_(self.processFlags['excit'], reac, labels) / self.m_
-        dKddT = self.Kd_(self.processFlags['diss'], reac, labels) / self.m_
-        dKrdT = self.Kr_(self.processFlags['diss'], reac, labels) / self.m_**2*2
+        dKedT = self.Ke_(self.processFlags['excit'], reac, labels) / self.m
+        dKddT = self.Kd_(self.processFlags['diss'], reac, labels) / self.m
+        dKrdT = self.Kr_(self.processFlags['diss'], reac, labels) / self.m**2*2
         return dKedT, dKddT, dKrdT
 
     # Porcesses matrices ------------------------------------------------------

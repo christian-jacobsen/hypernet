@@ -1,0 +1,89 @@
+#!/bin/bash -i
+set -e
+
+# Functions
+# -----------------------------------------------------------------------------
+usage() {
+cat << EOF
+
+usage: ./install [-h] [-a ACTION]
+
+HyperNet installation file
+
+optional arguments:
+-a | --action    (Required)      Action to take: install/uninstall
+-e | --conda_env                 Name of conda environment
+-h | --help                      Brings up this menu
+
+EOF
+}
+
+# Parse input arguments
+# -----------------------------------------------------------------------------
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+        -a|--action)
+            action="${2}"       # 'install/uninstall'
+            shift # past argument
+            shift # past value
+            ;;
+        -e|--conda_env)
+            env="${2}"          # Name of conda environment
+            shift # past argument
+            shift # past value
+            ;;
+        -h|--help)
+            usage
+            exit
+            ;;
+        *)
+            echo -e "\nWARNING! Unknown option '${1}'"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+# Activate Conda environment
+# -----------------------------------------------------------------------------
+if ! command -v conda &> /dev/null; then
+    if [[ ! -v "$env" ]]; then
+        eval "$(conda shell.bash hook)"
+        conda activate $env
+    fi
+fi
+
+# Check input arguments
+# -----------------------------------------------------------------------------
+case "$action" in
+    install|uninstall)
+        ;;
+    *)
+        echo -e "\nWARNING! Unknown action '${action}'"
+        usage
+        exit 1
+        ;;
+esac
+
+# Take action
+# -----------------------------------------------------------------------------
+# Remove the old installation version if present
+if [[ -d "./dist" ]]; then
+    # Remove package
+    pip3 uninstall dist/*.whl
+    rm -rf dist build *.egg-info
+fi
+
+if [ $action == "install" ]; then
+
+    # Add "requirements" file if not present
+    if [[ ! -f "./requirements.txt" ]]; then
+        pipreqs --force ./
+    fi
+    # Install package
+    python3 setup.py bdist_wheel
+    pip3 install dist/*.whl
+
+fi

@@ -70,48 +70,48 @@ class MicroReversible(Basic):
     # Partition functions products --------------------------------------------
     def PFdot_(self):
         return {
-            name: spTh_.intPF.Q * spTh_.transPF.Q \
-                for name, spTh_ in self.spTh.items()
+            name: spTh.intPF.Q * spTh.transPF.Q \
+                for name, spTh in self.spTh.items()
         }
 
     def dPFdotdT_(self):
         return {
-            name: np.sum(spTh_.intPF.dQdT * spTh_.transPF.Q \
-                + spTh_.intPF.Q * spTh_.transPF.dQdT) \
-                for name, spTh_ in self.spTh.items()
+            name: np.sum(spTh.intPF.dQdT * spTh.transPF.Q \
+                + spTh.intPF.Q * spTh.transPF.dQdT) \
+                for name, spTh in self.spTh.items()
         }
 
     # Dissociation equilibrium constants --------------------------------------
     def Keq_(self):
-        return self.PFdot['O']**2 / self.PFdot['O2']
+        return self.PFdot[self.atom]**2 / self.PFdot[self.molecule]
 
     def dKeqdT_(self):
-        dKeqdT = 2 * self.PFdot['O'] * self.dPFdotdT['O']
-        dKeqdT = dKeqdT - self.Keq * self.dPFdotdT['O2']
-        dKeqdT = dKeqdT / self.dPFdotdT['O2']
+        dKeqdT = 2 * self.PFdot[self.atom] * self.dPFdotdT[self.atom]
+        dKeqdT = dKeqdT - self.Keq * self.dPFdotdT[self.molecule]
+        dKeqdT = dKeqdT / self.dPFdotdT[self.molecule]
         return dKeqdT
 
     # Reverse reaction rates --------------------------------------------------
     def kr_(self, kf, reacIndex, indices=None):
         if reacIndex in self.processIndices['diss']:
             i = indices[0]
-            Keq_ = self.Keq[i]
+            Keq = self.Keq[i]
         else:
             l, r = indices
-            Q_ = self.spTh['O2'].intPF.Q
-            Keq_ = Q_[r] / Q_[l]
-        return kf / Keq_
+            Q = self.spTh[self.molecule].intPF.Q
+            Keq = Q[r] / Q[l]
+        return kf / Keq
 
     def dkrdT_(self, kr, dkfdT, reacIndex, indices=None):
         if reacIndex in self.processIndices['diss']:
             i = indices[0]
-            dkrdT_ = dkfdT / self.Keq[i]
-            dkrdT_ = dkrdT_ - dkfdT / self.Keq[i]**2 * self.dKeqdT[i]
-            return dkrdT_
+            dkrdT = dkfdT / self.Keq[i]
+            dkrdT = dkrdT - dkfdT / self.Keq[i]**2 * self.dKeqdT[i]
+            return dkrdT
         else:
             l, r = indices
-            Q_ = self.spTh['O2'].intPF.Q
-            dQdT_ = self.spTh['O2'].intPF.dQdT
-            dkrdT_ = dkfdT * Q_[l] / Q_[r]
-            dkrdT_ = dkrdT_ + kr * ( dQdT_[l] / Q_[l] - dQdT_[r] / Q_[r] )
-            return dkrdT_
+            Q = self.spTh[self.molecule].intPF.Q
+            dQdT = self.spTh[self.molecule].intPF.dQdT
+            dkrdT = dkfdT * Q[l] / Q[r]
+            dkrdT = dkrdT + kr * ( dQdT[l] / Q[l] - dQdT[r] / Q[r] )
+            return dkrdT

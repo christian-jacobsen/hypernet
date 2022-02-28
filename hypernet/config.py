@@ -1,8 +1,8 @@
 # *************************************************************************** #
-#                                    PrODE                                    #
+#                                   HyperNet                                  #
 # --------------------------------------------------------------------------- #
-#                     Machine-Learning-Based Approximators                    #
-#                  for Ordinary Differential Equations (ODEs)                 #
+#                 Machine-Learning-Based library for modeling                 #
+#           multi-component non-equilibrium thermochemical processes          #
 #                                                                             #
 # *************************************************************************** #
 

@@ -11,43 +11,55 @@ class Basic(object):
         *args,
         **kwargs
     ):
+        # Thermodynamic specie properties
         self.spTh = specieThermos
+
+    # Properties
+    ###########################################################################
+    @property
+    def M(self):
+        return self._M
+    @M.setter
+    def M(self, value):
+        self._M = value
+
+    @property
+    def R(self):
+        return self._R
+    @R.setter
+    def R(self, value):
+        self._R = value
 
     # Methods
     ###########################################################################
-    # Mixture mass fractions --------------------------------------------------
+    # Update ------------------------------------------------------------------
     @abc.abstractmethod
-    def update(self, mixture, var='Y', *args, **kwargs):
+    def update(self, *args, **kwargs):
         pass
 
-    # Enthalpy ----------------------------------------------------------------
+    # Enthalpy/Energy ---------------------------------------------------------
     @abc.abstractmethod
-    def cp(self, T, *args, **kwargs):
+    def he_(self, *args, **kwargs):
+        # [J/kg]
+        pass
+
+    @abc.abstractmethod
+    def cpv_(self, *args, **kwargs):
         # [J/(kg K)]
         pass
 
     @abc.abstractmethod
-    def h(self, T, *args, **kwargs):
+    def dhedY_(self, *args, **kwargs):
         # [J/kg]
         pass
 
+    # Mixture properties ------------------------------------------------------
     @abc.abstractmethod
-    def dhdY(self, T, dY, *args, **kwargs):
-        # [J/kg]
+    def M_(self, *args, **kwargs):
+        # [kg/mol]
         pass
 
-    # Energy ------------------------------------------------------------------
     @abc.abstractmethod
-    def cv(self, T, *args, **kwargs):
+    def R_(self, *args, **kwargs):
         # [J/(kg K)]
-        pass
-
-    @abc.abstractmethod
-    def e(self, T, *args, **kwargs):
-        # [J/kg]
-        pass
-
-    @abc.abstractmethod
-    def dedY(self, T, dY, *args, **kwargs):
-        # [J/kg]
         pass

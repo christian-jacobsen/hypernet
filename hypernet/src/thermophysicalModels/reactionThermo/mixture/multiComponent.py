@@ -19,153 +19,88 @@ class MultiComponent(Basic):
 
     # Methods
     ###########################################################################
-    # Mixture mass fractions --------------------------------------------------
-    def update(self, mixture, var='Y'):
-        for name, val in mixture.items():
-            val = utils.check_XY(utils.convert_to_array(val))
-            setattr(self.spTh[name].specie, var, val)
-        self.M_(var=var)
+    # Mixture properties ------------------------------------------------------
+    def update(self, XY, var='Y'):
+        # Update mass/molar fractions
+        for name, value in XY.items():
+            value = utils.check_XY(utils.convert_to_array(value))
+            setattr(self.spTh[name].specie, var, value)
+        # Update mixture/species properties
+        self.M = self.M_(var=var)
         if var == 'Y':
-            self.X_i()
+            self.Xi_()
         elif var == 'X':
-            self.Y_i()
-        self.R_()
-
-    # Enthalpy ----------------------------------------------------------------
-    def cp(self, T):
-        # [J/(kg K)]
-        return self.mix_quantity('cp', T)
-
-    def cp_i(self, T):
-        # [J/(kg K)]
-        _cp_i = self.quantity_i('cp', T)
-        _cp_i = np.concatenate(tuple(_cp_i))
-        return _cp_i
-
-    def dcp_idT(self, T):
-        # [J/(kg K)]
-        _dcp_idT = self.quantity_i('dcpdT', T)
-        _dcp_idT = np.concatenate(tuple(_dcp_idT))
-        return _dcp_idT
-
-    def h(self, T):
-        # [J/kg]
-        return self.mix_quantity('h', T)
-        
-    def h_i(self, T):
-        # [J/(kg K)]
-        _h_i = self.quantity_i('h', T)
-        _h_i = np.concatenate(tuple(_h_i))
-        return _h_i
-
-    def dhdY(self, T, dY):
-        # [J/kg]
-        dhdY_ = 0.
-        for name, spTh_ in self.spTh.items():
-            dhdY_ = dhdY_ + np.sum(
-                dY[name] / spTh_.specie.M * spTh_.thermo.h(T)
-            )
-        return dhdY_
-
-    # Energy ------------------------------------------------------------------
-    def cv(self, T):
-        # [J/(kg K)]
-        return self.mix_quantity('cv', T)
-
-    def cv_i(self, T):
-        # [J/(kg K)]
-        _cv_i = self.quantity_i('cv', T)
-        _cv_i = np.concatenate(tuple(_cv_i))
-        return _cv_i
-
-    def dcv_idT(self, T):
-        # [J/(kg K)]
-        _dcv_idT = self.quantity_i('dcvdT', T)
-        _dcv_idT = np.concatenate(tuple(_dcv_idT))
-        return _dcv_idT
-
-    def e(self, T):
-        # [J/kg]
-        return self.mix_quantity('e', T)
-        
-    def e_i(self, T):
-        # [J/(kg K)]
-        _e_i = self.quantity_i('e', T)
-        _e_i = np.concatenate(tuple(_e_i))
-        return _e_i
-
-    def dedY(self, T, dY):
-        # [J/kg]
-        dedY_ = 0.
-        for name, spTh_ in self.spTh.items():
-            dedY_ = dedY_ + np.sum(
-                dY[name] / spTh_.specie.M * spTh_.thermo.e(T)
-            )
-        return dedY_
-
-    # Energy of formation
-    def e_f(self):
-        # [J/kg]
-        return self.mix_quantity('e_f')
-
-    # Translational Energy
-    def cv_tr(self):
-        # [J/(kg K)]
-        return self.mix_quantity('cv_tr')
-
-    def e_tr(self, T):
-        # [J/kg]
-        return self.mix_quantity('e_tr', T)
-
-    # Ro-vibrational Energy
-    def cv_int(self, T):
-        # [J/(kg K)]
-        return self.mix_quantity('cv_int', T)
-
-    def e_int(self, T):
-        # [J/kg]
-        return self.mix_quantity('e_int', T)
+            self.Yi_()
+        self.R = self.R_()
 
     # Mixture properties ------------------------------------------------------
+    # Mass
     def M_(self, var='Y'):
         # [kg/mol]
-        M_ = []
         if var == 'Y':
-            for spTh_ in self.spTh.values():
-                M_.append(spTh_.specie.Y / spTh_.specie.M)
-            self.M = 1./np.sum(np.concatenate(tuple(M_)))
+            M = [spTh.specie.Y / spTh.specie.M for spTh in self.spTh.values()]
+            return 1./np.sum(np.concatenate(M))
         elif var == 'X':
-            for spTh_ in self.spTh.values():
-                M_.append(spTh_.specie.X * spTh_.specie.M)
-            self.M = np.sum(np.concatenate(tuple(M_)))
+            M = [spTh.specie.X * spTh.specie.M for spTh in self.spTh.values()]
+            return np.sum(np.concatenate(M))
 
+    # Specific gas constant
     def R_(self):
-        # [J/(kg K)]
-        _R = 0.
-        for spTh_ in self.spTh.values():
-            _R = _R + np.sum(
-                spTh_.specie.Y / spTh_.specie.M * const.URG
-            )
-        self.R = _R
+        R = [spTh.specie.Y * spTh.specie.R for spTh in self.spTh.values()]
+        return np.sum(np.concatenate(R))
 
+    # Pressure
     def p_(self, rho, T):
         return rho*self.R*T
 
+    # Density
     def rho_(self, p, T):
         return p/(self.R*T)
 
+    # Number density
+    def n_(self, rho):
+        self.ni_(rho=rho, var='Y')
+        n = [spTh.specie.n for spTh in self.spTh.values()]
+        return np.sum(np.concatenate(n))
+
+    # Enthalpy/Energy
+    def he_(self):
+        # [J/kg]
+        he = [spTh.specie.Y * spTh.thermo.he for spTh in self.spTh.values()]
+        return np.sum(np.concatenate(he))
+
+    def cpv_(self):
+        # [J/(kg K)]
+        cpv = [spTh.specie.Y * spTh.thermo.cpv for spTh in self.spTh.values()]
+        return np.sum(np.concatenate(cpv))
+
+    def dcpvdT_(self):
+        # [J/kg]
+        dcpvdT = [
+            spTh.specie.Y * spTh.thermo.dcpvdT for spTh in self.spTh.values()
+        ]
+        return np.sum(np.concatenate(dcpvdT))
+
+    def dhedY_(self, dY):
+        # [J/kg]
+        dhedY = [
+            np.sum(dY[name] * spTh.thermo.he) \
+                for name, spTh in self.spTh.items()
+        ]
+        return np.sum(dhedY)
+
     # Species properties ------------------------------------------------------
-    def Y_i(self):
+    def Yi_(self):
         for spTh_ in self.spTh.values():
             sp = spTh_.specie
             sp.Y = sp.X * sp.M / self.M
 
-    def X_i(self):
+    def Xi_(self):
         for spTh_ in self.spTh.values():
             sp = spTh_.specie
             sp.X = sp.Y * self.M / sp.M
 
-    def n_i(self, rho=None, n=None, var='Y'):
+    def ni_(self, rho=None, n=None, var='Y'):
         for spTh_ in self.spTh.values():
             sp = spTh_.specie
             if var == 'Y':
@@ -173,26 +108,10 @@ class MultiComponent(Basic):
             elif var == 'X':
                 sp.n = sp.X * n
 
-    def rho_i(self, rho=None, n=None, var='Y'):
+    def rhoi_(self, rho=None, n=None, var='Y'):
         for spTh_ in self.spTh.values():
             sp = spTh_.specie
             if var == 'Y':
                 sp.rho = sp.Y * rho
             elif var == 'X':
                 sp.rho = sp.X * n * sp.M / const.UNA
-
-    # Utils -------------------------------------------------------------------
-    def mix_quantity(self, quantity, *args):
-        var = []
-        var_i = self.quantity_i(quantity, *args)
-        for i, spTh_ in enumerate(self.spTh.values()):
-            var.append(spTh_.specie.Y * var_i[i])
-        return np.sum(np.concatenate(tuple(var)))
-
-    def quantity_i(self, quantity, *args):
-        var = []
-        for spTh_ in self.spTh.values():
-            var_ = getattr(spTh_.thermo, quantity)(*args)
-            var_ = utils.convert_to_array(var_)
-            var.append(var_ / spTh_.specie.M)
-        return var

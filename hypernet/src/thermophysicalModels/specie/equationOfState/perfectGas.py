@@ -17,8 +17,8 @@ class PerfectGas(Basic):
 
     # Methods
     ###########################################################################
-    def p(self, T):
+    def p_(self, T):
         return self.specie.rho * self.specie.R * T
 
-    def psi(self, T):
+    def psi_(self, T):
         return 1. / (self.specie.R * T)

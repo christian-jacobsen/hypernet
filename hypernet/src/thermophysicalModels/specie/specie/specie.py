@@ -151,7 +151,6 @@ class Specie(object):
         db['g'] = np.array(deg)
         db['E'] = np.array(en) - en[0]
         g_e = deg[0]
-
         return db, g_e
 
     # Molecular ro-vibrational levels -----------------------------------------

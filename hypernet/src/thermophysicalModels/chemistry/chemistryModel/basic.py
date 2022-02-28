@@ -23,6 +23,14 @@ class Basic(object):
         # Thermodynamic specie properties
         self.spTh = specieThermos
 
+        # Species
+        self.nSpecies, self.specieIndices = self.species_params()
+        for name, spTh in self.spTh.items():
+            if spTh.specie.n_at > 1:
+                self.molecule = name
+            else:
+                self.atom = name
+
         # Reactive processes
         self.processFlags = processFlags
         self.processIndices = {
@@ -31,21 +39,20 @@ class Basic(object):
         }
 
         # Reactions
-        self.reactionsList = reactionsList
-        if self.reactionsList is None:
-            for spTh_ in self.spTh.values():
-                if spTh_.specie.n_at > 1:
-                    molecule = spTh_.specie
-                break
-            self.reactionsList = kinetic_db + '/' \
-                + molecule.rovib['system'] + '_' + molecule.rovib['PES'] \
-                + '/' + molecule.rovib['grouping'] + '/reactions.csv'
-            utils.warning("No specific `reactionsList` have been provided to "
-                "the chemistry model.")
-            utils.print_submain("The following one will be taken:")
-            utils.print_submain(
-                "`{}`".format(os.path.normpath(self.reactionsList))
+        if reactionsList is None:
+            rovib = self.spTh[self.molecule].specie.rovib
+            self.reactionsList = kinetic_db + '/' + rovib['system'] + '_' \
+                + rovib['PES'] + '/' + rovib['grouping'] + '/reactions.csv'
+            utils.warning(
+                "No specific `reactionsList` have been "
+                "provided to the chemistry model."
             )
+            utils.print_submain(">> The following one will be taken:")
+            utils.print_submain(
+                ">> `{}`".format(os.path.normpath(self.reactionsList))
+            )
+        else:
+            self.reactionsList = reactionsList
 
         self.reactions = Reactions(
             self.spTh,
@@ -54,9 +61,6 @@ class Basic(object):
             *args,
             **kwargs
         )
-
-        # Species
-        self.nSpecies, self.specieIndices = self.species()
 
     # Properties
     ###########################################################################
@@ -78,18 +82,17 @@ class Basic(object):
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
-    @utils.timing
     def update(self, T):
         reac = self.reactions.update(T)
         self.K = self.K_(reac)
         self.dKdT = self.dKdT_(reac)
 
-    # Species details ---------------------------------------------------------
-    def species(self):
+    # Species parameters ------------------------------------------------------
+    def species_params(self):
         nSpecies, specieIndices = 0, {}
-        for name, spTh_ in self.spTh.items():
-            if spTh_.specie.n_at > 1:
-                n = spTh_.specie.n_bins
+        for name, spTh in self.spTh.items():
+            if spTh.specie.n_at > 1:
+                n = spTh.specie.n_bins
             else:
                 n = 1
             specieIndices[name] = list(range(nSpecies, nSpecies+n))

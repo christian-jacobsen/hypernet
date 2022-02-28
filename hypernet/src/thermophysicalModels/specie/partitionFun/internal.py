@@ -16,22 +16,6 @@ class Internal(Basic):
     ):
         super(Internal, self).__init__(specie)
 
-    # Properties
-    ###########################################################################
-    @property
-    def q(self):
-        return self._q
-    @q.setter
-    def q(self, value):
-        self._q = value
-
-    @property
-    def dqdT(self):
-        return self._dqdT
-    @dqdT.setter
-    def dqdT(self, value):
-        self._dqdT = value
-
     # Methods
     ###########################################################################
     # Update ------------------------------------------------------------------
@@ -46,12 +30,12 @@ class Internal(Basic):
         self.dQdT = self.dQdT_()
         self.d2QdT2 = self.d2QdT2_()
 
-    # Partition functions -----------------------------------------------------
+    # Internal partition functions --------------------------------------------
     def z_(self, T):
         if self.specie.n_at > 1:
             return - self.specie.rv_lev['E'] / (T * const.UKB)
         else:
-            return np.zeros(1)
+            return np.ones(1)
 
     def dzdT_(self, T):
         if self.specie.n_at > 1:
@@ -85,34 +69,48 @@ class Internal(Basic):
 
     def Q_(self):
         if self.specie.n_at > 1:
-            _Q = np.zeros(self.specie.n_bins)
+            Q = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                _Q[bin_i] = np.sum(
+                Q[bin_i] = np.sum(
                     self.q[self.specie.lev_to_bin == bin_i]
                 )
-            return _Q
+            return Q
         else:
             return np.ones(1)*self.specie.g_e
 
     def dQdT_(self):
         if self.specie.n_at > 1:
-            _dQdT = np.zeros(self.specie.n_bins)
+            dQdT = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
-                _dQdT[bin_i] = np.sum(
+                dQdT[bin_i] = np.sum(
                     self.dqdT[self.specie.lev_to_bin == bin_i]
                 )
-            return _dQdT
+            return dQdT
         else:
             return np.zeros(1)
 
     def d2QdT2_(self):
         if self.specie.n_at > 1:
-            _d2QdT2 = np.zeros(self.specie.n_bins)
+            d2QdT2 = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
-                _d2QdT2[bin_i] = np.sum(
+                d2QdT2[bin_i] = np.sum(
                     self.d2qdT2[self.specie.lev_to_bin == bin_i]
                 )
-            return _d2QdT2
+            return d2QdT2
         else:
             return np.zeros(1)
+
+    # Levels distribution -----------------------------------------------------
+    def levels_distribution(self, T=0.):
+        # [J/mol]
+        n, g, E = [], [], []
+        if self.specie.n_at > 1:
+            g_sp = self.specie.rv_lev['g']
+            E_sp = self.specie.rv_lev['E'] / const.EV_to_J
+            n_over_Q = self.specie.n / self.Q
+            for bin_i in range(self.specie.n_bins):
+                mask = self.specie.lev_to_bin == bin_i
+                n.append(n_over_Q[bin_i] * self.q[mask])
+                g.append(g_sp[mask])
+                E.append(E_sp[mask])
+        return n, g, E

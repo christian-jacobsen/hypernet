@@ -21,99 +21,97 @@ class CoupledEnergyModes(Basic):
 
     # Methods
     ###########################################################################
-    # Enthalpy ================================================================
-    def dcpdT(self, T):
-        # [J/(mol K)]
-        return self.dcvdT(T)
-
-    def cp(self, T):
-        # [J/(mol K)]
-        return self.cv(T) + const.URG
-
-    def h(self, T):
-        # [J/mol]
-        return self.e(T) + const.URG*T
+    # Update ------------------------------------------------------------------
+    def update(self, T):
+        # Update energy modes
+        self.e_tr = self.e_tr_(T)
+        self.cv_tr = self.cv_tr_()
+        self.e_int = self.e_int_()
+        self.cv_int = self.cv_int_()
+        super(CoupledEnergyModes, self).update(T)
 
     # Energy ------------------------------------------------------------------
-    def dcvdT(self, T=0.):
-        # [J/(mol K)]
-        return self.dcv_intdT(T)
+    def e_(self, T):
+        # [J/kg]
+        return self.e_tr + self.e_int + self.e_f_()
 
-    def cv(self, T=0.):
-        # [J/(mol K)]
-        return self.cv_tr() + self.cv_int(T)
+    def cv_(self, T):
+        # [J/(kg K)]
+        return self.cv_tr + self.cv_int
 
-    def e(self, T=0.):
-        # [J/mol]
-        return self.e_tr(T) + self.e_int(T) + self.e_f()
+    def dcvdT_(self, T):
+        # [J/(kg K^2)]
+        return self.dcv_intdT_()
 
     # Translational Energy
-    def cv_tr(self):
-        # [J/(mol K)]
-        return 3./2.*const.URG
+    def e_tr_(self, T):
+        # [J/kg]
+        return 3./2. * self.specie.R * T
 
-    def e_tr(self, T=0.):
-        # [J/mol]
-        return 3./2.*const.URG*T
+    def cv_tr_(self):
+        # [J/(kg K)]
+        return 3./2. * self.specie.R
 
     # Ro-vibrational Energy
-    def dcv_intdT(self, T=0.):
-        # [J/(mol K^2)]
+    def e_int_(self):
+        # [J/kg]
         if self.specie.n_at > 1:
-            e_int_ = self.e_int(T) / const.UNA
-            cv_int_ = self.cv_int(T) / const.UNA
+            # Get partition functions
+            q, Q = self.intPF.q, self.intPF.Q
+            # Evaluate internal energy [J]
+            e_int = np.zeros(self.specie.n_bins)
+            for bin_i in range(self.specie.n_bins):
+                mask = self.specie.lev_to_bin == bin_i
+                e_int[bin_i] = np.sum(
+                    self.specie.rv_lev['E'][mask] * q[mask]
+                )
+            e_int = e_int / Q
+            # Return the specific internal energy per unit mass [J/kg]
+            return e_int / self.specie.m
+        else:
+            return 0.
+
+    def cv_int_(self):
+        # [J/(kg K)]
+        if self.specie.n_at > 1:
+            # Get internal energy value [J]
+            e_int = self.e_int * self.specie.m
+            # Get partition functions
+            Q = self.intPF.Q
+            dqdT, dQdT = self.intPF.dqdT, self.intPF.dQdT
+            # Evaluate internal heat capacities [J/K]
+            cv_int = np.zeros(self.specie.n_bins)
+            for bin_i in range(self.specie.n_bins):
+                mask = self.specie.lev_to_bin == bin_i
+                cv_int[bin_i] = np.sum(
+                    self.specie.rv_lev['E'][mask] * dqdT[mask]
+                )
+            cv_int = (cv_int - e_int * dQdT) / Q
+            # Return the specific internal heat capacities
+            # per unit mass [J/(kg K)]
+            return cv_int / self.specie.m
+        else:
+            return 0.
+
+    def dcv_intdT_(self):
+        # [J/(kg K^2)]
+        if self.specie.n_at > 1:
+            # Get internal energy value [J]
+            e_int = self.e_int * self.specie.m
+            # Get internal heat capacities [J/K]
+            cv_int = self.cv_int * self.specie.m
+            # Get internal partition functions (and derivatives)
             Q, dQdT = self.intPF.Q, self.intPF.dQdT
             d2qdT2, d2QdT2 = self.intPF.d2qdT2, self.intPF.d2QdT2
-            dcv_intdT_ = np.zeros(self.specie.n_bins)
+            # Evaluate derivative of the internal heat 
+            # capacities derivatives [J/K^2]
+            dcv_intdT = np.zeros(self.specie.n_bins)
             for bin_i in range(self.specie.n_bins):
                 mask = self.specie.lev_to_bin == bin_i
-                f1 = np.sum(self.specie.rv_lev['E'][mask] * d2qdT2[mask])
-                f2 = - 2 * cv_int_[bin_i] * dQdT[bin_i]
-                f3 = - e_int_[bin_i] * d2QdT2[bin_i]
-                dcv_intdT_[bin_i] = (f1 + f2 + f3) / Q[bin_i]
-            return dcv_intdT_ * const.UNA
-        else:
-            return 0.
-
-    def cv_int(self, T=0.):
-        # [J/(mol K)]
-        if self.specie.n_at > 1:
-            e_int_ = self.e_int(T) / const.UNA
-            q, Q = self.intPF.q, self.intPF.Q
-            dqdT, dQdT = self.intPF.dqdT, self.intPF.dQdT
-            cv_int_ = np.zeros(self.specie.n_bins)
-            for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                f1 = np.sum(self.specie.rv_lev['E'][mask] * dqdT[mask])
-                f2 = - e_int_[bin_i] * dQdT[bin_i]
-                cv_int_[bin_i] = (f1 + f2) / Q[bin_i]
-            return cv_int_ * const.UNA
-        else:
-            return 0.
-
-    def e_int(self, T=0.):
-        # [J/mol]
-        if self.specie.n_at > 1:
-            q, Q = self.intPF.q, self.intPF.Q
-            e_int_ = np.zeros(self.specie.n_bins)
-            for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                e_int_[bin_i] = np.sum(
-                    self.specie.rv_lev['E'][mask] * q[mask] / Q[bin_i]
+                dcv_intdT = np.sum(
+                    self.specie.rv_lev['E'][mask] * d2qdT2[mask]
                 )
-            return e_int_ * const.UNA
+            dcv_intdT = (dcv_intdT - 2*cv_int*dQdT - e_int*d2QdT2) / Q
+            return dcv_intdT / self.specie.m
         else:
             return 0.
-
-    # Levels populations ------------------------------------------------------
-    def n_g_E_lev(self, T=0.):
-        # [J/mol]
-        if self.specie.n_at > 1:
-            q, Q = self.intPF.q, self.intPF.Q
-            n_lev, g_lev, E_lev = [], [], []
-            for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                n_lev.append(self.specie.n[bin_i] * q[mask] / Q[bin_i])
-                g_lev.append(self.specie.rv_lev['g'][mask])
-                E_lev.append(self.specie.rv_lev['E'][mask]*1./const.EV_to_J)
-            return n_lev, g_lev, E_lev

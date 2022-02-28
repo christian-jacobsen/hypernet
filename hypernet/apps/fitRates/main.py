@@ -1,11 +1,14 @@
 # *************************************************************************** #
 #                                   HyperNet                                  #
+# --------------------------------------------------------------------------- #
+#                 Machine-Learning-Based library for modeling                 #
+#           multi-component non-equilibrium thermochemical processes          #
 #                                                                             #
 # *************************************************************************** #
 
-# -------------------------------- INPUT FILE ------------------------------- #
+# -------------------------------- EXEC FILE -------------------------------- #
 # Description:
-# >> Fit reactions rates following the Arrhenius law.
+# >> Fit reactions rates following the Arrhenius law
 # --------------------------------------------------------------------------- #
 
 

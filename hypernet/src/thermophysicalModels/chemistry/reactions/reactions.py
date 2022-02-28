@@ -1,6 +1,7 @@
 import re
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 
 from hypernet.src.general import const
 from hypernet.src.general import utils
@@ -30,15 +31,21 @@ class Reactions(object):
         self.reacDB = self.get_reacDB(pd.read_csv(reactList))
 
         # Reaction rates
-        reactRate = 'Arrhenius' #if 'Arrhenius' in self.reacDB['description']
-        self.reacRate = utils.get_class(reacRateMdl, reactRate)(self.reacDB)
+        reactRateList = ('Arrhenius',)
+        for rr in reactRateList:
+            if rr in self.reacDB['description'][0]:
+                self.reacRate = utils.get_class(reacRateMdl, rr)(self.reacDB)
+                reactRate = rr
+                break
 
         # Reaction types
-        reacType = 'MicroReversible' #if 'MicroReversible' in self.reacDB['description']
-        self.reacType = utils.get_class(reacTypeMdl, reacType)(
-            self.spTh, self.reacRate, self.processIndices
-        )
-
+        reacTypeList = ('MicroReversible',)
+        for rt in reacTypeList:
+            if rt in self.reacDB['description'][0]:
+                self.reacType = utils.get_class(reacTypeMdl, rt)(
+                    self.spTh, self.reacRate, self.processIndices
+                )
+                break
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
@@ -58,7 +65,7 @@ class Reactions(object):
                     K['kr'][i], K['dkfdT'][i], row['reacIndex'], row['indices']
                 )
             )
-        K = {k: np.array(v) for k, v in K.items()}
+        K = tf.nest.map_structure(lambda x: np.array(x), K)
         return pd.concat([self.reacDB, pd.DataFrame.from_dict(K)], axis=1)
 
     # Manipulate reactions database -------------------------------------------

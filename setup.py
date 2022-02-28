@@ -11,7 +11,8 @@ with open("requirements.txt", "r") as f:
 setup(
     name="hypernet",
     version="0.0.1",
-    description="Machine-Learning-Based library for multi-component non-equilibrium thermochemical processes modeling.",
+    description="Machine-Learning-Based library for modeling multi-component "
+        "non-equilibrium thermochemical processes.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Ivan Zanardi",
@@ -21,7 +22,8 @@ setup(
     install_requires=install_requires,
     entry_points ={
         'console_scripts': [
-            'boxNet = hypernet.apps.box:main'
+            'box = hypernet.apps.box:main',
+            'fitRates = hypernet.apps.fitRates.main:main'
         ]
     },
     classifiers=[
@@ -39,7 +41,7 @@ setup(
         "Topic :: Scientific/Engineering :: Mathematics",
         "Topic :: Scientific/Engineering :: Physics",
         "Topic :: Software Development :: Libraries",
-        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     keywords=[
         "Deep Learning",
@@ -54,5 +56,5 @@ setup(
     ],
     packages=find_packages(),
     include_package_data=True,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
 )

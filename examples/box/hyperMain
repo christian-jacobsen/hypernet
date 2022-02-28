@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/home/zanardi/APPLICATIONS/ANACONDA/anaconda3/envs/tf/bin/python
 # -*- coding: utf-8 -*-
 import re
 import os

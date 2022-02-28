@@ -16,10 +16,15 @@ class Basic(object):
 
     # Methods
     ###########################################################################
+    # Update ------------------------------------------------------------------
+    def update(self, T):
+        self.p = self.p_(T)
+        self.psi = self.psi_(T)
+
     @abc.abstractmethod
-    def p(self, T):
+    def p_(self, T):
         pass
 
     @abc.abstractmethod
-    def psi(self, T):
+    def psi_(self, T):
         pass

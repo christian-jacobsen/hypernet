@@ -1,7 +1,5 @@
 import abc
 
-from hypernet.src.general import const
-
 
 class Basic(object):
 
@@ -18,23 +16,7 @@ class Basic(object):
 
         self.Q = 1.
         self.dQdT = 0.
-
-    # Properties
-    ###########################################################################
-    @property
-    def Q(self):
-        return self._Q
-    @Q.setter
-    def Q(self, value):
-        self._Q = value
-
-    @property
-    def dQdT(self):
-        return self._dQdT
-    @dQdT.setter
-    def dQdT(self, value):
-        self._dQdT = value
-
+    
     # Methods
     ###########################################################################
     # Update ------------------------------------------------------------------

@@ -16,7 +16,7 @@ class Standard(Basic):
         chemistryModel,
         processFlags,
         reactionsList=None,
-        constPV='V',
+        heatBath='isothermal',
         *args,
         **kwargs
     ):
@@ -26,50 +26,76 @@ class Standard(Basic):
             chemistryModel,
             reactionsList=reactionsList,
             processFlags=processFlags,
-            constPV=constPV,
+            heatBath=heatBath,
             *args,
             **kwargs
         )
 
+        self.update_chem_thermo = True
+
+        self.function = self.function_
+        if self.heatBath == 'isothermal':
+            self.jacobian = self.jacobian_
+        else:
+            self.jacobian = None
+
+
     # Methods
     ###########################################################################
     # Update method -----------------------------------------------------------
-    def update(self, r, T, mass):
-        # Update chemistry model
-        self.chemModel.update(T)
+    def update(self, r, T, rho):
+        if self.update_chem_thermo:
+            # Update thermodynamics
+            for spTh in self.spTh.values():
+                spTh.update(T)
+            # Update chemistry model
+            self.chemModel.update(T)
+            if self.heatBath == 'isothermal':
+                self.update_chem_thermo = False
+        # Update mixture
+        self.mix_update(r/rho)
+
+    def mix_update(self, Y):
         # Update mixture
         self.mixture.update(
-            {name: np.take(r, idx)/mass \
+            {name: np.take(Y, idx) \
                 for name, idx in self.chemModel.specieIndices.items()}
         )
 
-    def w(self, r, T, mass):
+    def w_(self, r, T, rho):
         # Get first order source terms
         self.wr = self.wr_(r)
-        self.wT = self.wT_(self.wr, T, mass)
+        if self.heatBath == 'isothermal':
+            self.wT = np.zeros(1)
+        else:
+            self.wT = self.wT_(self.wr, T, rho)
+        self.w = np.concatenate(tuple([self.wr, self.wT]))
 
-    def dw(self, r, T, mass):
+    def dw_(self, r, T, rho):
         # Get second order source terms
         self.dwrdr = self.dwrdr_(r, self.wr)
-        self.dwrdT = self.dwrdT_(r)
-        self.dwTdr = self.dwTdr_(r, self.dwrdr, T, self.wT, mass)
-        self.dwTdT = self.dwTdT_(r, self.wr, T, self.wT, mass)
+        if self.heatBath == 'isothermal':
+            self.dwrdT = np.zeros((self.chemModel.nSpecies,1))
+            self.dwTdr = np.zeros((1,self.chemModel.nSpecies))
+            self.dwTdT = np.zeros((1,1))
+        else:
+            self.dwrdT = self.dwrdT_(r)
+            self.dwTdr = self.dwTdr_(r, self.dwrdr, T, self.wT, rho)
+            self.dwTdT = self.dwTdT_(r, self.wr, T, self.wT, rho)
+        # Evaluate contributions from reactions
+        dwr = np.concatenate([self.dwrdr, self.dwrdT], axis=1)
+        # Evaluate the effect on the thermodynamic system
+        dwT = np.concatenate([self.dwTdr, self.dwTdT], axis=1)
+        self.dw = np.concatenate([dwr, dwT])
 
     # Function ----------------------------------------------------------------
-    # def function(self, t, y, mass, T):
-    #     # Call update method
-    #     # self.update(y, T, mass)
-    #     # Evaluate contributions from reactions
-    #     drdt = self.wr_(y)
-    #     return drdt
-
-    def function(self, t, y, mass):
-        # Split variables into `rho` vector and `T`
-        r, T = np.split(y, self.varIndices)
+    def function_(self, t, y, rho):
+        # Split variables into `rho_i` vector and `T`
+        r, T = np.split(y, [self.chemModel.nSpecies])
         # Call update method
-        self.update(r, T, mass)
-        self.w(r, T, mass)
-        return np.concatenate(tuple([self.wr, self.wT]))
+        self.update(r, T, rho)
+        self.w_(r, T, rho)
+        return self.w
 
     # Source terms from reactions
     def wr_(self, r):
@@ -82,30 +108,25 @@ class Standard(Basic):
         return wr
 
     # Source terms from thermodynamics
-    def wT_(self, wr, T, mass):
-        # Get mass fractions derivative
-        dYdt = {
-            name: np.take(wr, idx)/mass \
+    def wT_(self, wr, T, rho):
+        # Get rho fractions derivative
+        dY = {
+            name: np.take(wr, idx)/rho \
                 for name, idx in self.chemModel.specieIndices.items()
         }
         # Evaluate source term
-        wT = - self.dehdY(T, dYdt) / self.cvp(T)
+        wT = - self.mixture.dhedY_(dY) / self.mixture.cpv_()
         return utils.convert_to_array(wT)
 
     # Jacobian ----------------------------------------------------------------
-    def jacobian(self, t, y, mass):
-        # Split variables into `rho` vector and `T`
-        r, T = np.split(y, self.varIndices)
+    def jacobian_(self, t, y, rho):
+        # Split variables into `rho_i` vector and `T`
+        r, T = np.split(y, [self.chemModel.nSpecies])
         # Call update method
-        self.update(r, T, mass)
-        self.w(r, T, mass)
-        self.dw(r, T, mass)
-        # Evaluate contributions from reactions
-        dwr = np.concatenate([self.dwrdr, self.dwrdT], axis=1)
-        # Evaluate the effect on the thermodynamic system
-        dwT = np.concatenate([self.dwTdr, self.dwTdT])
-        dwT = np.expand_dims(dwT, 0)
-        return np.concatenate([dwr, dwT])
+        self.update(r, T, rho)
+        self.w_(r, T, rho)
+        self.dw_(r, T, rho)
+        return self.dw
 
     # Source terms from reactions
     def dwrdr_(self, r, wr):
@@ -113,7 +134,7 @@ class Standard(Basic):
         Ke, Kd, Kr = self.chemModel.K
         # Evaluate sources
         I = np.array([[0]*(self.chemModel.nSpecies-1)+[1]])
-        wr = np.expand_dims(wr, 1) if len(wr.shape) == 1 else wr
+        wr = wr.reshape(-1,1) if len(wr.shape) == 1 else wr
         dwrdr = r[-1] * (Ke + Kd)
         dwrdr = dwrdr + np.matmul(wr + 2*r[-1]**3*Kr, I) / r[-1]
         return dwrdr
@@ -125,36 +146,34 @@ class Standard(Basic):
         dwrdT = np.matmul(dKedT, r) * r[-1]
         dwrdT = dwrdT + np.matmul(dKddT, r) * r[-1]
         dwrdT = dwrdT + np.squeeze(dKrdT) * r[-1]**3
-        return np.expand_dims(dwrdT, 1)
+        return dwrdT.reshape(-1,1)
 
     # Source terms from thermodynamics
-    def dwTdr_(self, r, dwrdr, T, wT, mass):
+    def dwTdr_(self, r, dwrdr, T, wT, rho):
         # Get needed thermo quantities
-        eh_i_ = self.eh_i(T)
-        cvp_i_ = self.cvp_i(T)
-        cvp_ = self.cvp(T)
+        he_i = self.thermo_quantity('he')
+        cpv_i = self.thermo_quantity('cpv')
         # Evaluate source term
-        dwTdr = - np.matmul(eh_i_, dwrdr)
-        dwTdr = dwTdr + wT * cvp_i_
-        dwTdr = dwTdr / ( cvp_ * mass )
-        return dwTdr
+        dwTdr = - np.matmul(he_i, dwrdr)
+        dwTdr = dwTdr + wT * cpv_i
+        dwTdr = dwTdr / ( self.mixture.cpv_() * rho )
+        return dwTdr.reshape(1,-1)
 
-    def dwTdT_(self, r, wr, T, wT, mass):
+    def dwTdT_(self, r, wr, T, wT, rho):
         # Get needed thermo quantities
-        cvp_i_ = self.cvp_i(T)
-        dcvp_idT_ = self.dcvp_idT(T)
-        cvp_ = self.cvp(T)
+        cpv_i = self.thermo_quantity('cpv')
+        dcpv_idT = self.thermo_quantity('dcpvdT')
         # Evaluate source term
-        dwTdT = - np.sum(cvp_i_ * wr, keepdims=True)
-        dwTdT = dwTdT + wT * np.sum(dcvp_idT_ * r, keepdims=True)
-        dwTdT = dwTdT / ( cvp_ * mass )
-        return dwTdT
+        dwTdT = - np.sum(cpv_i * wr, keepdims=True)
+        dwTdT = dwTdT + wT * np.sum(dcpv_idT * r, keepdims=True)
+        dwTdT = dwTdT / ( self.mixture.cpv_() * rho )
+        return dwTdT.reshape(1,-1)
 
-    # @tf.function
-    # def jacobian(self, t, y, mass):
-    #     y = tf.constant(y)
-    #     with tf.GradientTape() as g:
-    #         g.watch(y)
-    #         w = self.function(t, y, mass)
-    #     dwdy = g.jacobian(w, y)
-    #     return dwdy.numpy()
+    # Utils -------------------------------------------------------------------
+    def thermo_quantity(self, quantity, *args):
+        var = []
+        for spTh in self.spTh.values():
+            var.append(
+                utils.convert_to_array(getattr(spTh.thermo, quantity))
+            )
+        return np.concatenate(tuple(var))

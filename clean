@@ -1,7 +1,0 @@
-#!/bin/bash -i
-
-vars=( __pycache__ .DS_Store *.pyc *.bak )
-
-for v in ${vars[@]}; do
-	find . -type d -name $v -prune -exec rm -rf {} \;
-done

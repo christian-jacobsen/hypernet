@@ -1,7 +1,5 @@
 import abc
 
-from hypernet.src.general import const
-
 
 class Basic(object):
 
@@ -10,37 +8,57 @@ class Basic(object):
     def __init__(
         self,
         specie,
+        constVP='V',
         *args,
         **kwargs
     ):
         # Specie Properties
         self.specie = specie
 
+        # Constant pressure/volume process
+        self.constVP = constVP
+        if self.constVP == 'P':
+            self.he_ = self.h_
+            self.cpv_ = self.cp_
+        elif self.constVP == 'V':
+            self.cpv_ = self.cv_
+            self.he_ = self.e_
+        self.dcpvdT_ = self.dcvdT_
+
     # Methods
     ###########################################################################
-    # Enthalpy ----------------------------------------------------------------
-    @abc.abstractmethod
-    def cp(self, T):
-        # [J/(mol K)]
-        return self.cv(T) + const.URG
+    # Update ------------------------------------------------------------------
+    def update(self, T):
+        self.he = self.he_(T)
+        self.cpv = self.cpv_(T)
+        self.dcpvdT = self.dcpvdT_(T)
 
-    @abc.abstractmethod
-    def h(self, T):
-        # [J/mol]
-        return self.e(T) + const.URG*T
+    # Enthalpy ----------------------------------------------------------------
+    def h_(self, T):
+        # [J/kg]
+        return self.e_(T) + self.specie.R * T
+
+    def cp_(self):
+        # [J/(kg K)]
+        return self.cv_(T) + self.specie.R
 
     # Energy ------------------------------------------------------------------
     @abc.abstractmethod
-    def cv(self, T):
-        # [J/(mol K)]
+    def e_(self, T):
+        # [J/kg]
         pass
 
     @abc.abstractmethod
-    def e(self, T):
-        # [J/mol]
+    def cv_(self, T):
+        # [J/(kg K)]
+        pass
+
+    @abc.abstractmethod
+    def dcvdT_(self, T):
+        # [J/(kg K^2)]
         pass
 
     # Energy of formation -----------------------------------------------------
-    def e_f(self):
-        # [J/mol]
-        return self.specie.Ef
+    def e_f_(self):
+        # [J/kg]
+        return self.specie.Ef / self.specie.M

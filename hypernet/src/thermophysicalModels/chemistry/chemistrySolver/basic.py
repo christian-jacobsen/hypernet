@@ -1,4 +1,5 @@
 import abc
+import numpy as np
 
 from hypernet.src.general import utils
 from hypernet.src.thermophysicalModels.chemistry import chemistryModel as chemMdl
@@ -15,7 +16,7 @@ class Basic(object):
         chemistryModel,
         reactionsList=None,
         processFlags=None,
-        constPV='V',
+        heatBath='isothermal',
         *args,
         **kwargs
     ):
@@ -25,21 +26,8 @@ class Basic(object):
         # Thermodynamic specie properties
         self.spTh = specieThermos
 
-        # Constant pressure/volume process
-        if constPV == 'P':
-            self.cvp = self.mixture.cp
-            self.cvp_i = self.mixture.cp_i
-            self.dcvp_idT = self.mixture.dcp_idT
-            self.eh = self.mixture.h
-            self.dehdY = self.mixture.dhdY
-            self.eh_i = self.mixture.h_i
-        else:
-            self.cvp = self.mixture.cv
-            self.cvp_i = self.mixture.cv_i
-            self.dcvp_idT = self.mixture.dcv_idT
-            self.eh = self.mixture.e
-            self.dehdY = self.mixture.dedY
-            self.eh_i = self.mixture.e_i
+        # Isothermal/Adiabatic heat bath
+        self.heatBath = heatBath
 
         # Chemistry model
         self.chemModel = utils.get_class(chemMdl, chemistryModel)(
@@ -51,9 +39,8 @@ class Basic(object):
         )
 
         # Variables
-        self.n_var = self.chemModel.nSpecies + 1
-        self.varIndices = [self.n_var-1]
         self.varNames = self.get_names()
+        self.extraVars = dict(p=[], n=[], E=[])
 
     # Methods
     ###########################################################################
@@ -65,12 +52,19 @@ class Basic(object):
     # Variables ---------------------------------------------------------------
     def get_names(self):
         varNames = []
-        for name, spTh_ in self.spTh.items():
-            if spTh_.specie.n_at > 1:
-                varNames.extend(
-                    [ name+'('+str(b+1)+')' for b in range(spTh_.specie.n_bins) ]
-                )
+        for name, spTh in self.spTh.items():
+            if spTh.specie.n_at > 1:
+                varNames.extend([
+                    'Y_'+name+'('+str(b+1)+')' \
+                        for b in range(spTh.specie.n_bins)
+                ])
             else:
-                varNames.append(name)
+                varNames.append('Y_'+name)
         varNames.append('T')
-        return varNames
+        return tuple(varNames)
+
+    # Extra physical quantities -----------------------------------------------
+    def eval_extra_vars(self, T, rho):
+        self.extraVars['p'].append(float(self.mixture.p_(rho, T)))
+        self.extraVars['n'].append(float(self.mixture.n_(rho)))
+        self.extraVars['E'].append(float(self.mixture.he_()))

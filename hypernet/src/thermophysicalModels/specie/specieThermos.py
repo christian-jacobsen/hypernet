@@ -1,11 +1,8 @@
-import numpy as np
-
-from hypernet.src.general import const
-from hypernet.src.general import utils
 from hypernet.src.thermophysicalModels.specie import specie as specieMdl
 from hypernet.src.thermophysicalModels.specie import partitionFun as PFMdl
 from hypernet.src.thermophysicalModels.specie import thermo as thermoMdl
 from hypernet.src.thermophysicalModels.specie import equationOfState as EOSMdl
+from hypernet.src.general import utils
 
 
 class SpecieThermos(object):
@@ -17,6 +14,7 @@ class SpecieThermos(object):
         name,
         rovib=None,
         thermo='CoupledEnergyModes',
+        constVP='V',
         EOS='PerfectGas',
         *args,
         **kwargs
@@ -28,7 +26,16 @@ class SpecieThermos(object):
         self.transPF = PFMdl.translational.Translational(self.specie)
 
         self.thermo = utils.get_class(thermoMdl, thermo)(
-            self.specie, self.intPF
+            self.specie, self.intPF, constVP=constVP
         )
 
         self.EOS = utils.get_class(EOSMdl, EOS)(self.specie)
+
+    # Methods
+    ###########################################################################
+    # Update ------------------------------------------------------------------
+    def update(self, T):
+        self.intPF.update(T)
+        self.transPF.update(T)
+        self.thermo.update(T)
+        self.EOS.update(T)

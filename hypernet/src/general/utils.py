@@ -8,30 +8,30 @@ import numpy as np
 
 from varname import nameof
 from functools import wraps
-from hypernet import config as conf
+from hypernet import config
 
 
 # Printing functions
 ###############################################################################
 def print_main(text, start='\n', verbose=True, *args, **kwargs):
     if verbose:
-        print(start + conf.headers['main'] + text, *args, **kwargs)
+        print(start + config.headers['main'] + text, *args, **kwargs)
 
 def print_submain(text, start='', verbose=True, *args, **kwargs):
     if verbose:
-        print(start + conf.headers['main'] + '  ' + text, *args, **kwargs)
+        print(start + config.headers['main'] + '  ' + text, *args, **kwargs)
 
 def input_main(text, start='', *args, **kwargs):
-    return input(start + conf.headers['main'] + text, *args, **kwargs)
+    return input(start + config.headers['main'] + text, *args, **kwargs)
 
 def input_submain(text, start='', *args, **kwargs):
-    return input(start + conf.headers['main'] + '  ' + text, *args, **kwargs)
+    return input(start + config.headers['main'] + '  ' + text, *args, **kwargs)
 
 def warning(text, start='', *args, **kwargs):
-    print(start + conf.headers['warning'] + text, *args, **kwargs)
+    print(start + config.headers['warning'] + text, *args, **kwargs)
 
 def raise_value_err(text):
-    message = ''.join([conf.headers['val_err'], text])
+    message = ''.join([config.headers['val_err'], text])
     raise ValueError(message)
 
 # Decorators
@@ -60,7 +60,7 @@ def timing(f):
     return wrapper
 
 # Decorator for applications --------------------------------------------------
-LEN = 98
+LEN = 80
 
 def compose(text='', start='', between=' '):
     end = ''.join(reversed(start))
@@ -76,13 +76,13 @@ def app_decorator(name=None):
             start = '# '
             print(
                 "\n" + compose(start='# ', between='*') +
-                "\n" + compose(text='PrODE ', start='# ') +
+                "\n" + compose(text='HyperNet', start='# ') +
                 "\n" + compose(start='# ', between='-') +
                 "\n" + compose(
-                    text='Machine-Learning-Based Approximators', start='# '
+                    text='Machine-Learning-Based library for modeling ', start='# '
                 ) +
                 "\n" + compose(
-                    text='for Ordinary Differential Equations (ODEs)',
+                    text='multi-component non-equilibrium thermochemical processes',
                     start='# '
                 ) +
                 "\n" + compose(start='# ') +
@@ -103,9 +103,9 @@ def app_decorator(name=None):
     return dec
 
 def app_epilog(name=None, delta=None):
-    s = '\n'+'='*LEN+'\n'+conf.headers['main']+'App `{}` terminates\n'.format(name)
+    s = '\n'+'='*LEN+'\n'+config.headers['main']+'App `{}` terminates\n'.format(name)
     if delta:
-        return s + conf.headers['main'] + '  ' + '>> It took {}\n'.format(delta)
+        return s + config.headers['main'] + '  ' + '>> It took {}\n'.format(delta)
     else:
         return s + ' '
 
@@ -155,7 +155,7 @@ def convert_to_array(arg):
         try:
             arg = np.array(arg)
             if len(arg.shape) == 0:
-                arg = np.expand_dims(arg, 0)
+                arg = arg.reshape(1)
         except:
             raise_value_err(
                 "`{}` can't be converted into an array.".format(nameof(x))
@@ -181,8 +181,8 @@ def kill_process():
     os.kill(os.getpid(), signal.SIGTERM)
 
 def check_XY(XY):
-    XY_ = np.clip(XY, conf.values['SMALL'], 1.)
+    XY_ = np.clip(XY, config.values['SMALL'], 1.)
     if np.sum(XY_) > 1:
-        XY_[np.argmax(XY_)] = 1. - np.sum(np.delete(XY_, idx))
-    # print(XY_)
+        idx = np.argmax(XY_)
+        XY_[idx] = 1. - np.sum(np.delete(XY_, idx))
     return XY_
