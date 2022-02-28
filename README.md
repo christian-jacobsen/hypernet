@@ -1,5 +1,5 @@
 # HyperNet
-**Machine Learning-Based library for modeling multi-component non-equilibrium thermochemical processes modeling.**
+**Machine Learning-Based library for modeling multi-component non-equilibrium thermochemical processes.**
 
 [![Build Status](https://travis-ci.org/ivanZanardi/hypernet.svg?branch=main)](https://travis-ci.org/github/ivanZanardi/hypernet)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/ivanZanardi/prode/hypernet/main/LICENSE)
