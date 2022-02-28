@@ -22,12 +22,13 @@ HyperNet (currently) supports
 - [ ] adiabatic 0D chemical reactor
 - [x] one-temperature model (only translational temperature)
 - [ ] multi-temperature model (translational + internal bins temperatures)
-- [ ] state-to-state system
+- [ ] state-to-state model
 
 Coming soon:
 1) adiabatic 0D chemical reactor [ONGOING]
 1) app `avarageRates`
 3) multi-temperature model
+4) state-to-state model
 
 ## Installation
 
@@ -51,7 +52,7 @@ $ ./installer -h
   - [pandas](https://pandas.pydata.org/)
   - [SciPy](https://www.scipy.org/)
   - [TensorFlow](https://www.tensorflow.org/)>=2.4.1
-
+  - [JupyterLab](https://jupyter.org/)
 
 ## Explore more
 
