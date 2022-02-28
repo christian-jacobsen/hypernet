@@ -3,3 +3,4 @@ pandas
 matplotlib
 numpy
 tensorflow>=2.4.1
+jupyterlab
