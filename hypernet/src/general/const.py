@@ -6,7 +6,7 @@ UMU0        = 1.25663706212e-6                      # Magnetic permeability
 UC0         = 1.e0/np.sqrt(UEPS0*UMU0)              # Speed of light
 
 # Global constants ------------------------------------------------------------
-UKB         = 1.380649e-23                          # Boltzmann's constant [J/K]
+UKB         = 1.38064852e-23                     	# Boltzmann's constant [J/K]
 UNA         = 6.02214076e23                         # Avogadro's number [1/mol]
 URG         = UKB*UNA                               # Universal gas constant [J/(mol K)]
 UH          = 6.62607015e-34                        # Planck's constant [J s]

@@ -15,13 +15,13 @@ class Translational(Basic):
         **kwargs
     ):
         super(Translational, self).__init__(specie)
-        # Constant basis
-        self.basis = 2.*np.pi*const.UKB*self.specie.m/const.UH**2
+        # Constant base
+        self.base = 2.*np.pi*self.specie.m*const.UKB/(const.UH**2)
 
     # Methods
     ###########################################################################
     def Q_(self, T):
-        return np.ones(1)*np.power(self.basis*T, 3./2.)
+        return np.power(self.base*T, 3./2.)
 
     def dQdT_(self, T):
-        return np.ones(1)*3./2.*self.basis*np.power(self.basis*T, 1./2.)
+        return 3./2.*self.base*np.power(self.base*T, 1./2.)

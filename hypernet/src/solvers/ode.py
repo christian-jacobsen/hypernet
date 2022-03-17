@@ -25,12 +25,12 @@ class ODE(Basic):
             **kwargs
         )
         # Integration method
-        self.method = setup['method'].upper() if 'method' in setup else 'BDF'
+        self.method = setup['method'].upper() if 'method' in setup else 'LSODA'
 
     # Methods
     ###########################################################################
     @utils.timing
-    def solve(self, y0, args=()):
+    def solve(self, y0, args=(), t_eval=None):
         '''Solving the ODE.'''
 
         sol = solve_ivp(
@@ -38,6 +38,7 @@ class ODE(Basic):
             t_span=(self.t_st,self.t_end),
             y0=y0,
             method=self.method,
+            t_eval=t_eval,
             args=args,
             first_step=self.dt_min,
             max_step=self.dt_max,

@@ -21,6 +21,7 @@ import numpy as np
 import pandas as pd
 
 from hypernet.src.general import utils
+from hypernet.src.general import const
 
 from hypernet.src.solvers.ode import ODE
 from hypernet.src.thermophysicalModels import specie as specieMdl

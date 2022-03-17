@@ -162,10 +162,10 @@ class Specie(object):
         data = pd.read_csv(
             file, header=None, skiprows=15, delim_whitespace=True
         )
-        vqn = np.array(data[0])                     # Vibrational Q.N.
-        jqn = np.array(data[1])                     # Rotational  Q.N.
-        db['num'] = len(vqn)
-        db['g'] = self.g_e/2.0*(2.0*jqn+1.0)        # Degeneracies
+        db['vqn'] = np.array(data[0])                     # Vibrational Q.N.
+        db['jqn'] = np.array(data[1])                     # Rotational  Q.N.
+        db['num'] = len(db['vqn'])
+        db['g'] = self.g_e/2.0*(2.0*db['jqn']+1.0)        # Degeneracies
         E = np.array(data[2]) * const.EH_to_J       # Energy [J]
         db['E'] = E - E[0]
         return db
@@ -178,6 +178,6 @@ class Specie(object):
             lev_to_bin = np.array(data[1]) - 1
             n_bins = max(lev_to_bin) + 1
         else:
-            lev_to_bin = np.zeros(self.rv_lev['num'], dtype=np.int32)
-            n_bins = 1
+            lev_to_bin = np.arange(self.rv_lev['num'], dtype=np.int32)
+            n_bins = self.rv_lev['num']
         return lev_to_bin, n_bins

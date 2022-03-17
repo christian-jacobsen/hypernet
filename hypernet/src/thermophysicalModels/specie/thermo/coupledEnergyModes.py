@@ -56,16 +56,19 @@ class CoupledEnergyModes(Basic):
     def e_int_(self):
         # [J/kg]
         if self.specie.n_at > 1:
-            # Get partition functions
-            q, Q = self.intPF.q, self.intPF.Q
-            # Evaluate internal energy [J]
-            e_int = np.zeros(self.specie.n_bins)
-            for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                e_int[bin_i] = np.sum(
-                    self.specie.rv_lev['E'][mask] * q[mask]
-                )
-            e_int = e_int / Q
+            if self.specie.n_bins != self.specie.rv_lev['num']:
+                # Get partition functions
+                q, Q = self.intPF.q, self.intPF.Q
+                # Evaluate internal energy [J]
+                e_int = np.zeros(self.specie.n_bins)
+                for bin_i in range(self.specie.n_bins):
+                    mask = self.specie.lev_to_bin == bin_i
+                    e_int[bin_i] = np.sum(
+                        self.specie.rv_lev['E'][mask] * q[mask]
+                    )
+                e_int = e_int / Q
+            else:
+                e_int = self.specie.rv_lev['E']
             # Return the specific internal energy per unit mass [J/kg]
             return e_int / self.specie.m
         else:
@@ -74,19 +77,22 @@ class CoupledEnergyModes(Basic):
     def cv_int_(self):
         # [J/(kg K)]
         if self.specie.n_at > 1:
-            # Get internal energy value [J]
-            e_int = self.e_int * self.specie.m
-            # Get partition functions
-            Q = self.intPF.Q
-            dqdT, dQdT = self.intPF.dqdT, self.intPF.dQdT
-            # Evaluate internal heat capacities [J/K]
-            cv_int = np.zeros(self.specie.n_bins)
-            for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                cv_int[bin_i] = np.sum(
-                    self.specie.rv_lev['E'][mask] * dqdT[mask]
-                )
-            cv_int = (cv_int - e_int * dQdT) / Q
+            if self.specie.n_bins != self.specie.rv_lev['num']:
+                # Get internal energy value [J]
+                e_int = self.e_int * self.specie.m
+                # Get partition functions
+                Q = self.intPF.Q
+                dqdT, dQdT = self.intPF.dqdT, self.intPF.dQdT
+                # Evaluate internal heat capacities [J/K]
+                cv_int = np.zeros(self.specie.n_bins)
+                for bin_i in range(self.specie.n_bins):
+                    mask = self.specie.lev_to_bin == bin_i
+                    cv_int[bin_i] = np.sum(
+                        self.specie.rv_lev['E'][mask] * dqdT[mask]
+                    )
+                cv_int = (cv_int - e_int * dQdT) / Q
+            else:
+                cv_int = self.specie.rv_lev['E']
             # Return the specific internal heat capacities
             # per unit mass [J/(kg K)]
             return cv_int / self.specie.m
@@ -96,22 +102,25 @@ class CoupledEnergyModes(Basic):
     def dcv_intdT_(self):
         # [J/(kg K^2)]
         if self.specie.n_at > 1:
-            # Get internal energy value [J]
-            e_int = self.e_int * self.specie.m
-            # Get internal heat capacities [J/K]
-            cv_int = self.cv_int * self.specie.m
-            # Get internal partition functions (and derivatives)
-            Q, dQdT = self.intPF.Q, self.intPF.dQdT
-            d2qdT2, d2QdT2 = self.intPF.d2qdT2, self.intPF.d2QdT2
-            # Evaluate derivative of the internal heat 
-            # capacities derivatives [J/K^2]
-            dcv_intdT = np.zeros(self.specie.n_bins)
-            for bin_i in range(self.specie.n_bins):
-                mask = self.specie.lev_to_bin == bin_i
-                dcv_intdT = np.sum(
-                    self.specie.rv_lev['E'][mask] * d2qdT2[mask]
-                )
-            dcv_intdT = (dcv_intdT - 2*cv_int*dQdT - e_int*d2QdT2) / Q
+            if self.specie.n_bins != self.specie.rv_lev['num']:
+                # Get internal energy value [J]
+                e_int = self.e_int * self.specie.m
+                # Get internal heat capacities [J/K]
+                cv_int = self.cv_int * self.specie.m
+                # Get internal partition functions (and derivatives)
+                Q, dQdT = self.intPF.Q, self.intPF.dQdT
+                d2qdT2, d2QdT2 = self.intPF.d2qdT2, self.intPF.d2QdT2
+                # Evaluate derivative of the internal heat 
+                # capacities derivatives [J/K^2]
+                dcv_intdT = np.zeros(self.specie.n_bins)
+                for bin_i in range(self.specie.n_bins):
+                    mask = self.specie.lev_to_bin == bin_i
+                    dcv_intdT = np.sum(
+                        self.specie.rv_lev['E'][mask] * d2qdT2[mask]
+                    )
+                dcv_intdT = (dcv_intdT - 2*cv_int*dQdT - e_int*d2QdT2) / Q
+            else:
+                dcv_intdT = self.specie.rv_lev['E']
             return dcv_intdT / self.specie.m
         else:
             return 0.
