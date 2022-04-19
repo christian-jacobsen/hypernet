@@ -46,6 +46,7 @@ def dir_path(path):
             )
         )
 
+
 def get_opts():
     parser = argparse.ArgumentParser(
         prog=NAME,
@@ -61,10 +62,11 @@ def get_opts():
     parser.add_argument('-v', '--verbose',
         type=int,
         default=1,
-        choices=[0,1],
+        choices=[0, 1],
         help='verbose mode'
     )
     return parser.parse_args()
+
 
 # Main
 ###############################################################################
@@ -87,6 +89,7 @@ def main():
         verbose=opts.verbose
     )
     thermo = getattr(inputs.general, 'thermo', 'CoupledEnergyModes')
+    print(thermo)
     EOS = getattr(inputs.general, 'EOS', 'PerfectGas')
     constVP = getattr(inputs.general, 'constVP', 'V')
     spTh = {
@@ -144,7 +147,7 @@ def main():
         utils.convert_to_array(inputs.general.ambient['T'])
     ]))
     t, y = solver.solve(y0, args=(rho,))
-    y[:,:-1] = y[:,:-1] / rho
+    y[:, :-1] = y[:, :-1] / rho
 
     # Printing ================================================================
     utils.print_submain("Printing solution", verbose=opts.verbose)
@@ -155,7 +158,7 @@ def main():
     # Create solution array
     sol = np.hstack([t, y])
     for v in chem.extraVars.values():
-        sol = np.hstack([sol, np.array(v).reshape(-1,1)])
+        sol = np.hstack([sol, np.array(v).reshape(-1, 1)])
     # Create dataframe
     columns = ['t'] + list(chem.varNames) + list(chem.extraVars.keys())
     for i, c in enumerate(columns):
@@ -167,5 +170,6 @@ def main():
     if not os.path.exists(out):
         os.makedirs(out)
     df.to_csv(opts.dir + '/outputs/out.csv', index=False)
+
 
 main()

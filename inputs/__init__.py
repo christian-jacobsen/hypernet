@@ -1,2 +1,1 @@
-import inputs.general
-import inputs.postprocessing
+from inputs import general
